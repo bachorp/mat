@@ -43,7 +43,7 @@ struct range
 {
     range(int from, int to) : from(from), to(to) {}
 
-    range(unsigned n) : range(0, n) {}
+    explicit range(unsigned n) : range(0, n) {}
 
     template <class T>
     range(const vector<T> &v) : range(v.size()) {}
@@ -198,7 +198,7 @@ struct Csv
         fields.clear();
     }
 
-    static inline const auto sep = ";";
+    static inline const auto sep = ",";
 
     void write_header()
     {

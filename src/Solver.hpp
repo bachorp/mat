@@ -302,7 +302,7 @@ class Solver : public Problem
                 l = m;
         }
         stats.t_total = logger.end_sequence(
-            "Found optimal solution of length " + std::to_string(r));
+            "Found optimal solution of length " + std::to_string(r) + " ");
 
         vector<vector<int>> paths(C_u_A.size(), vector<int>(r + 1));
         for (auto l : range(*model)) {

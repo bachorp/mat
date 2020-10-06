@@ -16,13 +16,16 @@ optional<Solution> solve(Csv *csv, Args... args)
             csv->set("makespan", solution.makespan);
             for (auto s : solution.stats.get_all())
                 csv->set(std::move(s.first), s.second);
+            csv->write();
         }
         solution.stats.print();
         return solution;
     }
     catch(unsolvable_e) {
-        if (csv)
+        if (csv) {
             csv->set("result", "Unsolvable");
+            csv->write();
+        }
         std::cout << std::endl << "Unsolvable!" << std::endl;
     }
     catch(partially_solved &e) {
@@ -31,6 +34,7 @@ optional<Solution> solve(Csv *csv, Args... args)
             csv->set("result", t);
             for (auto s : e.stats.get_all())
                 csv->set(std::move(s.first), s.second);
+            csv->write();
         }
         std::cout << std::endl << t << std::endl;
         e.stats.print();
@@ -38,7 +42,7 @@ optional<Solution> solve(Csv *csv, Args... args)
     return std::nullopt;
 }
 
-void example(Csv *csv) // Figure 1
+void example(Csv *csv = nullptr) // Figure 1
 {
     vector<int> start = {4, 9, 7, 13};
     vector<int> goal = {12, 1};
@@ -53,7 +57,7 @@ void example(Csv *csv) // Figure 1
     v.visualize();
 }
 
-void counter(Csv *csv) // Figure 2
+void counter(Csv *csv = nullptr) // Figure 2
 {
     vector<int> start = {0, 0, 2};
     vector<int> goal = {2};
@@ -72,19 +76,22 @@ constexpr int from_percentage(int g, float b)
     return b / 100 * g * g + .5; // rounding
 }
 
-void grid_input(Csv *csv)
+void grid_input(Csv *csv = nullptr, bool transport = true)
 {
-    int g, b, a, c;
+    int g, b, a = 0, c;
     string s;
     std::cout << std::endl;
     std::cout << "√ Grid size:  "; std::cin >> g;
     std::cout << "% Blockades:  "; std::cin >> b;
-    std::cout << "# Agents:     "; std::cin >> a;
-    std::cout << "# Containers: "; std::cin >> c; std::cin.ignore();
-    std::cout << "X Seed:       "; std::getline(std::cin, s);
+    if (transport) { std::cout << "# Agents:     "; std::cin >> a; }
+    std::cout << "# Containers: "; std::cin >> c;
+    std::cout << "X Seed:       "; std::cin.ignore(); std::getline(std::cin, s);
     std::cout << std::endl;
 
-    auto solution = solve(csv, Config(), g, from_percentage(g, b), a, c, s);
+    constexpr static Config mat;
+    constexpr static Config mapf = []{ Config conf; conf.transport = false; return conf; }();
+
+    auto solution = solve(csv, transport ? mat : mapf, g, from_percentage(g, b), a, c, s);
 
     if (solution)
         solution.value().visualize();
@@ -107,8 +114,6 @@ void grid_test(Csv* csv,
     }
 
     solve(csv, config, g, from_percentage(g, b), a, c, seed);
-    if (csv)
-        csv->write();
 }
 
 template <typename T = std::string>
@@ -147,56 +152,75 @@ const vector<string> all_columns = []{
 int main(int argc, char **argv)
 {
     std::ofstream out;
-    Csv csv_instance(all_columns, out);
-    Csv *csv = nullptr;
+    Csv csv(all_columns, out);
+    int i = 0;
 
-    if (argc > 2) {
-        char *outfile;
-        if (argc == 3)
-            outfile = argv[2];
-        else
-            outfile = argv[1];
-        out.open(outfile);
-        csv = &csv_instance;
-        csv->write_header();
-    }
-
-    if (argc == 1) {
-        grid_input(nullptr);
-        return 0;
-    }
-    if (argc < 4) {
-        switch (atoi(argv[1])) {
-            case 0:
-                grid_input(csv);
-                break;
-            case 1:
-                example(csv);
-                break;
-            case 2:
-                counter(csv);
-                break;
-            if (csv)
-                csv->write();
-            return 0;
+    auto get_csv = [&]() -> Csv* {
+        if (argc > i + 1) {
+            out.open(argv[++i]);
+            csv.write_header();
+            return &csv;
         }
+        return nullptr;
+    };
+
+    bool transport = true;
+
+    command:
+    if (argc > i + 1) switch (tolower(argv[++i][0]))
+    {
+    case 'r'/*egular MAPF*/:
+        transport = false;
+        goto command;
+    case '0':
+        break;
+    case /*Figure */'1':
+        example(get_csv());
+        return 0;
+    case /*Figure */'2':
+        counter(get_csv());
+        return 0;
+    case 'b'/*arták*/:
+        {
+            string s;
+            if (argc > i + 2 and argv[++i][0] == 's')
+                s = argv[++i];
+            regular_mapf(get_csv(), s);
+        }
+        return 0;
+    case 'i'/*interactive*/:
+        grid_input(get_csv(), transport);
+        return 0;
     }
-    if (argc == 4 && argv[1][0] == 'r') {
-        regular_mapf(csv, argv[3]);
+    else {
+        grid_input();
         return 0;
     }
 
-    int g = atoi(argv[2]);
-    auto seed = argv[3];
-
+    int g = 7;
+    string s;
     Config conf;
 
-    if (argc > 4)
-        conf = configs[atoi(argv[4])];
+    option:
+    if (argc > i + 2) switch (tolower(argv[++i][0]))
+    {
+    case 'g'/*rid size*/:
+        g = atoi(argv[++i]);
+        goto option;
+    case 's'/*eed*/:
+        s = argv[++i];
+        goto option;
+    case 'c'/*onfig*/:
+        conf = configs[atoi(argv[++i])];
+        goto option;
+    }
+
+    conf.transport = transport;
+    auto csv_p = get_csv();
 
     for (int b : {10, 20})
-    for (int a : range(1, 10 + 1))
+    for (int a : transport ? range(1, 10 + 1) : range(1))
     for (int c : range(1, 10 + 1))
     if (g * g - from_percentage(g, b) >= std::max(a, c))
-        grid_test(csv, g, b, a, c, seed, conf);
+        grid_test(csv_p, g, b, a, c, s, conf);
 }
