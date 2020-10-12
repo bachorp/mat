@@ -1,0 +1,162 @@
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 1, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (0ms)
+Solving t = 0 ...(0ms)
+Found optimal solution of length 0 (1ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 42, Variables: 27, Literals: 76
+Initial bound: 0, Lower bound: 0, Upper bound: 0
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 2, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (3ms)
+Solving t = 4 ...(1ms)
+Found optimal solution of length 4 (4ms)
+BFS: 0ms, Formula: 2ms, SAT: 1ms
+Clauses: 606, Variables: 270, Literals: 1468
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 3, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (3ms)
+Solving t = 2 ...(0ms)
+Found optimal solution of length 2 (4ms)
+BFS: 0ms, Formula: 2ms, SAT: 0ms
+Clauses: 634, Variables: 243, Literals: 1582
+Initial bound: 2, Lower bound: 2, Upper bound: 2
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 4, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (4ms)
+Solving t = 2 ...(0ms)
+Solving t = 4 ...(4ms)
+Solving t = 3 ...(0ms)
+Found optimal solution of length 3 (9ms)
+BFS: 0ms, Formula: 6ms, SAT: 2ms
+Clauses: 1628, Variables: 540, Literals: 4482
+Initial bound: 2, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 5, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (9ms)
+Solving t = 3 ...(2ms)
+Found optimal solution of length 3 (11ms)
+BFS: 0ms, Formula: 8ms, SAT: 2ms
+Clauses: 1772, Variables: 540, Literals: 4975
+Initial bound: 3, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 6, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (9ms)
+Solving t = 3 ...(2ms)
+Solving t = 6 ...(8ms)
+Solving t = 4 ...(1ms)
+Found optimal solution of length 4 (21ms)
+BFS: 0ms, Formula: 14ms, SAT: 6ms
+Clauses: 4094, Variables: 1134, Literals: 11984
+Initial bound: 3, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 7, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (7ms)
+Solving t = 3 ...(2ms)
+Solving t = 6 ...(7ms)
+Solving t = 4 ...(2ms)
+Found optimal solution of length 4 (19ms)
+BFS: 0ms, Formula: 11ms, SAT: 7ms
+Clauses: 5174, Variables: 1323, Literals: 15534
+Initial bound: 3, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 8, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (8ms)
+Solving t = 3 ...(1ms)
+Solving t = 6 ...(27ms)
+Solving t = 4 ...(0ms)
+Solving t = 5 ...(5ms)
+Found optimal solution of length 6 (43ms)
+BFS: 0ms, Formula: 14ms, SAT: 28ms
+Clauses: 6694, Variables: 1512, Literals: 20952
+Initial bound: 3, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 1, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (0ms)
+Solving t = 1 ...(0ms)
+Found optimal solution of length 1 (0ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 87, Variables: 54, Literals: 176
+Initial bound: 1, Lower bound: 1, Upper bound: 1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 2, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (0ms)
+Solving t = 1 ...(0ms)
+Found optimal solution of length 1 (0ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 225, Variables: 108, Literals: 475
+Initial bound: 1, Lower bound: 1, Upper bound: 1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 3, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (2ms)
+Solving t = 2 ...(0ms)
+Solving t = 4 ...(1ms)
+Solving t = 8 ...(5ms)
+Solving t = 16 ...(14ms)
+Solving t = 32 ...(61ms)
+Solving t = 64 ...(303ms)
+Solving t = 128 ...(1334ms)
+Solving t = 256 ...(9259ms)
+
+Maximum (maximum) makespan exceeded
+BFS: 0ms, Formula: 99ms, SAT: 10884ms
+Clauses: 51643, Variables: 20817, Literals: 130885
+Initial bound: 2, Lower bound: 257, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 4, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (3ms)
+Solving t = 4 ...(2ms)
+Solving t = 8 ...(4ms)
+Solving t = 6 ...(0ms)
+Solving t = 5 ...(0ms)
+Found optimal solution of length 6 (11ms)
+BFS: 0ms, Formula: 6ms, SAT: 5ms
+Clauses: 2724, Variables: 972, Literals: 7186
+Initial bound: 4, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 5, seed = 17, config = 1|2|600|4|1|0
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 6, seed = 17, config = 1|2|600|4|1|0
+Initializing  - (11ms)
+Solving t = 4 ...(1ms)
+Solving t = 8 ...(26ms)
+Solving t = 16 ...(118ms)
+Solving t = 32 ...(379ms)
+Solving t = 64 ...(1394ms)
+Solving t = 128 ...(14824ms)
+Solving t = 256 ...(32157ms)
+
+Maximum (maximum) makespan exceeded
+BFS: 0ms, Formula: 310ms, SAT: 48602ms
+Clauses: 143221, Variables: 41634, Literals: 415387
+Initial bound: 4, Lower bound: 257, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 7, seed = 17, config = 1|2|600|4|1|0
+Initializing 
+Unsolvable!
+	Command being timed: "mat regular_mapf 0 grid 3 seed 17 3/17.csv"
+	User time (seconds): 232.52
+	System time (seconds): 1.14
+	Percent of CPU this job got: 388%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:00.10
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 390304
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1040707
+	Voluntary context switches: 1180
+	Involuntary context switches: 382
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 40
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

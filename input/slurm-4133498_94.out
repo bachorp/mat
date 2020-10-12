@@ -1,0 +1,1885 @@
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (2ms)
+Solving t = 0 ...(0ms)
+Found optimal solution of length 0 (3ms)
+BFS: 0ms, Formula: 1ms, SAT: 0ms
+Clauses: 476, Variables: 294, Literals: 864
+Initial bound: 0, Lower bound: 0, Upper bound: 0
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (54ms)
+Solving t = 15 ...(9ms)
+Solving t = 30 ...(82ms)
+Solving t = 22 ...(24ms)
+Solving t = 26 ...(27ms)
+Solving t = 24 ...(11ms)
+Solving t = 23 ...(26ms)
+Found optimal solution of length 23 (235ms)
+BFS: 0ms, Formula: 98ms, SAT: 136ms
+Clauses: 43063, Variables: 13671, Literals: 121593
+Initial bound: 15, Lower bound: 23, Upper bound: 23
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (51ms)
+Solving t = 11 ...(7ms)
+Solving t = 22 ...(269ms)
+Solving t = 44 ...(459ms)
+Solving t = 33 ...(167ms)
+Solving t = 27 ...(43ms)
+Solving t = 24 ...(196ms)
+Solving t = 23 ...(61ms)
+Found optimal solution of length 23 (1256ms)
+BFS: 0ms, Formula: 190ms, SAT: 1065ms
+Clauses: 89241, Variables: 26460, Literals: 253629
+Initial bound: 11, Lower bound: 23, Upper bound: 23
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (69ms)
+Solving t = 12 ...(10ms)
+Solving t = 24 ...(326ms)
+Solving t = 48 ...(2548ms)
+Solving t = 36 ...(1821ms)
+Solving t = 30 ...(4857ms)
+Solving t = 33 ...(421ms)
+Solving t = 31 ...(5578ms)
+Solving t = 32 ...(8853ms)
+Found optimal solution of length 33 (24490ms)
+BFS: 0ms, Formula: 265ms, SAT: 24222ms
+Clauses: 125942, Variables: 36015, Literals: 358038
+Initial bound: 12, Lower bound: 33, Upper bound: 33
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (142ms)
+Solving t = 20 ...(20ms)
+Solving t = 40 ...(103579ms)
+Solving t = 80 ...(5062ms)
+Solving t = 60 ...(439ms)
+Solving t = 50 ...(2634ms)
+Solving t = 45 ...(545ms)
+Solving t = 42 ...(2432ms)
+Solving t = 41 ...(75ms)
+Found optimal solution of length 41 (114932ms)
+BFS: 0ms, Formula: 564ms, SAT: 114366ms
+Clauses: 257665, Variables: 71442, Literals: 734581
+Initial bound: 20, Lower bound: 41, Upper bound: 41
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (138ms)
+Solving t = 16 ...(19ms)
+Solving t = 32 ...(6643ms)
+Solving t = 64 ...(49527ms)
+Solving t = 48 ...
+Timeout
+BFS: 0ms, Formula: 547ms, SAT: 604179ms
+Clauses: 247991, Variables: 66885, Literals: 707375
+Initial bound: 16, Lower bound: 33, Upper bound: 64
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (112ms)
+Solving t = 11 ...(15ms)
+Solving t = 22 ...(251ms)
+Solving t = 44 ...
+Timeout
+BFS: 0ms, Formula: 432ms, SAT: 603271ms
+Clauses: 200214, Variables: 52920, Literals: 571074
+Initial bound: 11, Lower bound: 23, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (115ms)
+Solving t = 10 ...(14ms)
+Solving t = 20 ...(250ms)
+Solving t = 40 ...(116331ms)
+Solving t = 80 ...(54362ms)
+Solving t = 60 ...
+Timeout
+BFS: 0ms, Formula: 888ms, SAT: 618841ms
+Clauses: 406472, Variables: 107163, Literals: 1164024
+Initial bound: 10, Lower bound: 41, Upper bound: 80
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (192ms)
+Solving t = 15 ...(32ms)
+Solving t = 30 ...(1559ms)
+Solving t = 60 ...
+Timeout
+BFS: 0ms, Formula: 747ms, SAT: 612507ms
+Clauses: 344738, Variables: 89670, Literals: 982502
+Initial bound: 15, Lower bound: 31, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 1, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (229ms)
+Solving t = 16 ...(31ms)
+Solving t = 32 ...(566ms)
+Solving t = 64 ...
+Timeout
+BFS: 0ms, Formula: 879ms, SAT: 606844ms
+Clauses: 406450, Variables: 105105, Literals: 1160122
+Initial bound: 16, Lower bound: 33, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (36ms)
+Solving t = 11 ...(11ms)
+Found optimal solution of length 11 (48ms)
+BFS: 0ms, Formula: 35ms, SAT: 12ms
+Clauses: 16556, Variables: 5292, Literals: 48443
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (73ms)
+Solving t = 14 ...(10ms)
+Found optimal solution of length 14 (84ms)
+BFS: 0ms, Formula: 71ms, SAT: 12ms
+Clauses: 31292, Variables: 8820, Literals: 94116
+Initial bound: 14, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (77ms)
+Solving t = 11 ...(11ms)
+Solving t = 22 ...(130ms)
+Solving t = 16 ...(73ms)
+Solving t = 13 ...(66ms)
+Solving t = 14 ...(53ms)
+Found optimal solution of length 14 (412ms)
+BFS: 0ms, Formula: 149ms, SAT: 262ms
+Clauses: 65449, Variables: 16905, Literals: 203091
+Initial bound: 11, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (73ms)
+Solving t = 8 ...(9ms)
+Solving t = 16 ...(185ms)
+Solving t = 12 ...(116ms)
+Solving t = 14 ...(718ms)
+Solving t = 13 ...(862ms)
+Found optimal solution of length 14 (1966ms)
+BFS: 0ms, Formula: 140ms, SAT: 1825ms
+Clauses: 60408, Variables: 14994, Literals: 188044
+Initial bound: 8, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (160ms)
+Solving t = 15 ...(20ms)
+Solving t = 30 ...(788ms)
+Solving t = 22 ...(1262ms)
+Solving t = 18 ...(203ms)
+Solving t = 20 ...(31646ms)
+Solving t = 21 ...(1896ms)
+Found optimal solution of length 21 (35978ms)
+BFS: 0ms, Formula: 311ms, SAT: 35665ms
+Clauses: 133376, Variables: 31899, Literals: 418754
+Initial bound: 15, Lower bound: 21, Upper bound: 21
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (126ms)
+Solving t = 10 ...(21ms)
+Solving t = 20 ...(221773ms)
+Solving t = 40 ...(1120ms)
+Solving t = 30 ...(39ms)
+Solving t = 25 ...(1011ms)
+Solving t = 22 ...(78902ms)
+Solving t = 21 ...
+Timeout
+BFS: 0ms, Formula: 504ms, SAT: 607551ms
+Clauses: 207744, Variables: 48216, Literals: 659564
+Initial bound: 10, Lower bound: 21, Upper bound: 22
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (231ms)
+Solving t = 16 ...(30ms)
+Solving t = 32 ...(36600ms)
+Solving t = 24 ...(78131ms)
+Solving t = 28 ...
+Timeout
+BFS: 0ms, Formula: 448ms, SAT: 608336ms
+Clauses: 191768, Variables: 43659, Literals: 607736
+Initial bound: 16, Lower bound: 25, Upper bound: 32
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (246ms)
+Solving t = 15 ...(25ms)
+Solving t = 30 ...
+Timeout
+BFS: 0ms, Formula: 479ms, SAT: 610463ms
+Clauses: 204663, Variables: 45570, Literals: 650607
+Initial bound: 15, Lower bound: 16, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (279ms)
+Solving t = 15 ...(39ms)
+Solving t = 30 ...
+Timeout
+BFS: 0ms, Formula: 539ms, SAT: 610556ms
+Clauses: 228988, Variables: 50127, Literals: 731954
+Initial bound: 15, Lower bound: 16, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 2, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (284ms)
+Solving t = 14 ...(28ms)
+Solving t = 28 ...
+Timeout
+BFS: 0ms, Formula: 549ms, SAT: 609803ms
+Clauses: 231646, Variables: 51156, Literals: 732122
+Initial bound: 14, Lower bound: 15, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (22ms)
+Solving t = 4 ...(3ms)
+Found optimal solution of length 4 (25ms)
+BFS: 0ms, Formula: 21ms, SAT: 3ms
+Clauses: 10075, Variables: 2940, Literals: 29447
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (62ms)
+Solving t = 8 ...(8ms)
+Found optimal solution of length 8 (70ms)
+BFS: 0ms, Formula: 60ms, SAT: 10ms
+Clauses: 26363, Variables: 6615, Literals: 83219
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (137ms)
+Solving t = 14 ...(16ms)
+Found optimal solution of length 14 (154ms)
+BFS: 0ms, Formula: 133ms, SAT: 20ms
+Clauses: 56817, Variables: 13230, Literals: 184065
+Initial bound: 14, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (132ms)
+Solving t = 9 ...(14ms)
+Solving t = 18 ...(1320ms)
+Solving t = 13 ...(36469ms)
+Solving t = 15 ...(333ms)
+Solving t = 14 ...(4033ms)
+Found optimal solution of length 14 (42305ms)
+BFS: 0ms, Formula: 258ms, SAT: 42046ms
+Clauses: 105250, Variables: 22344, Literals: 350750
+Initial bound: 9, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (190ms)
+Solving t = 11 ...(31ms)
+Solving t = 22 ...(861ms)
+Solving t = 16 ...(477ms)
+Solving t = 13 ...(456ms)
+Solving t = 12 ...(681ms)
+Found optimal solution of length 13 (2698ms)
+BFS: 0ms, Formula: 367ms, SAT: 2329ms
+Clauses: 148816, Variables: 30429, Literals: 501686
+Initial bound: 11, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (199ms)
+Solving t = 10 ...(19ms)
+Solving t = 20 ...(5367ms)
+Solving t = 15 ...(37143ms)
+Solving t = 17 ...(29763ms)
+Solving t = 16 ...(106256ms)
+Found optimal solution of length 17 (178752ms)
+BFS: 0ms, Formula: 388ms, SAT: 178362ms
+Clauses: 155591, Variables: 30870, Literals: 526195
+Initial bound: 10, Lower bound: 17, Upper bound: 17
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (365ms)
+Solving t = 16 ...(139ms)
+Solving t = 32 ...(83102ms)
+Solving t = 24 ...(343110ms)
+Solving t = 20 ...
+Timeout
+BFS: 0ms, Formula: 710ms, SAT: 611631ms
+Clauses: 279129, Variables: 53361, Literals: 959361
+Initial bound: 16, Lower bound: 17, Upper bound: 24
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (380ms)
+Solving t = 16 ...(31ms)
+Solving t = 32 ...(175496ms)
+Solving t = 24 ...
+Timeout
+BFS: 0ms, Formula: 739ms, SAT: 614648ms
+Clauses: 293741, Variables: 58212, Literals: 995801
+Initial bound: 16, Lower bound: 17, Upper bound: 32
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 3, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (249ms)
+Solving t = 9 ...(26ms)
+Solving t = 18 ...
+Timeout
+BFS: 0ms, Formula: 482ms, SAT: 614348ms
+Clauses: 189667, Variables: 36309, Literals: 647101
+Initial bound: 9, Lower bound: 10, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (17ms)
+Solving t = 2 ...(2ms)
+Found optimal solution of length 2 (19ms)
+BFS: 0ms, Formula: 16ms, SAT: 3ms
+Clauses: 7774, Variables: 2205, Literals: 22616
+Initial bound: 2, Lower bound: 2, Upper bound: 2
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (84ms)
+Solving t = 8 ...(13ms)
+Solving t = 16 ...(105ms)
+Solving t = 12 ...(7ms)
+Solving t = 10 ...(8ms)
+Solving t = 9 ...(7ms)
+Found optimal solution of length 9 (228ms)
+BFS: 0ms, Formula: 163ms, SAT: 64ms
+Clauses: 66938, Variables: 14994, Literals: 222446
+Initial bound: 8, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (132ms)
+Solving t = 10 ...(14ms)
+Found optimal solution of length 10 (147ms)
+BFS: 0ms, Formula: 128ms, SAT: 18ms
+Clauses: 53424, Variables: 11319, Literals: 177502
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (211ms)
+Solving t = 13 ...(29ms)
+Found optimal solution of length 13 (241ms)
+BFS: 0ms, Formula: 205ms, SAT: 35ms
+Clauses: 82337, Variables: 16464, Literals: 281141
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (189ms)
+Solving t = 10 ...(28ms)
+Found optimal solution of length 10 (217ms)
+BFS: 0ms, Formula: 184ms, SAT: 32ms
+Clauses: 74564, Variables: 14553, Literals: 253566
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (287ms)
+Solving t = 13 ...(43ms)
+Found optimal solution of length 13 (331ms)
+BFS: 0ms, Formula: 279ms, SAT: 50ms
+Clauses: 108827, Variables: 20580, Literals: 376413
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (203ms)
+Solving t = 8 ...(18ms)
+Solving t = 16 ...(1621ms)
+Solving t = 12 ...(66084ms)
+Solving t = 14 ...(70ms)
+Solving t = 13 ...(2053ms)
+Found optimal solution of length 13 (70051ms)
+BFS: 0ms, Formula: 395ms, SAT: 69655ms
+Clauses: 152242, Variables: 27489, Literals: 534186
+Initial bound: 8, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (436ms)
+Solving t = 16 ...(15996ms)
+Found optimal solution of length 16 (16434ms)
+BFS: 0ms, Formula: 425ms, SAT: 16007ms
+Clauses: 166003, Variables: 29988, Literals: 582239
+Initial bound: 16, Lower bound: 16, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (420ms)
+Solving t = 13 ...(33ms)
+Solving t = 26 ...(8506ms)
+Solving t = 19 ...(30770ms)
+Solving t = 16 ...(79298ms)
+Solving t = 17 ...(3568ms)
+Found optimal solution of length 17 (122599ms)
+BFS: 0ms, Formula: 818ms, SAT: 121778ms
+Clauses: 308375, Variables: 51597, Literals: 1111033
+Initial bound: 13, Lower bound: 17, Upper bound: 17
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 4, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (331ms)
+Solving t = 10 ...(27ms)
+Solving t = 20 ...(55760ms)
+Solving t = 15 ...(26275ms)
+Solving t = 12 ...(3ms)
+Solving t = 13 ...(472ms)
+Solving t = 14 ...(60699ms)
+Found optimal solution of length 15 (143571ms)
+BFS: 0ms, Formula: 642ms, SAT: 142927ms
+Clauses: 244989, Variables: 43218, Literals: 865641
+Initial bound: 10, Lower bound: 15, Upper bound: 15
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (126ms)
+Solving t = 9 ...(14ms)
+Found optimal solution of length 9 (141ms)
+BFS: 0ms, Formula: 123ms, SAT: 17ms
+Clauses: 50721, Variables: 10290, Literals: 170406
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (183ms)
+Solving t = 11 ...(19ms)
+Found optimal solution of length 11 (202ms)
+BFS: 0ms, Formula: 178ms, SAT: 23ms
+Clauses: 72024, Variables: 14112, Literals: 246446
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (244ms)
+Solving t = 12 ...(31ms)
+Found optimal solution of length 12 (276ms)
+BFS: 0ms, Formula: 238ms, SAT: 37ms
+Clauses: 93990, Variables: 17199, Literals: 328682
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (240ms)
+Solving t = 10 ...(21ms)
+Solving t = 20 ...(324ms)
+Solving t = 15 ...(60ms)
+Solving t = 12 ...(33ms)
+Solving t = 11 ...(12ms)
+Found optimal solution of length 11 (694ms)
+BFS: 0ms, Formula: 468ms, SAT: 225ms
+Clauses: 178429, Variables: 30870, Literals: 639833
+Initial bound: 10, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (189ms)
+Solving t = 7 ...(18ms)
+Solving t = 14 ...(246ms)
+Solving t = 10 ...(62ms)
+Solving t = 8 ...(43ms)
+Found optimal solution of length 8 (560ms)
+BFS: 0ms, Formula: 364ms, SAT: 196ms
+Clauses: 140711, Variables: 24255, Literals: 502113
+Initial bound: 7, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (284ms)
+Solving t = 9 ...(86ms)
+Found optimal solution of length 9 (371ms)
+BFS: 0ms, Formula: 277ms, SAT: 93ms
+Clauses: 106515, Variables: 17640, Literals: 383027
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (340ms)
+Solving t = 10 ...(28ms)
+Solving t = 20 ...(1195ms)
+Solving t = 15 ...(478ms)
+Solving t = 12 ...(461ms)
+Solving t = 11 ...(3825ms)
+Found optimal solution of length 11 (6331ms)
+BFS: 0ms, Formula: 664ms, SAT: 5665ms
+Clauses: 247405, Variables: 40131, Literals: 901225
+Initial bound: 10, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (445ms)
+Solving t = 12 ...(34ms)
+Solving t = 24 ...(68202ms)
+Solving t = 18 ...
+Timeout
+BFS: 0ms, Formula: 867ms, SAT: 623153ms
+Clauses: 320841, Variables: 51450, Literals: 1172749
+Initial bound: 12, Lower bound: 13, Upper bound: 24
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 5, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (456ms)
+Solving t = 11 ...(32ms)
+Solving t = 22 ...(52445ms)
+Solving t = 16 ...(58153ms)
+Solving t = 13 ...(45411ms)
+Solving t = 14 ...
+Timeout
+BFS: 0ms, Formula: 883ms, SAT: 622959ms
+Clauses: 326068, Variables: 50715, Literals: 1201430
+Initial bound: 11, Lower bound: 14, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (107ms)
+Solving t = 8 ...(13ms)
+Found optimal solution of length 8 (121ms)
+BFS: 0ms, Formula: 104ms, SAT: 16ms
+Clauses: 44039, Variables: 9261, Literals: 144727
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (161ms)
+Solving t = 9 ...(17ms)
+Found optimal solution of length 9 (179ms)
+BFS: 0ms, Formula: 157ms, SAT: 21ms
+Clauses: 63263, Variables: 11760, Literals: 217971
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (247ms)
+Solving t = 12 ...(26ms)
+Found optimal solution of length 12 (274ms)
+BFS: 0ms, Formula: 241ms, SAT: 32ms
+Clauses: 95262, Variables: 17199, Literals: 333410
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (278ms)
+Solving t = 11 ...(33ms)
+Found optimal solution of length 11 (312ms)
+BFS: 0ms, Formula: 271ms, SAT: 40ms
+Clauses: 104607, Variables: 17640, Literals: 374565
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (263ms)
+Solving t = 9 ...(24ms)
+Found optimal solution of length 9 (287ms)
+BFS: 0ms, Formula: 257ms, SAT: 30ms
+Clauses: 98780, Variables: 16170, Literals: 355335
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (236ms)
+Solving t = 7 ...(20ms)
+Solving t = 14 ...(296ms)
+Solving t = 10 ...(34ms)
+Solving t = 8 ...(17ms)
+Found optimal solution of length 8 (606ms)
+BFS: 0ms, Formula: 459ms, SAT: 145ms
+Clauses: 170943, Variables: 26460, Literals: 628719
+Initial bound: 7, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (331ms)
+Solving t = 9 ...(73ms)
+Solving t = 18 ...(658ms)
+Solving t = 13 ...(593ms)
+Solving t = 11 ...(295ms)
+Solving t = 10 ...(210ms)
+Found optimal solution of length 10 (2163ms)
+BFS: 0ms, Formula: 647ms, SAT: 1514ms
+Clauses: 237381, Variables: 36309, Literals: 879243
+Initial bound: 9, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (369ms)
+Solving t = 9 ...(28ms)
+Solving t = 18 ...(6124ms)
+Solving t = 13 ...(294ms)
+Solving t = 11 ...(4211ms)
+Solving t = 10 ...(15324ms)
+Found optimal solution of length 11 (26353ms)
+BFS: 0ms, Formula: 720ms, SAT: 25632ms
+Clauses: 263387, Variables: 39102, Literals: 983715
+Initial bound: 9, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (575ms)
+Solving t = 13 ...(782ms)
+Found optimal solution of length 13 (1357ms)
+BFS: 0ms, Formula: 561ms, SAT: 795ms
+Clauses: 207957, Variables: 30870, Literals: 772558
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 6, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (478ms)
+Solving t = 10 ...(32ms)
+Solving t = 20 ...(23646ms)
+Solving t = 15 ...(76328ms)
+Solving t = 12 ...(99ms)
+Solving t = 13 ...
+Timeout
+BFS: 0ms, Formula: 931ms, SAT: 628504ms
+Clauses: 338151, Variables: 49392, Literals: 1268867
+Initial bound: 10, Lower bound: 13, Upper bound: 15
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (107ms)
+Solving t = 6 ...(12ms)
+Found optimal solution of length 6 (119ms)
+BFS: 0ms, Formula: 103ms, SAT: 15ms
+Clauses: 43292, Variables: 8232, Literals: 144624
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (88ms)
+Solving t = 4 ...(9ms)
+Found optimal solution of length 4 (98ms)
+BFS: 0ms, Formula: 86ms, SAT: 11ms
+Clauses: 35503, Variables: 6615, Literals: 120147
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (259ms)
+Solving t = 10 ...(23ms)
+Found optimal solution of length 10 (283ms)
+BFS: 0ms, Formula: 252ms, SAT: 30ms
+Clauses: 98453, Variables: 16170, Literals: 350917
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (325ms)
+Solving t = 11 ...(27ms)
+Found optimal solution of length 11 (352ms)
+BFS: 0ms, Formula: 317ms, SAT: 35ms
+Clauses: 121854, Variables: 19404, Literals: 439855
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (283ms)
+Solving t = 8 ...(24ms)
+Solving t = 16 ...(342ms)
+Solving t = 12 ...(16ms)
+Solving t = 10 ...(15ms)
+Solving t = 9 ...(2ms)
+Found optimal solution of length 10 (685ms)
+BFS: 0ms, Formula: 550ms, SAT: 134ms
+Clauses: 203228, Variables: 29988, Literals: 754632
+Initial bound: 8, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (362ms)
+Solving t = 9 ...(34ms)
+Found optimal solution of length 9 (396ms)
+BFS: 0ms, Formula: 353ms, SAT: 42ms
+Clauses: 131667, Variables: 19110, Literals: 488400
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (572ms)
+Solving t = 13 ...(64ms)
+Found optimal solution of length 13 (636ms)
+BFS: 0ms, Formula: 559ms, SAT: 76ms
+Clauses: 204889, Variables: 28812, Literals: 770615
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (339ms)
+Solving t = 7 ...(24ms)
+Solving t = 14 ...(741ms)
+Solving t = 10 ...(238ms)
+Solving t = 8 ...(232ms)
+Solving t = 9 ...(122ms)
+Found optimal solution of length 9 (1699ms)
+BFS: 0ms, Formula: 661ms, SAT: 1037ms
+Clauses: 238761, Variables: 33075, Literals: 902051
+Initial bound: 7, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (466ms)
+Solving t = 9 ...(240ms)
+Found optimal solution of length 9 (707ms)
+BFS: 0ms, Formula: 456ms, SAT: 250ms
+Clauses: 167605, Variables: 23520, Literals: 629461
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 7, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (617ms)
+Solving t = 11 ...(46173ms)
+Solving t = 22 ...(3880ms)
+Solving t = 16 ...(934ms)
+Solving t = 13 ...(1059ms)
+Solving t = 12 ...(11904ms)
+Found optimal solution of length 12 (64570ms)
+BFS: 0ms, Formula: 1211ms, SAT: 63357ms
+Clauses: 425831, Variables: 57477, Literals: 1628301
+Initial bound: 11, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (167ms)
+Solving t = 8 ...(18ms)
+Found optimal solution of length 8 (185ms)
+BFS: 0ms, Formula: 162ms, SAT: 23ms
+Clauses: 66547, Variables: 11907, Literals: 225019
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (233ms)
+Solving t = 9 ...(21ms)
+Found optimal solution of length 9 (255ms)
+BFS: 0ms, Formula: 227ms, SAT: 27ms
+Clauses: 89388, Variables: 14700, Literals: 313998
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (336ms)
+Solving t = 11 ...(28ms)
+Found optimal solution of length 11 (365ms)
+BFS: 0ms, Formula: 328ms, SAT: 37ms
+Clauses: 125631, Variables: 19404, Literals: 453708
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (334ms)
+Solving t = 9 ...(27ms)
+Found optimal solution of length 9 (361ms)
+BFS: 0ms, Formula: 326ms, SAT: 34ms
+Clauses: 121763, Variables: 17640, Literals: 447415
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (366ms)
+Solving t = 9 ...(37ms)
+Found optimal solution of length 9 (404ms)
+BFS: 0ms, Formula: 357ms, SAT: 45ms
+Clauses: 132772, Variables: 19110, Literals: 490477
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (361ms)
+Solving t = 8 ...(28ms)
+Found optimal solution of length 8 (389ms)
+BFS: 0ms, Formula: 352ms, SAT: 36ms
+Clauses: 130279, Variables: 18522, Literals: 483371
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (414ms)
+Solving t = 8 ...(36ms)
+Found optimal solution of length 8 (451ms)
+BFS: 0ms, Formula: 405ms, SAT: 45ms
+Clauses: 147147, Variables: 19845, Literals: 555003
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (516ms)
+Solving t = 9 ...(95ms)
+Found optimal solution of length 9 (611ms)
+BFS: 0ms, Formula: 504ms, SAT: 106ms
+Clauses: 181413, Variables: 23520, Literals: 691869
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (669ms)
+Solving t = 11 ...(1207ms)
+Found optimal solution of length 11 (1877ms)
+BFS: 0ms, Formula: 654ms, SAT: 1221ms
+Clauses: 233326, Variables: 29988, Literals: 895113
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 8, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (587ms)
+Solving t = 9 ...(2367ms)
+Solving t = 18 ...(4406ms)
+Solving t = 13 ...(844ms)
+Solving t = 11 ...(27929ms)
+Solving t = 10 ...(812ms)
+Found optimal solution of length 10 (36949ms)
+BFS: 0ms, Formula: 1140ms, SAT: 35807ms
+Clauses: 400817, Variables: 50274, Literals: 1554817
+Initial bound: 9, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (155ms)
+Solving t = 6 ...(17ms)
+Found optimal solution of length 6 (173ms)
+BFS: 0ms, Formula: 151ms, SAT: 21ms
+Clauses: 61450, Variables: 10290, Literals: 209938
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (276ms)
+Solving t = 9 ...(23ms)
+Found optimal solution of length 9 (300ms)
+BFS: 0ms, Formula: 269ms, SAT: 30ms
+Clauses: 104899, Variables: 16170, Literals: 372668
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (293ms)
+Solving t = 8 ...(32ms)
+Found optimal solution of length 8 (326ms)
+BFS: 0ms, Formula: 286ms, SAT: 39ms
+Clauses: 108869, Variables: 15876, Literals: 394673
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (289ms)
+Solving t = 7 ...(23ms)
+Solving t = 14 ...(341ms)
+Solving t = 10 ...(8ms)
+Solving t = 12 ...(15ms)
+Solving t = 11 ...(13ms)
+Found optimal solution of length 11 (692ms)
+BFS: 0ms, Formula: 563ms, SAT: 128ms
+Clauses: 206566, Variables: 28665, Literals: 766596
+Initial bound: 7, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (376ms)
+Solving t = 8 ...(28ms)
+Solving t = 16 ...(464ms)
+Solving t = 12 ...(30ms)
+Solving t = 10 ...(37ms)
+Solving t = 9 ...(33ms)
+Found optimal solution of length 9 (971ms)
+BFS: 0ms, Formula: 735ms, SAT: 235ms
+Clauses: 264684, Variables: 34986, Literals: 1000032
+Initial bound: 8, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (516ms)
+Solving t = 10 ...(43ms)
+Found optimal solution of length 10 (560ms)
+BFS: 0ms, Formula: 504ms, SAT: 55ms
+Clauses: 183771, Variables: 24255, Literals: 692545
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (628ms)
+Solving t = 11 ...(57ms)
+Found optimal solution of length 11 (686ms)
+BFS: 0ms, Formula: 614ms, SAT: 71ms
+Clauses: 220184, Variables: 28224, Literals: 838636
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (712ms)
+Solving t = 11 ...(67ms)
+Found optimal solution of length 11 (780ms)
+BFS: 0ms, Formula: 697ms, SAT: 82ms
+Clauses: 246545, Variables: 29988, Literals: 952002
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (634ms)
+Solving t = 9 ...(44ms)
+Solving t = 18 ...(2943ms)
+Solving t = 13 ...(253ms)
+Solving t = 11 ...(155ms)
+Solving t = 10 ...(94ms)
+Found optimal solution of length 10 (4126ms)
+BFS: 0ms, Formula: 1232ms, SAT: 2892ms
+Clauses: 429214, Variables: 50274, Literals: 1681386
+Initial bound: 9, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 9, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (748ms)
+Solving t = 10 ...(200ms)
+Found optimal solution of length 10 (948ms)
+BFS: 0ms, Formula: 731ms, SAT: 216ms
+Clauses: 257312, Variables: 30723, Literals: 1001414
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (120ms)
+Solving t = 4 ...(11ms)
+Found optimal solution of length 4 (132ms)
+BFS: 0ms, Formula: 116ms, SAT: 14ms
+Clauses: 48248, Variables: 8085, Literals: 162724
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (362ms)
+Solving t = 10 ...(29ms)
+Found optimal solution of length 10 (391ms)
+BFS: 0ms, Formula: 353ms, SAT: 37ms
+Clauses: 136044, Variables: 19404, Literals: 489752
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (511ms)
+Solving t = 12 ...(44ms)
+Found optimal solution of length 12 (556ms)
+BFS: 0ms, Formula: 499ms, SAT: 56ms
+Clauses: 186464, Variables: 24843, Literals: 689684
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (523ms)
+Solving t = 11 ...(42ms)
+Found optimal solution of length 11 (566ms)
+BFS: 0ms, Formula: 510ms, SAT: 54ms
+Clauses: 188524, Variables: 24696, Literals: 704136
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (429ms)
+Solving t = 8 ...(31ms)
+Found optimal solution of length 8 (461ms)
+BFS: 0ms, Formula: 419ms, SAT: 41ms
+Clauses: 153990, Variables: 19845, Literals: 578086
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (473ms)
+Solving t = 8 ...(33ms)
+Solving t = 16 ...(610ms)
+Solving t = 12 ...(54ms)
+Solving t = 10 ...(24ms)
+Solving t = 9 ...(0ms)
+Found optimal solution of length 10 (1195ms)
+BFS: 0ms, Formula: 922ms, SAT: 272ms
+Clauses: 326885, Variables: 39984, Literals: 1253985
+Initial bound: 8, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (794ms)
+Solving t = 12 ...(77ms)
+Found optimal solution of length 12 (872ms)
+BFS: 0ms, Formula: 777ms, SAT: 94ms
+Clauses: 275397, Variables: 32487, Literals: 1063825
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (703ms)
+Solving t = 10 ...(54ms)
+Found optimal solution of length 10 (758ms)
+BFS: 0ms, Formula: 688ms, SAT: 69ms
+Clauses: 244294, Variables: 29106, Literals: 943694
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (715ms)
+Solving t = 9 ...(78ms)
+Found optimal solution of length 9 (793ms)
+BFS: 0ms, Formula: 700ms, SAT: 93ms
+Clauses: 245149, Variables: 27930, Literals: 956614
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 10, a = 10, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (678ms)
+Solving t = 8 ...(56ms)
+Found optimal solution of length 8 (734ms)
+BFS: 0ms, Formula: 664ms, SAT: 70ms
+Clauses: 231669, Variables: 26460, Literals: 905025
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (20ms)
+Solving t = 13 ...(3ms)
+Found optimal solution of length 13 (23ms)
+BFS: 0ms, Formula: 19ms, SAT: 4ms
+Clauses: 9999, Variables: 4116, Literals: 26169
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (49ms)
+Solving t = 18 ...(8ms)
+Found optimal solution of length 18 (57ms)
+BFS: 0ms, Formula: 47ms, SAT: 10ms
+Clauses: 24201, Variables: 8379, Literals: 64571
+Initial bound: 18, Lower bound: 18, Upper bound: 18
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (43ms)
+Solving t = 11 ...(6ms)
+Solving t = 22 ...(71ms)
+Solving t = 16 ...(9ms)
+Solving t = 19 ...(10ms)
+Solving t = 17 ...(15ms)
+Solving t = 18 ...(19ms)
+Found optimal solution of length 19 (176ms)
+BFS: 0ms, Formula: 83ms, SAT: 92ms
+Clauses: 41632, Variables: 13524, Literals: 111772
+Initial bound: 11, Lower bound: 19, Upper bound: 19
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (69ms)
+Solving t = 11 ...(11ms)
+Solving t = 22 ...(117ms)
+Solving t = 44 ...(18089ms)
+Solving t = 33 ...(1786ms)
+Solving t = 38 ...(46177ms)
+Solving t = 41 ...(34155ms)
+Solving t = 39 ...(40523ms)
+Solving t = 40 ...(18930ms)
+Found optimal solution of length 40 (159862ms)
+BFS: 0ms, Formula: 265ms, SAT: 159594ms
+Clauses: 129463, Variables: 39690, Literals: 351547
+Initial bound: 11, Lower bound: 40, Upper bound: 40
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (104ms)
+Solving t = 14 ...(16ms)
+Solving t = 28 ...(610ms)
+Solving t = 56 ...
+Timeout
+BFS: 0ms, Formula: 402ms, SAT: 648376ms
+Clauses: 195276, Variables: 58653, Literals: 531164
+Initial bound: 14, Lower bound: 29, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (176ms)
+Solving t = 21 ...(22ms)
+Solving t = 42 ...(58425ms)
+Solving t = 84 ...(50511ms)
+Solving t = 63 ...(2301ms)
+Solving t = 52 ...
+Timeout
+BFS: 0ms, Formula: 691ms, SAT: 653257ms
+Clauses: 333611, Variables: 99960, Literals: 902415
+Initial bound: 21, Lower bound: 43, Upper bound: 63
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (143ms)
+Solving t = 13 ...(19ms)
+Solving t = 26 ...(460ms)
+Solving t = 52 ...(201228ms)
+Solving t = 104 ...(178467ms)
+Solving t = 78 ...
+Timeout
+BFS: 0ms, Formula: 1120ms, SAT: 663219ms
+Clauses: 531050, Variables: 154350, Literals: 1451470
+Initial bound: 13, Lower bound: 53, Upper bound: 104
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 1, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (201ms)
+Solving t = 16 ...(24ms)
+Solving t = 32 ...(638ms)
+Solving t = 64 ...
+Timeout
+BFS: 0ms, Formula: 770ms, SAT: 651084ms
+Clauses: 370152, Variables: 105105, Literals: 1014512
+Initial bound: 16, Lower bound: 33, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (31ms)
+Solving t = 11 ...(4ms)
+Found optimal solution of length 11 (36ms)
+BFS: 0ms, Formula: 30ms, SAT: 5ms
+Clauses: 15028, Variables: 5292, Literals: 41305
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (65ms)
+Solving t = 15 ...(14ms)
+Found optimal solution of length 15 (79ms)
+BFS: 0ms, Formula: 62ms, SAT: 16ms
+Clauses: 30209, Variables: 9408, Literals: 86201
+Initial bound: 15, Lower bound: 15, Upper bound: 15
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (60ms)
+Solving t = 10 ...(8ms)
+Found optimal solution of length 10 (69ms)
+BFS: 0ms, Formula: 58ms, SAT: 10ms
+Clauses: 28023, Variables: 8085, Literals: 80777
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (61ms)
+Solving t = 8 ...(8ms)
+Solving t = 16 ...(115ms)
+Solving t = 12 ...(11ms)
+Solving t = 14 ...(173ms)
+Solving t = 15 ...(82ms)
+Found optimal solution of length 15 (452ms)
+BFS: 0ms, Formula: 116ms, SAT: 335ms
+Clauses: 54123, Variables: 14994, Literals: 158719
+Initial bound: 8, Lower bound: 15, Upper bound: 15
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (139ms)
+Solving t = 15 ...(27ms)
+Solving t = 30 ...(1042ms)
+Solving t = 22 ...(2925ms)
+Solving t = 18 ...(98ms)
+Solving t = 20 ...(6872ms)
+Solving t = 21 ...(1649ms)
+Found optimal solution of length 21 (12756ms)
+BFS: 0ms, Formula: 269ms, SAT: 12486ms
+Clauses: 120580, Variables: 31899, Literals: 363058
+Initial bound: 15, Lower bound: 21, Upper bound: 21
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (148ms)
+Solving t = 14 ...(21ms)
+Solving t = 28 ...(326301ms)
+Solving t = 56 ...(8073ms)
+Solving t = 42 ...(644ms)
+Solving t = 35 ...(4036ms)
+Solving t = 31 ...(7816ms)
+Solving t = 29 ...(2429ms)
+Found optimal solution of length 29 (349474ms)
+BFS: 0ms, Formula: 588ms, SAT: 348884ms
+Clauses: 254854, Variables: 67032, Literals: 770066
+Initial bound: 14, Lower bound: 29, Upper bound: 29
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (164ms)
+Solving t = 13 ...(27ms)
+Solving t = 26 ...(196804ms)
+Solving t = 52 ...(1645ms)
+Solving t = 39 ...(433ms)
+Solving t = 32 ...
+Timeout
+BFS: 0ms, Formula: 656ms, SAT: 653747ms
+Clauses: 278457, Variables: 70119, Literals: 851485
+Initial bound: 13, Lower bound: 27, Upper bound: 39
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (218ms)
+Solving t = 15 ...(26ms)
+Solving t = 30 ...
+Timeout
+BFS: 0ms, Formula: 420ms, SAT: 655187ms
+Clauses: 185748, Variables: 45570, Literals: 570492
+Initial bound: 15, Lower bound: 16, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (220ms)
+Solving t = 14 ...(26ms)
+Solving t = 28 ...(379795ms)
+Solving t = 56 ...(85396ms)
+Solving t = 42 ...
+Timeout
+BFS: 0ms, Formula: 861ms, SAT: 661731ms
+Clauses: 371307, Variables: 92169, Literals: 1137323
+Initial bound: 14, Lower bound: 29, Upper bound: 56
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 2, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (280ms)
+Solving t = 17 ...(27ms)
+Solving t = 34 ...
+Timeout
+BFS: 0ms, Formula: 541ms, SAT: 656958ms
+Clauses: 241267, Variables: 61740, Literals: 719759
+Initial bound: 17, Lower bound: 18, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (33ms)
+Solving t = 7 ...(5ms)
+Found optimal solution of length 7 (38ms)
+BFS: 0ms, Formula: 31ms, SAT: 6ms
+Clauses: 15089, Variables: 4704, Literals: 43529
+Initial bound: 7, Lower bound: 7, Upper bound: 7
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (73ms)
+Solving t = 11 ...(10ms)
+Solving t = 22 ...(95ms)
+Solving t = 16 ...(14ms)
+Solving t = 13 ...(17ms)
+Solving t = 12 ...(13ms)
+Found optimal solution of length 12 (226ms)
+BFS: 0ms, Formula: 141ms, SAT: 84ms
+Clauses: 62211, Variables: 16905, Literals: 191713
+Initial bound: 11, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (97ms)
+Solving t = 11 ...(13ms)
+Solving t = 22 ...(120ms)
+Solving t = 16 ...(12ms)
+Solving t = 13 ...(15ms)
+Solving t = 12 ...(14ms)
+Found optimal solution of length 12 (274ms)
+BFS: 0ms, Formula: 185ms, SAT: 88ms
+Clauses: 79249, Variables: 20286, Literals: 249809
+Initial bound: 11, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (82ms)
+Solving t = 8 ...(11ms)
+Found optimal solution of length 8 (93ms)
+BFS: 0ms, Formula: 80ms, SAT: 13ms
+Clauses: 35909, Variables: 9261, Literals: 108597
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (206ms)
+Solving t = 16 ...(39ms)
+Solving t = 32 ...(900ms)
+Solving t = 24 ...(354ms)
+Solving t = 20 ...(610ms)
+Solving t = 18 ...(446ms)
+Solving t = 17 ...(123ms)
+Found optimal solution of length 18 (2682ms)
+BFS: 0ms, Formula: 401ms, SAT: 2280ms
+Clauses: 168006, Variables: 38808, Literals: 545058
+Initial bound: 16, Lower bound: 18, Upper bound: 18
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (196ms)
+Solving t = 12 ...(21ms)
+Solving t = 24 ...(1233ms)
+Solving t = 18 ...(63194ms)
+Solving t = 15 ...(2279ms)
+Solving t = 16 ...(33385ms)
+Solving t = 17 ...(228056ms)
+Found optimal solution of length 18 (328369ms)
+BFS: 0ms, Formula: 380ms, SAT: 327987ms
+Clauses: 160100, Variables: 36750, Literals: 514520
+Initial bound: 12, Lower bound: 18, Upper bound: 18
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (179ms)
+Solving t = 10 ...(22ms)
+Solving t = 20 ...(269130ms)
+Solving t = 40 ...(10264ms)
+Solving t = 30 ...(178385ms)
+Solving t = 25 ...
+Timeout
+BFS: 0ms, Formula: 706ms, SAT: 657045ms
+Clauses: 287776, Variables: 66297, Literals: 928992
+Initial bound: 10, Lower bound: 21, Upper bound: 30
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 3, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (217ms)
+Solving t = 9 ...(22ms)
+Solving t = 18 ...
+Timeout
+BFS: 0ms, Formula: 419ms, SAT: 659158ms
+Clauses: 170881, Variables: 36309, Literals: 562651
+Initial bound: 9, Lower bound: 10, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (83ms)
+Solving t = 13 ...(11ms)
+Found optimal solution of length 13 (95ms)
+BFS: 0ms, Formula: 80ms, SAT: 14ms
+Clauses: 36757, Variables: 10290, Literals: 110678
+Initial bound: 13, Lower bound: 13, Upper bound: 13
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (56ms)
+Solving t = 6 ...(7ms)
+Found optimal solution of length 6 (63ms)
+BFS: 0ms, Formula: 54ms, SAT: 8ms
+Clauses: 24384, Variables: 6174, Literals: 75320
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (112ms)
+Solving t = 10 ...(13ms)
+Found optimal solution of length 10 (125ms)
+BFS: 0ms, Formula: 108ms, SAT: 16ms
+Clauses: 47612, Variables: 11319, Literals: 150410
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (252ms)
+Solving t = 19 ...(31ms)
+Found optimal solution of length 19 (283ms)
+BFS: 0ms, Formula: 245ms, SAT: 38ms
+Clauses: 102985, Variables: 23520, Literals: 335405
+Initial bound: 19, Lower bound: 19, Upper bound: 19
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (238ms)
+Solving t = 15 ...(25ms)
+Solving t = 30 ...(321ms)
+Solving t = 22 ...(60ms)
+Solving t = 18 ...(74ms)
+Solving t = 16 ...(0ms)
+Solving t = 17 ...(34ms)
+Found optimal solution of length 17 (756ms)
+BFS: 0ms, Formula: 465ms, SAT: 289ms
+Clauses: 189690, Variables: 41013, Literals: 634472
+Initial bound: 15, Lower bound: 17, Upper bound: 17
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (308ms)
+Solving t = 17 ...(356ms)
+Found optimal solution of length 17 (665ms)
+BFS: 0ms, Formula: 300ms, SAT: 364ms
+Clauses: 123487, Variables: 26460, Literals: 410689
+Initial bound: 17, Lower bound: 17, Upper bound: 17
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (300ms)
+Solving t = 13 ...(613ms)
+Solving t = 26 ...(6475ms)
+Solving t = 19 ...(45271ms)
+Solving t = 16 ...(234507ms)
+Solving t = 17 ...
+Timeout
+BFS: 0ms, Formula: 585ms, SAT: 661334ms
+Clauses: 234179, Variables: 47628, Literals: 796279
+Initial bound: 13, Lower bound: 17, Upper bound: 19
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (396ms)
+Solving t = 16 ...(42ms)
+Solving t = 32 ...(54118ms)
+Solving t = 24 ...(407164ms)
+Solving t = 20 ...(174910ms)
+Solving t = 22 ...
+Timeout
+BFS: 0ms, Formula: 777ms, SAT: 635856ms
+Clauses: 305879, Variables: 63063, Literals: 1033863
+Initial bound: 16, Lower bound: 21, Upper bound: 24
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 4, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (386ms)
+Solving t = 14 ...(774ms)
+Solving t = 28 ...(89575ms)
+Solving t = 21 ...
+Timeout
+BFS: 0ms, Formula: 761ms, SAT: 664160ms
+Clauses: 295593, Variables: 59682, Literals: 1004581
+Initial bound: 14, Lower bound: 15, Upper bound: 28
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (2ms)
+Solving t = 0 ...(0ms)
+Found optimal solution of length 0 (3ms)
+BFS: 0ms, Formula: 2ms, SAT: 0ms
+Clauses: 1790, Variables: 882, Literals: 3346
+Initial bound: 0, Lower bound: 0, Upper bound: 0
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (126ms)
+Solving t = 9 ...(16ms)
+Found optimal solution of length 9 (143ms)
+BFS: 0ms, Formula: 122ms, SAT: 19ms
+Clauses: 52281, Variables: 11760, Literals: 169927
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (183ms)
+Solving t = 11 ...(19ms)
+Found optimal solution of length 11 (202ms)
+BFS: 0ms, Formula: 177ms, SAT: 24ms
+Clauses: 73703, Variables: 15876, Literals: 243038
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (205ms)
+Solving t = 10 ...(20ms)
+Found optimal solution of length 10 (225ms)
+BFS: 0ms, Formula: 200ms, SAT: 25ms
+Clauses: 81116, Variables: 16170, Literals: 275480
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (271ms)
+Solving t = 12 ...(44ms)
+Found optimal solution of length 12 (316ms)
+BFS: 0ms, Formula: 264ms, SAT: 51ms
+Clauses: 106576, Variables: 21021, Literals: 364676
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (326ms)
+Solving t = 13 ...(35ms)
+Solving t = 26 ...(1230ms)
+Solving t = 19 ...(908ms)
+Solving t = 16 ...(108ms)
+Solving t = 14 ...(169ms)
+Found optimal solution of length 14 (2779ms)
+BFS: 0ms, Formula: 636ms, SAT: 2142ms
+Clauses: 248190, Variables: 47628, Literals: 863850
+Initial bound: 13, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (438ms)
+Solving t = 14 ...(33ms)
+Solving t = 28 ...(9045ms)
+Solving t = 21 ...(249845ms)
+Solving t = 17 ...
+Timeout
+BFS: 0ms, Formula: 851ms, SAT: 664982ms
+Clauses: 326085, Variables: 59682, Literals: 1149705
+Initial bound: 14, Lower bound: 15, Upper bound: 21
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 5, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (402ms)
+Solving t = 12 ...(33ms)
+Solving t = 24 ...(35635ms)
+Solving t = 18 ...(36851ms)
+Solving t = 15 ...(3147ms)
+Solving t = 16 ...(121751ms)
+Solving t = 17 ...(220217ms)
+Found optimal solution of length 17 (418040ms)
+BFS: 0ms, Formula: 782ms, SAT: 417256ms
+Clauses: 300727, Variables: 55125, Literals: 1059447
+Initial bound: 12, Lower bound: 17, Upper bound: 17
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (109ms)
+Solving t = 10 ...(14ms)
+Found optimal solution of length 10 (123ms)
+BFS: 0ms, Formula: 105ms, SAT: 17ms
+Clauses: 47114, Variables: 11319, Literals: 146332
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (159ms)
+Solving t = 11 ...(18ms)
+Found optimal solution of length 11 (178ms)
+BFS: 0ms, Formula: 154ms, SAT: 22ms
+Clauses: 65034, Variables: 14112, Literals: 212858
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (104ms)
+Solving t = 6 ...(12ms)
+Found optimal solution of length 6 (116ms)
+BFS: 0ms, Formula: 101ms, SAT: 14ms
+Clauses: 43047, Variables: 9261, Literals: 140117
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (184ms)
+Solving t = 9 ...(18ms)
+Solving t = 18 ...(243ms)
+Solving t = 13 ...(14ms)
+Solving t = 11 ...(20ms)
+Solving t = 10 ...(20ms)
+Found optimal solution of length 10 (502ms)
+BFS: 0ms, Formula: 358ms, SAT: 143ms
+Clauses: 141863, Variables: 27930, Literals: 487019
+Initial bound: 9, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (323ms)
+Solving t = 12 ...(53ms)
+Found optimal solution of length 12 (377ms)
+BFS: 0ms, Formula: 315ms, SAT: 61ms
+Clauses: 124160, Variables: 22932, Literals: 432556
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (327ms)
+Solving t = 11 ...(28ms)
+Solving t = 22 ...(930ms)
+Solving t = 16 ...(119ms)
+Solving t = 13 ...(28ms)
+Solving t = 14 ...(252ms)
+Found optimal solution of length 14 (1686ms)
+BFS: 0ms, Formula: 638ms, SAT: 1047ms
+Clauses: 243756, Variables: 43953, Literals: 863422
+Initial bound: 11, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (427ms)
+Solving t = 13 ...(33ms)
+Solving t = 26 ...(4690ms)
+Solving t = 19 ...(29563ms)
+Solving t = 16 ...(9778ms)
+Solving t = 14 ...(13ms)
+Solving t = 15 ...(21356ms)
+Found optimal solution of length 16 (65864ms)
+BFS: 0ms, Formula: 837ms, SAT: 65025ms
+Clauses: 315061, Variables: 55566, Literals: 1124849
+Initial bound: 13, Lower bound: 16, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (506ms)
+Solving t = 14 ...(40ms)
+Solving t = 28 ...(27079ms)
+Solving t = 21 ...(13647ms)
+Solving t = 17 ...(3586ms)
+Solving t = 15 ...(3842ms)
+Solving t = 16 ...(344ms)
+Found optimal solution of length 16 (49048ms)
+BFS: 0ms, Formula: 985ms, SAT: 48061ms
+Clauses: 373141, Variables: 63945, Literals: 1344977
+Initial bound: 14, Lower bound: 16, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 6, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (85ms)
+Solving t = 6 ...(11ms)
+Found optimal solution of length 6 (96ms)
+BFS: 0ms, Formula: 82ms, SAT: 14ms
+Clauses: 36319, Variables: 8232, Literals: 114851
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (56ms)
+Solving t = 3 ...(6ms)
+Found optimal solution of length 3 (63ms)
+BFS: 0ms, Formula: 54ms, SAT: 7ms
+Clauses: 23600, Variables: 5292, Literals: 74431
+Initial bound: 3, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (234ms)
+Solving t = 11 ...(25ms)
+Found optimal solution of length 11 (260ms)
+BFS: 0ms, Formula: 228ms, SAT: 31ms
+Clauses: 92617, Variables: 17640, Literals: 317255
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (266ms)
+Solving t = 11 ...(31ms)
+Found optimal solution of length 11 (297ms)
+BFS: 0ms, Formula: 259ms, SAT: 37ms
+Clauses: 104519, Variables: 19404, Literals: 359820
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (273ms)
+Solving t = 10 ...(37ms)
+Found optimal solution of length 10 (310ms)
+BFS: 0ms, Formula: 266ms, SAT: 44ms
+Clauses: 105436, Variables: 19404, Literals: 367704
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (505ms)
+Solving t = 15 ...(40ms)
+Solving t = 30 ...(2307ms)
+Solving t = 22 ...(373ms)
+Solving t = 18 ...(284ms)
+Solving t = 16 ...(108ms)
+Found optimal solution of length 16 (3619ms)
+BFS: 0ms, Formula: 987ms, SAT: 2632ms
+Clauses: 371122, Variables: 63798, Literals: 1335554
+Initial bound: 15, Lower bound: 16, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (351ms)
+Solving t = 9 ...(45ms)
+Found optimal solution of length 9 (396ms)
+BFS: 0ms, Formula: 342ms, SAT: 53ms
+Clauses: 130947, Variables: 22050, Literals: 469562
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (468ms)
+Solving t = 11 ...(34ms)
+Solving t = 22 ...(47849ms)
+Solving t = 16 ...(39346ms)
+Solving t = 13 ...(12571ms)
+Solving t = 14 ...
+Timeout
+BFS: 0ms, Formula: 913ms, SAT: 674933ms
+Clauses: 336377, Variables: 54096, Literals: 1234493
+Initial bound: 11, Lower bound: 14, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 7, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (518ms)
+Solving t = 11 ...(35ms)
+Solving t = 22 ...(69860ms)
+Solving t = 16 ...(22221ms)
+Solving t = 13 ...
+Timeout
+BFS: 0ms, Formula: 1008ms, SAT: 675979ms
+Clauses: 367353, Variables: 57477, Literals: 1358183
+Initial bound: 11, Lower bound: 12, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (55ms)
+Solving t = 3 ...(6ms)
+Found optimal solution of length 3 (62ms)
+BFS: 0ms, Formula: 54ms, SAT: 8ms
+Clauses: 23929, Variables: 5292, Literals: 75048
+Initial bound: 3, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (169ms)
+Solving t = 8 ...(17ms)
+Found optimal solution of length 8 (186ms)
+BFS: 0ms, Formula: 164ms, SAT: 22ms
+Clauses: 67944, Variables: 13230, Literals: 226940
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (295ms)
+Solving t = 12 ...(28ms)
+Found optimal solution of length 12 (324ms)
+BFS: 0ms, Formula: 288ms, SAT: 35ms
+Clauses: 115867, Variables: 21021, Literals: 398999
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (285ms)
+Solving t = 10 ...(34ms)
+Found optimal solution of length 10 (320ms)
+BFS: 0ms, Formula: 278ms, SAT: 41ms
+Clauses: 110007, Variables: 19404, Literals: 384835
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (343ms)
+Solving t = 10 ...(36ms)
+Found optimal solution of length 10 (380ms)
+BFS: 0ms, Formula: 335ms, SAT: 44ms
+Clauses: 128655, Variables: 21021, Literals: 462825
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (463ms)
+Solving t = 11 ...(34ms)
+Solving t = 22 ...(1369ms)
+Solving t = 16 ...(78ms)
+Solving t = 13 ...(72ms)
+Solving t = 12 ...(51ms)
+Found optimal solution of length 12 (2070ms)
+BFS: 0ms, Formula: 901ms, SAT: 1168ms
+Clauses: 331957, Variables: 50715, Literals: 1228439
+Initial bound: 11, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (658ms)
+Solving t = 15 ...(236ms)
+Found optimal solution of length 15 (894ms)
+BFS: 0ms, Formula: 643ms, SAT: 250ms
+Clauses: 240560, Variables: 37632, Literals: 880856
+Initial bound: 15, Lower bound: 15, Upper bound: 15
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (416ms)
+Solving t = 9 ...(40ms)
+Found optimal solution of length 9 (457ms)
+BFS: 0ms, Formula: 407ms, SAT: 49ms
+Clauses: 154921, Variables: 24990, Literals: 561134
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 8, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (734ms)
+Solving t = 14 ...(69ms)
+Solving t = 28 ...(22993ms)
+Solving t = 21 ...(5313ms)
+Solving t = 17 ...(306ms)
+Solving t = 15 ...(36ms)
+Solving t = 16 ...(157ms)
+Found optimal solution of length 16 (29611ms)
+BFS: 0ms, Formula: 1435ms, SAT: 28175ms
+Clauses: 519204, Variables: 76734, Literals: 1948624
+Initial bound: 14, Lower bound: 16, Upper bound: 16
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (151ms)
+Solving t = 7 ...(16ms)
+Found optimal solution of length 7 (168ms)
+BFS: 0ms, Formula: 147ms, SAT: 20ms
+Clauses: 62042, Variables: 11760, Literals: 204444
+Initial bound: 7, Lower bound: 7, Upper bound: 7
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (236ms)
+Solving t = 9 ...(23ms)
+Found optimal solution of length 9 (259ms)
+BFS: 0ms, Formula: 229ms, SAT: 29ms
+Clauses: 92558, Variables: 16170, Literals: 318639
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (237ms)
+Solving t = 8 ...(22ms)
+Found optimal solution of length 8 (260ms)
+BFS: 0ms, Formula: 231ms, SAT: 28ms
+Clauses: 91468, Variables: 15876, Literals: 318136
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (376ms)
+Solving t = 11 ...(31ms)
+Found optimal solution of length 11 (408ms)
+BFS: 0ms, Formula: 367ms, SAT: 40ms
+Clauses: 141397, Variables: 22932, Literals: 505258
+Initial bound: 11, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (363ms)
+Solving t = 9 ...(37ms)
+Found optimal solution of length 9 (401ms)
+BFS: 0ms, Formula: 355ms, SAT: 45ms
+Clauses: 133963, Variables: 20580, Literals: 488513
+Initial bound: 9, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (592ms)
+Solving t = 14 ...(99ms)
+Found optimal solution of length 14 (691ms)
+BFS: 0ms, Formula: 578ms, SAT: 112ms
+Clauses: 216106, Variables: 33075, Literals: 791476
+Initial bound: 14, Lower bound: 14, Upper bound: 14
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing 
+Unsolvable!
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (613ms)
+Solving t = 12 ...(101ms)
+Found optimal solution of length 12 (714ms)
+BFS: 0ms, Formula: 599ms, SAT: 114ms
+Clauses: 220667, Variables: 32487, Literals: 818055
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (452ms)
+Solving t = 8 ...(30ms)
+Solving t = 16 ...(783ms)
+Solving t = 12 ...(95ms)
+Solving t = 10 ...(92ms)
+Solving t = 9 ...(43ms)
+Found optimal solution of length 9 (1498ms)
+BFS: 0ms, Formula: 878ms, SAT: 618ms
+Clauses: 317454, Variables: 44982, Literals: 1196050
+Initial bound: 8, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 9, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (725ms)
+Solving t = 12 ...(593ms)
+Found optimal solution of length 12 (1319ms)
+BFS: 0ms, Formula: 709ms, SAT: 609ms
+Clauses: 257526, Variables: 36309, Literals: 970458
+Initial bound: 12, Lower bound: 12, Upper bound: 12
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 1, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (150ms)
+Solving t = 6 ...(14ms)
+Found optimal solution of length 6 (165ms)
+BFS: 0ms, Formula: 145ms, SAT: 19ms
+Clauses: 61411, Variables: 11319, Literals: 202445
+Initial bound: 6, Lower bound: 6, Upper bound: 6
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 2, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (63ms)
+Solving t = 2 ...(6ms)
+Found optimal solution of length 2 (70ms)
+BFS: 0ms, Formula: 61ms, SAT: 8ms
+Clauses: 26318, Variables: 5292, Literals: 85050
+Initial bound: 2, Lower bound: 2, Upper bound: 2
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 3, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (350ms)
+Solving t = 10 ...(29ms)
+Found optimal solution of length 10 (380ms)
+BFS: 0ms, Formula: 342ms, SAT: 37ms
+Clauses: 133077, Variables: 21021, Literals: 471727
+Initial bound: 10, Lower bound: 10, Upper bound: 10
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 4, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (321ms)
+Solving t = 8 ...(26ms)
+Found optimal solution of length 8 (347ms)
+BFS: 0ms, Formula: 313ms, SAT: 33ms
+Clauses: 120186, Variables: 18522, Literals: 431134
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 5, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (226ms)
+Solving t = 5 ...(18ms)
+Found optimal solution of length 5 (244ms)
+BFS: 0ms, Formula: 220ms, SAT: 23ms
+Clauses: 84408, Variables: 13230, Literals: 301337
+Initial bound: 5, Lower bound: 5, Upper bound: 5
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 6, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (395ms)
+Solving t = 8 ...(30ms)
+Solving t = 16 ...(507ms)
+Solving t = 12 ...(75ms)
+Solving t = 10 ...(35ms)
+Solving t = 9 ...(37ms)
+Found optimal solution of length 9 (1081ms)
+BFS: 0ms, Formula: 766ms, SAT: 315ms
+Clauses: 280143, Variables: 39984, Literals: 1042091
+Initial bound: 8, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 7, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (390ms)
+Solving t = 7 ...(39ms)
+Solving t = 14 ...(586ms)
+Solving t = 10 ...(44ms)
+Solving t = 8 ...(2ms)
+Solving t = 9 ...(51ms)
+Found optimal solution of length 9 (1114ms)
+BFS: 0ms, Formula: 762ms, SAT: 350ms
+Clauses: 274323, Variables: 37485, Literals: 1033565
+Initial bound: 7, Lower bound: 9, Upper bound: 9
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 8, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (483ms)
+Solving t = 8 ...(56ms)
+Found optimal solution of length 8 (540ms)
+BFS: 0ms, Formula: 472ms, SAT: 67ms
+Clauses: 172955, Variables: 23814, Literals: 648831
+Initial bound: 8, Lower bound: 8, Upper bound: 8
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 9, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (576ms)
+Solving t = 9 ...(35ms)
+Solving t = 18 ...(992ms)
+Solving t = 13 ...(88ms)
+Solving t = 11 ...(78ms)
+Solving t = 10 ...(0ms)
+Found optimal solution of length 11 (1772ms)
+BFS: 0ms, Formula: 1116ms, SAT: 655ms
+Clauses: 397960, Variables: 53067, Literals: 1514290
+Initial bound: 9, Lower bound: 11, Upper bound: 11
+────────────────────────────────────────────────────────────
+g = 7, b = 20, a = 10, c = 10, seed = 9, config = 1|2|600|4|1|1
+Initializing  - (751ms)
+Solving t = 11 ...(46ms)
+Solving t = 22 ...(1827ms)
+Solving t = 16 ...(881ms)
+Solving t = 13 ...(631ms)
+Solving t = 12 ...(154ms)
+Found optimal solution of length 12 (4293ms)
+BFS: 0ms, Formula: 1463ms, SAT: 2829ms
+Clauses: 517356, Variables: 67620, Literals: 1986308
+Initial bound: 11, Lower bound: 12, Upper bound: 12
+	Command being timed: "mat 0 grid 7 seed 9 7/9.csv"
+	User time (seconds): 89988.68
+	System time (seconds): 365.99
+	Percent of CPU this job got: 397%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:19:07
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1572072
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 246900880
+	Voluntary context switches: 135444
+	Involuntary context switches: 110215
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 1416
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

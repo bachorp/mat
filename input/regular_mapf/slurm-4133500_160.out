@@ -1,0 +1,164 @@
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 1, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (0ms)
+Solving t = 1 ...(0ms)
+Found optimal solution of length 1 (1ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 89, Variables: 54, Literals: 184
+Initial bound: 1, Lower bound: 1, Upper bound: 1
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 2, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (2ms)
+Solving t = 2 ...(0ms)
+Found optimal solution of length 2 (2ms)
+BFS: 0ms, Formula: 1ms, SAT: 0ms
+Clauses: 358, Variables: 162, Literals: 812
+Initial bound: 2, Lower bound: 2, Upper bound: 2
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 3, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (3ms)
+Solving t = 2 ...(0ms)
+Found optimal solution of length 2 (4ms)
+BFS: 0ms, Formula: 2ms, SAT: 0ms
+Clauses: 623, Variables: 243, Literals: 1523
+Initial bound: 2, Lower bound: 2, Upper bound: 2
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 4, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (8ms)
+Solving t = 4 ...(2ms)
+Found optimal solution of length 4 (10ms)
+BFS: 0ms, Formula: 7ms, SAT: 2ms
+Clauses: 1592, Variables: 540, Literals: 4270
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 5, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (6ms)
+Solving t = 3 ...(1ms)
+Found optimal solution of length 3 (8ms)
+BFS: 0ms, Formula: 5ms, SAT: 1ms
+Clauses: 1719, Variables: 540, Literals: 4712
+Initial bound: 3, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 6, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (7ms)
+Solving t = 4 ...(2ms)
+Found optimal solution of length 4 (9ms)
+BFS: 0ms, Formula: 6ms, SAT: 2ms
+Clauses: 2862, Variables: 810, Literals: 8220
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 7, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (5ms)
+Solving t = 3 ...(1ms)
+Solving t = 6 ...(15ms)
+Solving t = 12 ...(475ms)
+Solving t = 24 ...(28459ms)
+Solving t = 48 ...(149802ms)
+Solving t = 96 ...(442513ms)
+Solving t = 192 ...
+Timeout
+BFS: 0ms, Formula: 372ms, SAT: 621082ms
+Clauses: 143505, Variables: 36477, Literals: 437419
+Initial bound: 3, Lower bound: 97, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 3, b = 10, a = 0, c = 8, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (11ms)
+Solving t = 4 ...(1ms)
+Solving t = 8 ...(128ms)
+Solving t = 16 ...(2625ms)
+Solving t = 32 ...(12755ms)
+Solving t = 64 ...(26128ms)
+Solving t = 128 ...(76271ms)
+Solving t = 256 ...(207024ms)
+
+Maximum (maximum) makespan exceeded
+BFS: 0ms, Formula: 597ms, SAT: 324348ms
+Clauses: 249868, Variables: 55512, Literals: 794522
+Initial bound: 4, Lower bound: 257, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 1, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (0ms)
+Solving t = 0 ...(0ms)
+Found optimal solution of length 0 (0ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 41, Variables: 27, Literals: 75
+Initial bound: 0, Lower bound: 0, Upper bound: 0
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 2, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (1ms)
+Solving t = 3 ...(0ms)
+Found optimal solution of length 3 (1ms)
+BFS: 0ms, Formula: 0ms, SAT: 0ms
+Clauses: 472, Variables: 216, Literals: 1110
+Initial bound: 3, Lower bound: 3, Upper bound: 3
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 3, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (2ms)
+Solving t = 4 ...(1ms)
+Found optimal solution of length 4 (3ms)
+BFS: 0ms, Formula: 1ms, SAT: 1ms
+Clauses: 1030, Variables: 405, Literals: 2596
+Initial bound: 4, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 4, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (2ms)
+Solving t = 3 ...(1ms)
+Solving t = 6 ...(3ms)
+Solving t = 4 ...(0ms)
+Found optimal solution of length 4 (7ms)
+BFS: 0ms, Formula: 4ms, SAT: 2ms
+Clauses: 2172, Variables: 756, Literals: 5830
+Initial bound: 3, Lower bound: 4, Upper bound: 4
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 5, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (4ms)
+Solving t = 4 ...(0ms)
+Solving t = 8 ...(8ms)
+Solving t = 6 ...(2ms)
+Solving t = 5 ...(2ms)
+Found optimal solution of length 5 (18ms)
+BFS: 0ms, Formula: 6ms, SAT: 10ms
+Clauses: 3551, Variables: 1215, Literals: 9449
+Initial bound: 4, Lower bound: 5, Upper bound: 5
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 6, seed = 16, config = 1|2|600|4|1|0
+Initializing  - (6ms)
+Solving t = 4 ...(1ms)
+Solving t = 8 ...(8ms)
+Solving t = 16 ...(23ms)
+Solving t = 32 ...(211ms)
+Solving t = 64 ...(582ms)
+Solving t = 128 ...(6626ms)
+Solving t = 256 ...(20234ms)
+
+Maximum (maximum) makespan exceeded
+BFS: 0ms, Formula: 286ms, SAT: 27408ms
+Clauses: 135568, Variables: 41634, Literals: 381622
+Initial bound: 4, Lower bound: 257, Upper bound: -1
+────────────────────────────────────────────────────────────
+g = 3, b = 20, a = 0, c = 7, seed = 16, config = 1|2|600|4|1|0
+Initializing 
+Unsolvable!
+	Command being timed: "mat regular_mapf 0 grid 3 seed 16 3/16.csv"
+	User time (seconds): 2133.70
+	System time (seconds): 10.38
+	Percent of CPU this job got: 220%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:14.33
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 694184
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 7880724
+	Voluntary context switches: 1860
+	Involuntary context switches: 112695
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 80
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
