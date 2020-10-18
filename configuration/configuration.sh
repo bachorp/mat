@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -a 0-39
+#SBATCH -a 0-69
 #SBATCH -p gki_cpu-cascadelake
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G

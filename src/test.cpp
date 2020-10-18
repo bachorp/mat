@@ -132,7 +132,7 @@ void regular_mapf(Csv *csv, T seed = "") // cf. Barták et al.
         grid_test(csv, g, b, 0, c, seed, config);
 }
 
-constexpr unsigned N_CONFIGS = 4;
+constexpr unsigned N_CONFIGS = 7;
 
 constexpr std::array<Config, N_CONFIGS> configs = []{
     std::array<Config, N_CONFIGS> ret;
@@ -140,6 +140,8 @@ constexpr std::array<Config, N_CONFIGS> configs = []{
     for (bool prep : {false, true})
     for (double f : {1.5, 2.0})
         ret[i++] = Config(prep, f);
+    for (int e : {0, 2, 3})
+        ret[i++] = Config(e);
     return ret;
 }();
 

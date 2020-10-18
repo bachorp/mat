@@ -89,6 +89,19 @@ struct Config
 
     constexpr Config(bool prep, double f) : prep(prep), f(f) {}
 
+    constexpr Config(int encoding) {
+        switch (encoding)
+        {
+        case 0:
+            amo = false;
+            break;
+        case 3:
+            move_vars = true;
+        case 2:
+            edge_vars = true;
+        }
+    }
+
     string fingerprint()
     {
         static const auto sep = "|";
