@@ -10,13 +10,13 @@ params   = ['g', 'b', 'a', 'c']
 instance = params + ['seed']
 static   = instance + ['makespan', 'n_literals']
 
-needed = static + ['config', 'result', 't_total']
+needed = static + ['config', 'result', 't_total', 'initial_bound', 'lower_bound']
 
 pickle_jar = 'data.p'
 
 N = 10
 
-def process(data: dict, ylabel='runtime', simple=False, lloc='upper right'):
+def process(data: dict, filename: str, ylabel: str, simple=False, lloc='upper right'):
 
     peqx = []
     peqy = []
@@ -35,16 +35,16 @@ def process(data: dict, ylabel='runtime', simple=False, lloc='upper right'):
 
     for i in range(1, 10 + 1):
         d = data[i].values()
-        partial = [math.nan] + list(map(lambda x: math.nan if x[1] == N else x[0], d))
+        partial = [math.nan] + list(map(lambda x: math.nan if x[1] >= .9 else x[0], d))
         axMain.plot(partial, linestyle='dashed', color=colors[c])
-        full = [math.nan] + list(map(lambda x: math.nan if x[1] > 0 else x[0], d))
+        full = [math.nan] + list(map(lambda x: math.nan if x[1] > .5 else x[0], d))
         axMain.plot(full, color=colors[c])
         if not simple:
             axLin.plot([math.nan] + list(map(lambda x: x[1] if x[1] > 0 else 0, d)), color=colors[c])
         axMain.plot(i, data[i][i][0], 'o', color=colors[c], label=i)
         c += 1
 
-    full = [math.nan] + list(map(lambda x: math.nan if x[1] > 0 else x[0], data['r'].values()))
+    full = [math.nan] + list(map(lambda x: math.nan if x[1] > .5 else x[0], data['r'].values()))
     axMain.plot(full, color='black', ls='dashdot', lw=2.5)
 
     if not simple:
@@ -54,21 +54,22 @@ def process(data: dict, ylabel='runtime', simple=False, lloc='upper right'):
         axLin.xaxis.set_ticks_position('top')
         plt.setp(axLin.get_xticklabels(), visible=False)
         axLin.axhline(y=0, color='black')
-        axLin.set_ylabel('unsolved')
+        axLin.set_ylabel('unsolved (%)')
 
     axMain.set_ylabel(ylabel)
     axMain.set_xlabel('a')
     axMain.xaxis.set_major_locator(ticker.MultipleLocator(1))
     if not simple:
-        axLin.yaxis.set_minor_locator(ticker.MultipleLocator(1))
+        axLin.yaxis.set_minor_locator(ticker.MultipleLocator(.1))
+        axLin.yaxis.set_major_formatter(ticker.PercentFormatter(1, symbol=None))
     axMain.yaxis.grid(True)
     if not simple:
         axLin.yaxis.grid(True)
-        axLin.legend(list('123456789') + ['10'], title='c', prop={'size': 7}, framealpha=1, borderaxespad=1, loc=lloc)
+        axLin.legend(range(1, 10 + 1), title='c', prop={'size': 7}, framealpha=1, borderaxespad=1, loc=lloc)
     else:
         axMain.legend(title='c', prop={'size': 7}, borderaxespad=1.5, loc=lloc)
-    plt.savefig(ylabel, dpi=300, bbox_inches = 'tight')
-    print("Plot saved to file {}.png".format(ylabel))
+    plt.savefig(filename, dpi=300, bbox_inches = 'tight')
+    print("Plot saved to file {}.png".format(filename))
     plt.close()
 
 def load(base_path: str) -> pd.DataFrame:
@@ -88,14 +89,13 @@ def load(base_path: str) -> pd.DataFrame:
 
     return pd.concat(dfs)
 
-def get(data: pd.DataFrame, g=7, b=20, field='t_total') -> dict:
+def get(data: pd.DataFrame, field='t_total') -> dict:
 
     result = dict()
-    data = data[(data['g'] == g) & (data['b'] == b)]
-    ps = dict(tuple(data.groupby(params)))
+    ps = dict(tuple(data.groupby(['a', 'c'])))
     for i, s in ps.items():
-        result.setdefault(i[3], dict())
-        result[i[3]][i[2]] = (s[field].mean(), s['result'].count())
+        result.setdefault(i[3 - 2], dict())
+        result[i[3 - 2]][i[2 - 2]] = (s[field].mean(), s['result'].count() / len(s))
 
     return result
 
@@ -106,6 +106,32 @@ def do(field: str, kwargs):
     for k in e.keys():
         d['r'][k] = e[k][0]
     process(d, **kwargs)
+
+def lucky(data: pd.DataFrame) -> int:
+    equals = len(data[data['initial_bound'] == data['makespan']])
+    higher = len(data[data['lower_bound'] > data['initial_bound']])
+    dunno  = len(data) - higher - equals
+    return equals, higher, dunno
+
+def avgrelstdpar(data: pd.DataFrame, field='t_total') -> float:
+
+    result = []
+    ps = dict(tuple(data.groupby(params)))
+    for _, s in ps.items():
+        if (s[field].count() == N):
+            result.append(s[field].std() / s[field].mean())
+
+    return sum(result) / len(result)
+
+def grid(data: pd.DataFrame, field='t_total') -> float:
+
+    result = []
+    ps = dict(tuple(data.groupby('g')))
+    for i, s in ps.items():
+        result.append((i, s[field].mean(), s[field].std(), s[field].count()))
+
+    return result
+
 
 if __name__ == '__main__':
     try:
@@ -119,6 +145,17 @@ if __name__ == '__main__':
         with open(pickle_jar, 'wb') as fp:
             pickle.dump([mat, mapf], fp)
 
-    do('t_total', {'ylabel': 'runtime'})
-    do('makespan', {'simple': True, 'ylabel': 'makespan'})
-    do('n_literals', {'simple': True, 'ylabel': 'literals', 'lloc': 'upper left'})
+    out = "In {} cases the makespan is equal to the initial bound, in {} cases it is higher, in {} cases we don't know."
+    print(out.format(*lucky(mat)))
+    print("For instances not solved within half a second " + out.lower().format(*lucky(mat[~(mat['t_total'] < .5)])))
+
+    print(" g | avg (s)|   σ    |    n")
+    for g in grid(mat):
+        out = "{:2} | {:6.2f} | {:6.2f} | {:4}"
+        print(out.format(*g))
+
+    print("The average relative standard deviation of the parameter sets is {:4.2f}%".format(avgrelstdpar(mat) * 100))
+
+    do('t_total', {'ylabel': 'runtime (s)', 'filename': 'runtime'})
+    do('makespan', {'simple': True, 'ylabel': 'makespan', 'filename': 'makespan'})
+    do('n_literals', {'simple': True, 'ylabel': 'literals', 'filename': 'literals', 'lloc': 'upper left'})
