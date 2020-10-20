@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot(xlabel: str, ylabel: str, filename: str):
+def plot(xlabel: str, ylabel: str, filename: str, legend=True):
     xpoints = ypoints = plt.xlim()
     plt.plot(xpoints, ypoints, linestyle='-', zorder=0)
     plt.xscale('log')
@@ -13,7 +13,8 @@ def plot(xlabel: str, ylabel: str, filename: str):
     plt.axis('square')
     plt.gca().yaxis.grid(True)
     plt.gca().xaxis.grid(True)
-    plt.legend(framealpha=1)
+    if plt.gca().get_legend_handles_labels()[0]:
+        plt.legend(framealpha=1)
     plt.savefig(filename, dpi=300, bbox_inches = 'tight')
     print("Plot saved to file {}.png".format(filename))
     plt.close()
@@ -26,9 +27,19 @@ needed = static + ['config', 'result', 't_total']
 
 pickle_jar = 'data.p'
 
-def load() -> dict:
+encodings = [(4, 0), (3, 1), (5, 2), (6, 3)]
 
-    df = pd.concat(map(pd.read_csv, glob.glob('*/*.csv')))[needed]
+def load(encoding=False) -> dict:
+
+    if encoding:
+        ds = []
+        for i, j in encodings:
+            d = pd.concat(map(pd.read_csv, glob.glob(str(i) + '/*.csv')))
+            d['config'] = j
+            ds.append(d)
+        df = pd.concat(ds)[needed]
+    else:
+        df = pd.concat(map(pd.read_csv, glob.glob('[0-3]/*.csv')))[needed]
 
     cs = dict(tuple(df.groupby(['config'])))
 
@@ -49,10 +60,11 @@ def load() -> dict:
 
     return result
 
-def do(data: dict, cf1: str, cf2: str, label=None):
+def do(data: dict, cf1, cf2, label=None):
 
-    cf1 += '|600|4|1|1'
-    cf2 += '|600|4|1|1'
+    if label is not None:
+        cf1 += '|600|4|1|1'
+        cf2 += '|600|4|1|1'
 
     x = []
     y = []
@@ -83,21 +95,21 @@ def do(data: dict, cf1: str, cf2: str, label=None):
 
     return sum(fs) / len(fs), len(fs), s1, s2
 
-
 if __name__ == '__main__':
 
-    result = None
+    result = enc = None
 
     try:
         with open(pickle_jar, 'rb') as fp:
             print("Loading from jar")
-            result = pickle.load(fp)
+            result, enc = pickle.load(fp)
     except FileNotFoundError:
         print("Loading from CSVs")
         result = load()
+        enc = load(True)
         print("Saving to jar")
         with open(pickle_jar, 'wb') as fp:
-            pickle.dump(result, fp)
+            pickle.dump([result, enc], fp)
 
     other = '|600|4|1|1'
 
@@ -117,3 +129,20 @@ if __name__ == '__main__':
     i, n, s1, s2 = do(result, '0|1.5', '0|2', label='not preprocessed')
     print(out.format("Without preprocessing: f = 1.5", "f = 2", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
     plot('f = 1.5', 'f = 2', 'f')
+
+    i, n, s1, s2 = do(enc, 1, 0)
+    print(out.format("Sequential AMO (1)", "binomial AMO (0)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    plot('sequential AMO', 'binomial AMO', 'amo', False)
+
+    i, n, s1, s2 = do(enc, 2, 1)
+    print(out.format("With edge variables (2)", "without edge variables (1)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    plot('with edge variables', 'without edge variables', 'ev', False)
+
+    i, n, s1, s2 = do(enc, 3, 2)
+    print(out.format("With movement variables (3)", "without movement variables (2)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    plot('with movement variables', 'without movement variables', 'mv', False)
+
+    for i, j in encodings:
+        d = pd.concat(map(pd.read_csv, glob.glob(str(i) + '/*.csv')))
+        out = "Encoding {} needs {:9.1f} clauses, {:9.1f} literals and {:7.1f} variables on average"
+        print(out.format(j, d['n_clauses'].mean(), d['n_literals'].mean(), d['n_variables'].mean()))
