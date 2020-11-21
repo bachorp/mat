@@ -1,19 +1,35 @@
 import glob
 import pickle
 import pandas as pd
+import itertools
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 def plot(xlabel: str, ylabel: str, filename: str, legend=True):
     xpoints = ypoints = plt.xlim()
-    plt.plot(xpoints, ypoints, linestyle='-', zorder=0)
+    plt.plot(xpoints, ypoints, linestyle='-', zorder=1)
+    axes = plt.gca()
+    axes.yaxis.grid(True, zorder=0)
+    axes.xaxis.grid(True, zorder=0)
+    plt.plot([1e3, 1e3], [0, 1e3], linestyle='-', color='salmon', zorder=2, lw=1)
+    plt.plot([0, 1e3], [1e3, 1e3], linestyle='-', color='salmon', zorder=2, lw=1)
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.axis('square')
-    plt.gca().yaxis.grid(True)
-    plt.gca().xaxis.grid(True)
-    if plt.gca().get_legend_handles_labels()[0]:
+
+    f = axes.xaxis.get_major_formatter()
+    fx = lambda x, pos: '⊥' if pos == 5 else 1 if pos == 2 else 10 if pos == 3 else f.__call__(x, pos)
+    axes.xaxis.set_major_locator(ticker.LogLocator())
+    axes.xaxis.set_major_formatter(ticker.FuncFormatter(fx))
+
+    f = axes.yaxis.get_major_formatter()
+    fy = lambda y, pos: '⊥' if pos == 5 else 1 if pos == 2 else 10 if pos == 3 else f.__call__(y, pos)
+    axes.yaxis.set_major_locator(ticker.LogLocator())
+    axes.yaxis.set_major_formatter(ticker.FuncFormatter(fy))
+
+    if axes.get_legend_handles_labels()[0]:
         plt.legend(framealpha=1)
     plt.savefig(filename, dpi=300, bbox_inches = 'tight')
     print("Plot saved to file {}.png".format(filename))
@@ -28,6 +44,8 @@ needed = static + ['config', 'result', 't_total']
 pickle_jar = 'data.p'
 
 encodings = [(4, 0), (3, 1), (5, 2), (6, 3)]
+
+tail = '|600|4|1|1'
 
 def load(encoding=False) -> dict:
 
@@ -60,11 +78,13 @@ def load(encoding=False) -> dict:
 
     return result
 
+cyc = itertools.cycle(['o', 'x'])
+
 def do(data: dict, cf1, cf2, label=None):
 
     if label is not None:
-        cf1 += '|600|4|1|1'
-        cf2 += '|600|4|1|1'
+        cf1 += tail
+        cf2 += tail
 
     x = []
     y = []
@@ -82,18 +102,34 @@ def do(data: dict, cf1, cf2, label=None):
             s1 += 1
         if not pd.isna(v2):
             s2 += 1
-        if v1 < 5e2 or v2 < 5e2:
-            continue
-        if pd.isna(v1) or pd.isna(v2):
+
+        if any(map(lambda x: r[x][0] < 5e2, configurations)):
             continue
 
-        fs.append(v2 / v1)
+        if (pd.isna(v1)):
+            v1 = 1e6
+        if (pd.isna(v2)):
+            v2 = 1e6
         x.append(v1 / 1e3)
         y.append(v2 / 1e3)
 
-    plt.plot(x, y, '.', label=label, markersize=4)
+        if any(map(lambda x: pd.isna(r[x][0]), configurations)):
+            continue
+
+        fs.append(v2 / v1)
+
+    plt.plot(x, y, next(cyc), label=label, markersize=2.5, zorder=5)
 
     return sum(fs) / len(fs), len(fs), s1, s2
+
+def coverage(data: dict):
+    total = 0
+    solved = 0
+    for _, r in data.items():
+        total += 1
+        if any(map(lambda x: not pd.isna(r[x][0]), configurations)):
+            solved += 1
+    print("{} out of {} covered".format(solved, total))
 
 if __name__ == '__main__':
 
@@ -111,10 +147,12 @@ if __name__ == '__main__':
         with open(pickle_jar, 'wb') as fp:
             pickle.dump([result, enc], fp)
 
-    other = '|600|4|1|1'
-
     plt.rcParams['axes.xmargin'] = 1e-2
     plt.rcParams['axes.ymargin'] = 1e-2
+
+    configurations = list(map(lambda x: x + tail, ['0|2', '1|2', '0|1.5', '1|1.5']))
+
+    coverage(result)
 
     out = "{} vs. {}: {:4.2f}% decrease (n = {}), {} vs. {} solved ({:+})"
 
@@ -130,16 +168,26 @@ if __name__ == '__main__':
     print(out.format("Without preprocessing: f = 1.5", "f = 2", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
     plot('f = 1.5', 'f = 2', 'f')
 
+    i, n, s1, s2 = do(result, '1|1.5', '0|2', label='')
+    print(out.format("With optimizations", "without", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    next(cyc)
+    plot('Optimized', 'Unoptimized', 'o')
+
+    configurations = [0, 1, 2, 3]
+
     i, n, s1, s2 = do(enc, 1, 0)
     print(out.format("Sequential AMO (1)", "binomial AMO (0)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    next(cyc)
     plot('sequential AMO', 'binomial AMO', 'amo', False)
 
     i, n, s1, s2 = do(enc, 2, 1)
     print(out.format("With edge variables (2)", "without edge variables (1)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    next(cyc)
     plot('with edge variables', 'without edge variables', 'ev', False)
 
     i, n, s1, s2 = do(enc, 3, 2)
     print(out.format("With movement variables (3)", "without movement variables (2)", (1 - 1 / i) * 100, n, s1, s2, s1 - s2))
+    next(cyc)
     plot('with movement variables', 'without movement variables', 'mv', False)
 
     for i, j in encodings:
