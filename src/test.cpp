@@ -42,7 +42,22 @@ optional<Solution> solve(Csv *csv, Args... args)
     return std::nullopt;
 }
 
-void example(Csv *csv = nullptr) // Figure 1
+void example1(Csv *csv = nullptr) // Figure 1
+{
+    vector<int> start = {1, 2, 0};
+    vector<int> goal = {1, 0};
+    vector<int> blokades = {3, 5, 6, 7, 8};
+
+    auto solution = solve(csv, Config(), 3, start, goal, blokades);
+    assert(solution);
+
+    auto v = solution.value();
+    for (auto e : v.C_u_A)
+        v.print_distances(e);
+    v.visualize();
+}
+
+void example2(Csv *csv = nullptr) // Figure 2
 {
     vector<int> start = {4, 9, 7, 13};
     vector<int> goal = {12, 1};
@@ -57,7 +72,7 @@ void example(Csv *csv = nullptr) // Figure 1
     v.visualize();
 }
 
-void counter(Csv *csv = nullptr) // Figure 2
+void counter(Csv *csv = nullptr)
 {
     vector<int> start = {0, 0, 2};
     vector<int> goal = {2};
@@ -177,10 +192,10 @@ int main(int argc, char **argv)
     case '0':
         break;
     case /*Figure */'1':
-        example(get_csv());
+        example1(get_csv());
         return 0;
     case /*Figure */'2':
-        counter(get_csv());
+        example2(get_csv());
         return 0;
     case 'b'/*arták*/:
         {
