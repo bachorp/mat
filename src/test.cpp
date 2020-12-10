@@ -197,6 +197,9 @@ int main(int argc, char **argv)
     case /*Figure */'2':
         example2(get_csv());
         return 0;
+    case /*Figure */'3':
+        counter(get_csv());
+        return 0;
     case 'b'/*arták*/:
         {
             string s;
