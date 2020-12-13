@@ -35,13 +35,15 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc='upper ri
 
     for i in range(1, 10 + 1):
         d = data[i].values()
-        partial = [math.nan] + list(map(lambda x: math.nan if x[1] >= .9 else x[0], d))
+        partial = [math.nan] + list(map(lambda x: x[0], d))
         axMain.plot(partial, linestyle='dashed', color=colors[c])
         full = [math.nan] + list(map(lambda x: math.nan if x[1] > .5 else x[0], d))
-        axMain.plot(full, color=colors[c])
+        axMain.plot(full, color=colors[c], marker='D',markersize=3, label=i if simple else None)
         if not simple:
             axLin.plot([math.nan] + list(map(lambda x: x[1] if x[1] > 0 else 0, d)), color=colors[c])
-        axMain.plot(i, data[i][i][0], 'o', color=colors[c], label=i)
+            with_marker = [math.nan] + list(map(lambda x: x[1] if x[1] > .03 else math.nan, d))
+            axLin.plot(with_marker, color=colors[c], marker='D', markersize=2, label=i)
+        axMain.plot(i, data[i][i][0], 'o', color=colors[c])
         c += 1
 
     full = [math.nan] + list(map(lambda x: math.nan if x[1] > .5 else x[0], data['r'].values()))
@@ -54,10 +56,10 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc='upper ri
         axLin.xaxis.set_ticks_position('top')
         plt.setp(axLin.get_xticklabels(), visible=False)
         axLin.axhline(y=0, color='black')
-        axLin.set_ylabel('unsolved (%)')
+        axLin.set_ylabel('Unsolved (%)')
 
     axMain.set_ylabel(ylabel)
-    axMain.set_xlabel('a')
+    axMain.set_xlabel('a - Number of agents')
     axMain.xaxis.set_major_locator(ticker.MultipleLocator(1))
     if not simple:
         axLin.yaxis.set_minor_locator(ticker.MultipleLocator(.1))
@@ -65,7 +67,7 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc='upper ri
     axMain.yaxis.grid(True)
     if not simple:
         axLin.yaxis.grid(True)
-        axLin.legend(range(1, 10 + 1), title='c', prop={'size': 7}, framealpha=1, borderaxespad=1, loc=lloc)
+        axLin.legend(title='c', prop={'size': 7}, framealpha=1, borderaxespad=1, loc=lloc)
     else:
         axMain.legend(title='c', prop={'size': 7}, borderaxespad=1.5, loc=lloc)
     plt.savefig(filename, dpi=300, bbox_inches = 'tight')
@@ -156,6 +158,6 @@ if __name__ == '__main__':
 
     print("The average relative standard deviation of the parameter sets is {:4.2f}%".format(avgrelstdpar(mat) * 100))
 
-    do('t_total', {'ylabel': 'runtime (s)', 'filename': 'runtime'})
-    do('makespan', {'simple': True, 'ylabel': 'makespan', 'filename': 'makespan'})
-    do('n_literals', {'simple': True, 'ylabel': 'literals', 'filename': 'literals', 'lloc': 'upper left'})
+    do('t_total', {'ylabel': 'Runtime (s)', 'filename': 'runtime'})
+    do('makespan', {'simple': True, 'ylabel': 'Makespan', 'filename': 'makespan'})
+    do('n_literals', {'simple': True, 'ylabel': 'Number of literals (millions)', 'filename': 'literals', 'lloc': 'upper left'})
