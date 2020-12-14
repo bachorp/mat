@@ -10,7 +10,7 @@ params   = ['g', 'b', 'a', 'c']
 instance = params + ['seed']
 static   = instance + ['makespan', 'n_literals']
 
-needed = static + ['config', 'result', 't_total', 'initial_bound', 'lower_bound']
+needed = static + ['config', 'result', 't_total']
 
 pickle_jar = 'data.p'
 
@@ -27,8 +27,6 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc='upper ri
         axLin = divider.append_axes("top", size=1.2, pad=0, sharex=axMain)
         axLin: plt.Axes
     axMain: plt.Axes
-
-    timeout = -1
 
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
     c = 0
@@ -109,22 +107,6 @@ def do(field: str, kwargs):
         d['r'][k] = e[k][0]
     process(d, **kwargs)
 
-def lucky(data: pd.DataFrame) -> int:
-    equals = len(data[data['initial_bound'] == data['makespan']])
-    higher = len(data[data['lower_bound'] > data['initial_bound']])
-    dunno  = len(data) - higher - equals
-    return equals, higher, dunno
-
-def avgrelstdpar(data: pd.DataFrame, field='t_total') -> float:
-
-    result = []
-    ps = dict(tuple(data.groupby(params)))
-    for _, s in ps.items():
-        if (s[field].count() == N):
-            result.append(s[field].std() / s[field].mean())
-
-    return sum(result) / len(result)
-
 def grid(data: pd.DataFrame, field='t_total') -> float:
 
     result = []
@@ -133,7 +115,6 @@ def grid(data: pd.DataFrame, field='t_total') -> float:
         result.append((i, s[field].mean(), s[field].std(), s[field].count()))
 
     return result
-
 
 if __name__ == '__main__':
     try:
@@ -147,16 +128,10 @@ if __name__ == '__main__':
         with open(pickle_jar, 'wb') as fp:
             pickle.dump([mat, mapf], fp)
 
-    out = "In {} cases the makespan is equal to the initial bound, in {} cases it is higher, in {} cases we don't know."
-    print(out.format(*lucky(mat)))
-    print("For instances not solved within half a second " + out.lower().format(*lucky(mat[~(mat['t_total'] < .5)])))
-
     print(" g | avg (s)|   σ    |    n")
     for g in grid(mat):
         out = "{:2} | {:6.2f} | {:6.2f} | {:4}"
         print(out.format(*g))
-
-    print("The average relative standard deviation of the parameter sets is {:4.2f}%".format(avgrelstdpar(mat) * 100))
 
     do('t_total', {'ylabel': 'Runtime (s)', 'filename': 'runtime'})
     do('makespan', {'simple': True, 'ylabel': 'Makespan', 'filename': 'makespan'})
