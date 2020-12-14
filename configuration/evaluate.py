@@ -1,9 +1,12 @@
 import glob
+import math
 import pickle
 import pandas as pd
+import scipy.stats
 import itertools
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+#import seaborn as sns
 
 def plot(xlabel: str, ylabel: str, filename: str, legend=True):
     xpoints = ypoints = plt.xlim()
@@ -13,6 +16,8 @@ def plot(xlabel: str, ylabel: str, filename: str, legend=True):
     axes.xaxis.grid(True, zorder=0)
     plt.plot([1e3, 1e3], [0, 1e3], linestyle='-', color='salmon', zorder=2, lw=1)
     plt.plot([0, 1e3], [1e3, 1e3], linestyle='-', color='salmon', zorder=2, lw=1)
+    # plt.gca().yaxis.grid(True)
+    # plt.gca().xaxis.grid(True)
     plt.xscale('log')
     plt.yscale('log')
     plt.xlabel(xlabel)
@@ -90,6 +95,7 @@ def do(data: dict, cf1, cf2, label=None):
     y = []
 
     fs = []
+    logs = []
 
     s1 = 0
     s2 = 0
@@ -117,8 +123,12 @@ def do(data: dict, cf1, cf2, label=None):
             continue
 
         fs.append(v2 / v1)
+        logs.append(math.log2(v2) - math.log2(v1))
 
     plt.plot(x, y, next(cyc), label=label, markersize=2.5, zorder=5)
+    #plt.plot(fs, [0] * len(fs), 'x')
+    #sns.kdeplot(fs)
+    print(sum(logs) / len(logs))
 
     return sum(fs) / len(fs), len(fs), s1, s2
 
@@ -130,6 +140,26 @@ def coverage(data: dict):
         if any(map(lambda x: not pd.isna(r[x][0]), configurations)):
             solved += 1
     print("{} out of {} covered".format(solved, total))
+
+def prepare(data: dict, cf):
+    result = []
+    for i, r in data.items():
+        if any(map(lambda x: r[x][0] < 5e2, configurations)):
+            pass#continue
+        result.append(1e6 if pd.isna(r[cf][0]) else r[cf][0])
+    return result
+
+def ranksums(data: dict, cf1, cf2):
+    vs1 = prepare(data, cf1)
+    vs2 = prepare(data, cf2)
+    sign = 0
+    for i, x in enumerate(vs1):
+        if x > vs2[i]:
+            sign += 1
+        elif x < vs2[i]:
+            sign -= 1
+    print(sign)
+    print(scipy.stats.mannwhitneyu(vs1,vs2,alternative='greater'))
 
 if __name__ == '__main__':
 
@@ -151,6 +181,12 @@ if __name__ == '__main__':
     plt.rcParams['axes.ymargin'] = 1e-2
 
     configurations = list(map(lambda x: x + tail, ['0|2', '1|2', '0|1.5', '1|1.5']))
+
+    ranksums(result, configurations[0], configurations[1])
+    ranksums(result, configurations[2], configurations[3])
+    ranksums(result, configurations[0], configurations[2])
+    ranksums(result, configurations[1], configurations[3])
+    ranksums(result, configurations[0], configurations[3])
 
     coverage(result)
 
