@@ -122,18 +122,6 @@ def do(data: dict, cf1, cf2, label=None):
 
     return sum(logs), s1, s2, mwu(data, cf1, cf2)
 
-def coverage(data: dict):
-    total = 0
-    solved = 0
-    always = 0
-    for _, r in data.items():
-        total += 1
-        if any(map(lambda x: not pd.isna(r[x][0]), configurations)):
-            solved += 1
-        if all(map(lambda x: not pd.isna(r[x][0]), configurations)):
-            always += 1
-    print("{} out of {} covered. {} solved under every configuration.".format(solved, total, always))
-
 def prepare(data: dict, cf):
     result = []
     for i, r in data.items():
@@ -165,8 +153,6 @@ if __name__ == '__main__':
     plt.rcParams['axes.ymargin'] = 1e-2
 
     configurations = list(map(lambda x: x + tail, ['0|2', '1|2', '0|1.5', '1|1.5']))
-
-    coverage(result)
 
     out = "{} vs. {}: Sum of difference of logarithms is {:.2f}, {} vs. {} solved ({:+}). p = {:.5f}"
 

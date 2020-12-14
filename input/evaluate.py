@@ -76,7 +76,6 @@ def load(base_path: str) -> pd.DataFrame:
 
     df = pd.concat(map(pd.read_csv, glob.glob(base_path + '*.csv')))[needed]
 
-    df = df[df['g'] > 3]
     ps = dict(tuple(df.groupby(params)))
     dfs = []
     for i, s in ps.items():
