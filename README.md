@@ -44,3 +44,5 @@ And OPTION is either one of the following.
 If an output file is given, results be written as comma seperated values (csv).
 
 If no arguments are given, interactive mode will be started.
+
+You can navigate in the found MAT plan by entering `f` (forward) `d` (back) and `c` (escape).
