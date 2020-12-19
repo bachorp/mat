@@ -15,14 +15,15 @@ def search(n):
                 α = S(tuple(i for i in range(1, a + 1)))
                 β = S(tuple(i for i in range(1, c + 1)) + tuple(i for i in range(a + 1, a + b + 1)))
                 G = S.subgroup([α, β])
-                if factorial(n) / G.order() not in [1, 2]: # i.e. G ≥ A_n does not hold
-                    assert(G.is_isomorphic(PGL(2, 5))) # T_0'
+                if not (G.is_isomorphic(AlternatingGroup(n)) or G.is_isomorphic(SymmetricGroup(n))):
+                    assert(a == 4 and b == 2 and c == 2) # T_0'
+                    assert(G.is_isomorphic(PGL(2, 5)))
                 if c != 1: # If we can move the outer cycle, G = S_n
                     l = list(i for i in range(c, a + 1))
                     l.reverse()
-                    C = S(tuple([1]) + tuple(l) + tuple(i for i in range(a + 1, a + b + 1)))
-                    G = S.subgroup([α, β, C])
-                    assert(factorial(n) / G.order() == 1)
+                    𝛾 = S(tuple([1]) + tuple(l) + tuple(i for i in range(a + 1, a + b + 1)))
+                    G = S.subgroup([α, β, 𝛾])
+                    assert(G.is_isomorphic(SymmetricGroup(n)))
 
 
 for n in range(1, 6 + 1):
