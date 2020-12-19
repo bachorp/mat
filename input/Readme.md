@@ -5,7 +5,7 @@ For the evaluation we included exactly 10 instances for each parameter set none 
 You can generate the plots and table from the associated subsection of the paper as follows.
 
 ```shell
-python3 evaluate.py
+python3 evaluate.py > out.txt
 ```
 To speed up consecutive evaluations, the data are serialized and stored into the file `data.p`. Remove this file if data change.
 

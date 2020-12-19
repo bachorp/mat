@@ -5,6 +5,6 @@ You can generate the plots and diagram values from the associated subsection of 
 Additionally, we evaluate the effect of different encodings of the SAT formula.
 
 ```shell
-python3 evaluate.py
+python3 evaluate.py > out.txt
 ```
 Requires Pandas, Matplotlib and Scipy.

@@ -1,0 +1,19 @@
+Loading from jar
+f = 1.5: With vs. without preprocessing: Sum of difference of logarithms is 636.80, 1367 vs. 1364 solved (+3).
+f = 2:   With vs. without preprocessing: Sum of difference of logarithms is 826.31, 1365 vs. 1369 solved (-4).
+Plot saved to file p.png
+With    preprocessing: f = 1.5 vs. f = 2: Sum of difference of logarithms is 136.16, 1367 vs. 1365 solved (+2).
+Without preprocessing: f = 1.5 vs. f = 2: Sum of difference of logarithms is 325.67, 1364 vs. 1369 solved (-5).
+Plot saved to file f.png
+With optimizations vs. without: Sum of difference of logarithms is 962.47, 1367 vs. 1369 solved (-2).
+Plot saved to file o.png
+Sequential AMO (1) vs. binomial AMO (0): Sum of difference of logarithms is 1634.02, 1365 vs. 1369 solved (-4).
+Plot saved to file amo.png
+With edge variables (2) vs. without edge variables (1): Sum of difference of logarithms is 174.12, 1362 vs. 1365 solved (-3).
+Plot saved to file ev.png
+With movement variables (3) vs. without movement variables (2): Sum of difference of logarithms is 7.49, 1365 vs. 1362 solved (+3).
+Plot saved to file mv.png
+Encoding 0 needs 2261999.7 clauses, 5003956.6 literals and  18908.6 variables on average
+Encoding 1 needs  319402.9 clauses, 1118156.8 literals and  56654.8 variables on average
+Encoding 2 needs  263672.1 clauses,  701837.0 literals and  93497.0 variables on average
+Encoding 3 needs  271502.0 clauses,  644709.9 literals and 102045.8 variables on average
