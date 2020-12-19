@@ -120,18 +120,13 @@ def do(data: dict, cf1, cf2, label=None):
 
     plt.plot(x, y, next(cyc), label=label, markersize=2.5, zorder=5)
 
-    return sum(logs), s1, s2, mwu(data, cf1, cf2)
+    return sum(logs), s1, s2
 
 def prepare(data: dict, cf):
     result = []
     for i, r in data.items():
         result.append(1e6 if pd.isna(r[cf][0]) else r[cf][0])
     return result
-
-def mwu(data: dict, cf1, cf2):
-    vs1 = prepare(data, cf1)
-    vs2 = prepare(data, cf2)
-    return scipy.stats.mannwhitneyu(vs2, vs1, alternative='greater').pvalue
 
 if __name__ == '__main__':
 
@@ -154,39 +149,39 @@ if __name__ == '__main__':
 
     configurations = list(map(lambda x: x + tail, ['0|2', '1|2', '0|1.5', '1|1.5']))
 
-    out = "{} vs. {}: Sum of difference of logarithms is {:.2f}, {} vs. {} solved ({:+}). p = {:.5f}"
+    out = "{} vs. {}: Sum of difference of logarithms is {:.2f}, {} vs. {} solved ({:+})."
 
-    i, s1, s2, p = do(result, '1|1.5', '0|1.5', label='f = 1.5')
-    print(out.format("f = 1.5: With", "without preprocessing", i, s1, s2, s1 - s2, p))
-    i, s1, s2, p = do(result, '1|2', '0|2', label='f = 2')
-    print(out.format("f = 2:   With", "without preprocessing", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(result, '1|1.5', '0|1.5', label='f = 1.5')
+    print(out.format("f = 1.5: With", "without preprocessing", i, s1, s2, s1 - s2))
+    i, s1, s2 = do(result, '1|2', '0|2', label='f = 2')
+    print(out.format("f = 2:   With", "without preprocessing", i, s1, s2, s1 - s2))
     plot('Preprocessed', 'Not preprocessed', 'p')
 
-    i, s1, s2, p = do(result, '1|1.5', '1|2', label='preprocessed')
-    print(out.format("With    preprocessing: f = 1.5", "f = 2", i, s1, s2, s1 - s2, p))
-    i, s1, s2, p = do(result, '0|1.5', '0|2', label='not preprocessed')
-    print(out.format("Without preprocessing: f = 1.5", "f = 2", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(result, '1|1.5', '1|2', label='preprocessed')
+    print(out.format("With    preprocessing: f = 1.5", "f = 2", i, s1, s2, s1 - s2))
+    i, s1, s2 = do(result, '0|1.5', '0|2', label='not preprocessed')
+    print(out.format("Without preprocessing: f = 1.5", "f = 2", i, s1, s2, s1 - s2))
     plot('f = 1.5', 'f = 2', 'f')
 
-    i, s1, s2, p = do(result, '1|1.5', '0|2', label='')
-    print(out.format("With optimizations", "without", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(result, '1|1.5', '0|2', label='')
+    print(out.format("With optimizations", "without", i, s1, s2, s1 - s2))
     next(cyc)
     plot('Optimized', 'Unoptimized', 'o')
 
     configurations = [0, 1, 2, 3]
 
-    i, s1, s2, p = do(enc, 1, 0)
-    print(out.format("Sequential AMO (1)", "binomial AMO (0)", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(enc, 1, 0)
+    print(out.format("Sequential AMO (1)", "binomial AMO (0)", i, s1, s2, s1 - s2))
     next(cyc)
     plot('Sequential AMO', 'Binomial AMO', 'amo', False)
 
-    i, s1, s2, p = do(enc, 2, 1)
-    print(out.format("With edge variables (2)", "without edge variables (1)", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(enc, 2, 1)
+    print(out.format("With edge variables (2)", "without edge variables (1)", i, s1, s2, s1 - s2))
     next(cyc)
     plot('With edge variables', 'Without edge variables', 'ev', False)
 
-    i, s1, s2, p = do(enc, 3, 2)
-    print(out.format("With movement variables (3)", "without movement variables (2)", i, s1, s2, s1 - s2, p))
+    i, s1, s2 = do(enc, 3, 2)
+    print(out.format("With movement variables (3)", "without movement variables (2)", i, s1, s2, s1 - s2))
     next(cyc)
     plot('With movement variables', 'Without movement variables', 'mv', False)
 
