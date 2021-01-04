@@ -9,7 +9,7 @@ For test data and evaluation please refer to the corresponding subfolders `input
 ## Proof of Lemma 2
 
 The computational verification of Lemma 2 for basic graphs has been implemented using the algebra software `SageMath`.
-The code can be found in the file `pebbles.sage` and can be ran online at <https://sagecell.sagemath.org/>.
+The code can be found in the files `pebbles.sage` and `tzero.sage` and can be ran online at <https://sagecell.sagemath.org/>.
 ## MAT solver
 
 To install the MAT solver please get Cryptominisat 5 from <https://github.com/msoos/cryptominisat> and ensure that the header files and the dynamic library file are in appropriate paths.
