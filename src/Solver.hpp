@@ -13,7 +13,8 @@
 #include "Problem.hpp"
 
 struct unsolvable_e
-{} unsolvable;
+{
+} unsolvable;
 
 struct partially_solved
 {
@@ -24,13 +25,25 @@ struct partially_solved
     virtual string what() = 0;
 };
 
-struct timeout_e : partially_solved { using partially_solved::partially_solved; string what() override {return "Timeout"; } };
+struct timeout_e : partially_solved
+{
+    using partially_solved::partially_solved;
+    string what() override { return "Timeout"; }
+};
 
 constexpr int max_T = 1 << 8;
-struct maximum_makespan_e : partially_solved { using partially_solved::partially_solved; string what() override {return "Maximum (maximum) makespan exceeded"; } };
+struct maximum_makespan_e : partially_solved
+{
+    using partially_solved::partially_solved;
+    string what() override { return "Maximum (maximum) makespan exceeded"; }
+};
 
 constexpr int max_literals = 1e9;
-struct formula_size_e : partially_solved { using partially_solved::partially_solved; string what() override {return "Maximum formula size exceeded"; } };
+struct formula_size_e : partially_solved
+{
+    using partially_solved::partially_solved;
+    string what() override { return "Maximum formula size exceeded"; }
+};
 
 struct Logger
 {
@@ -60,9 +73,11 @@ struct Logger
         using namespace std::chrono;
         auto elapsed = steady_clock::now() - begin.back();
         begin.pop_back();
-        if (log && message.size()) {
+        if (log && message.size())
+        {
             std::cout << message + "(" << duration_cast<milliseconds>(elapsed).count()
-                << "ms)\n" << std::flush;
+                      << "ms)\n"
+                      << std::flush;
         }
         return elapsed.count();
     }
@@ -70,18 +85,18 @@ struct Logger
 
 struct Config
 {
-    bool   prep    = true;  // Calculate distances and add singleton clauses
-    double f       = 2.0;   // Exponential search parameter
+    bool prep = true; // Calculate distances and add singleton clauses
+    double f = 2.0;   // Exponential search parameter
 
-    bool amo       = true;  // Use sequential instead of binomial encoding
+    bool amo = true;        // Use sequential instead of binomial encoding
     bool edge_vars = false; // Use designated agent transition variables
     bool move_vars = false; // Use designated move events
 
     unsigned n_threads = 4;
-    int      timeout_s = 600;
+    int timeout_s = 600;
 
     bool edge_reservation = true;
-    bool transport        = true;
+    bool transport = true;
 
     bool log = true;
 
@@ -89,7 +104,8 @@ struct Config
 
     constexpr Config(bool prep, double f) : prep(prep), f(f) {}
 
-    constexpr Config(int encoding) {
+    constexpr Config(int encoding)
+    {
         switch (encoding)
         {
         case 0:
@@ -125,14 +141,15 @@ class Solver : public Problem
 
     Stats stats;
 
-    public:
+public:
     template <typename... Args>
     Solver(Config config, Args... args) : Problem(args...), config(config) {}
-    private:
 
+private:
     struct Var
     {
-        enum {
+        enum
+        {
             VERTEX,
             EDGE,
             AUXILIARY,
@@ -152,7 +169,8 @@ class Solver : public Problem
             static const auto sep = ",";
             if (type == AUXILIARY)
                 ss << a;
-            else {
+            else
+            {
                 ss << e << sep << v << sep << t;
                 if (type == EDGE)
                     ss << sep << w;
@@ -185,7 +203,7 @@ class Solver : public Problem
 
         using Var::Var;
 
-        Lit operator !() const
+        Lit operator!() const
         {
             Lit ret = *this;
             ret.positive = !positive;
@@ -260,7 +278,8 @@ class Solver : public Problem
 
         logger.end_sequence("\b\b\b");
 
-        if (res == CMSat::l_True) {
+        if (res == CMSat::l_True)
+        {
             model = &solver.get_model();
             stats.upper_bound = t;
             return true;
@@ -272,7 +291,7 @@ class Solver : public Problem
 
     std::chrono::steady_clock::time_point max_time;
 
-    public:
+public:
     Solution solve()
     {
         logger.log = config.log;
@@ -302,12 +321,14 @@ class Solver : public Problem
         logger.end_sequence(" ");
 
         int t = l;
-        while (!solve(t)) {
+        while (!solve(t))
+        {
             l = t; // Strictly lower
             t = std::max(static_cast<int>(ceil(t * config.f)), 1);
         }
         int r = t;
-        while (l + 1 < r) {
+        while (l + 1 < r)
+        {
             int m = (l + r) / 2;
             if (solve(m))
                 r = m;
@@ -318,7 +339,8 @@ class Solver : public Problem
             "Found optimal solution of length " + std::to_string(r) + " ");
 
         vector<vector<int>> paths(C_u_A.size(), vector<int>(r + 1));
-        for (auto l : range(*model)) {
+        for (auto l : range(*model))
+        {
             if (model->at(l) != CMSat::l_True)
                 continue;
             if (l >= static_cast<int>(srav.size()))
@@ -332,23 +354,26 @@ class Solver : public Problem
         }
         return Solution(*this, r, paths, stats);
     }
-    private:
 
+private:
     // O(|vars|^2)
     void inline amo_binomial(const vector<Lit> &vars)
     {
         for (int i : range(vars))
-        for (int j : range(vars)) if (i != j)
-            add({!vars[i], !vars[j]});
+            for (int j : range(vars))
+                if (i != j)
+                    add({!vars[i], !vars[j]});
     }
 
     // O(|vars|) with |vars| auxilary variables
     void inline amo_sequential(const vector<Lit> &vars)
     {
         int r = Var::aux;
-        for (int i : range(vars)) {
+        for (int i : range(vars))
+        {
             add({!vars[i], Lit(r + i)});
-            if (i + 1 < static_cast<int>(vars.size())) {
+            if (i + 1 < static_cast<int>(vars.size()))
+            {
                 add({!Lit(r + i), Lit(r + i + 1)});
                 add({!vars[i + 1], !Lit(r + i)});
             }
@@ -366,12 +391,13 @@ class Solver : public Problem
     void edge_vars(int t)
     {
         for (auto a : A)
-        for (auto e : E) {
-            add({!Lit(a, e.first, e.second, t), Lit(a, e.first,  t)});
-            add({!Lit(a, e.first, e.second, t), Lit(a, e.second, t + 1)});
-            if (config.edge_reservation)
-                add({!Lit(a, e.first, t), !Lit(a, e.second, t + 1), Lit(a, e.first, e.second, t)});
-        }
+            for (auto e : E)
+            {
+                add({!Lit(a, e.first, e.second, t), Lit(a, e.first, t)});
+                add({!Lit(a, e.first, e.second, t), Lit(a, e.second, t + 1)});
+                if (config.edge_reservation)
+                    add({!Lit(a, e.first, t), !Lit(a, e.second, t + 1), Lit(a, e.first, e.second, t)});
+            }
     }
 
     void origin()
@@ -383,7 +409,8 @@ class Solver : public Problem
     // (|A| + |C|) amo(|V|)
     void uniqueness(int t)
     {
-        for (auto e : C_u_A) {
+        for (auto e : C_u_A)
+        {
             vector<Lit> vars;
             for (auto v : V)
                 vars.emplace_back(e, v, t);
@@ -395,18 +422,20 @@ class Solver : public Problem
     void whereabouts(int t)
     {
         for (auto e : C_u_A)
-        for (auto v : V) {
-            vector<Lit> clause({!Lit(e, v, t), Lit(e, v, t + 1)});
-            for (auto w : adj[v])
-                clause.emplace_back(e, w, t + 1);
-            add(clause);
-        }
+            for (auto v : V)
+            {
+                vector<Lit> clause({!Lit(e, v, t), Lit(e, v, t + 1)});
+                for (auto w : adj[v])
+                    clause.emplace_back(e, w, t + 1);
+                add(clause);
+            }
     }
 
     // |V| (amo(|A|) + amo(|C|))
     void vertex_reservation(int t)
     {
-        for (auto v : V) {
+        for (auto v : V)
+        {
             vector<Lit> vars;
             for (auto a : A)
                 vars.emplace_back(a, v, t);
@@ -422,14 +451,15 @@ class Solver : public Problem
     {
         const auto &R = config.transport ? A : C_u_A;
         std::set<pair<int, int>> seen;
-        for (auto e : E) {
+        for (auto e : E)
+        {
             if (seen.count(swap(e)))
                 continue;
             seen.insert(e);
-            for (auto a : R) for (auto b : R) if (a != b)
-                add({!Lit(a, e.first,  t), !Lit(a, e.second, t + 1)
-                   , !Lit(b, e.second, t), !Lit(b, e.first,  t + 1)
-                });
+            for (auto a : R)
+                for (auto b : R)
+                    if (a != b)
+                        add({!Lit(a, e.first, t), !Lit(a, e.second, t + 1), !Lit(b, e.second, t), !Lit(b, e.first, t + 1)});
         }
     }
 
@@ -438,12 +468,14 @@ class Solver : public Problem
     {
         const auto &R = config.transport ? A : C_u_A;
         std::set<pair<int, int>> seen;
-        for (auto e : E) {
+        for (auto e : E)
+        {
             if (seen.count(swap(e)))
                 continue;
             seen.insert(e);
             vector<Lit> vars;
-            for (auto a : R) {
+            for (auto a : R)
+            {
                 vars.emplace_back(a, e.first, e.second, t);
                 vars.emplace_back(a, e.second, e.first, t);
             }
@@ -463,37 +495,41 @@ class Solver : public Problem
     void inline transport_(int t)
     {
         for (auto c : C)
-        for (auto e : E) {
-            vector<Lit> base({!Lit(c, e.first, t), !Lit(c, e.second, t + 1)});
-            vector<Lit> transported = base;
-            for (auto a : A) {
-                transported.push_back(Lit(a, e.first, t));
-                vector<Lit> transporting = base;
-                transporting.push_back(!Lit(a, e.first, t));
-                transporting.push_back(Lit(a, e.second, t + 1));
-                add(transporting);
+            for (auto e : E)
+            {
+                vector<Lit> base({!Lit(c, e.first, t), !Lit(c, e.second, t + 1)});
+                vector<Lit> transported = base;
+                for (auto a : A)
+                {
+                    transported.push_back(Lit(a, e.first, t));
+                    vector<Lit> transporting = base;
+                    transporting.push_back(!Lit(a, e.first, t));
+                    transporting.push_back(Lit(a, e.second, t + 1));
+                    add(transporting);
+                }
+                add(transported);
             }
-            add(transported);
-        }
     }
 
     // |C||E| of size amo(|A|)
     void inline transport_ev(int t)
     {
         for (auto c : C)
-        for (auto e : E) {
-            vector<Lit> clause({!Lit(c, e.first, t), !Lit(c, e.second, t + 1)});
-            for (auto a : A)
-                clause.emplace_back(a, e.first, e.second, t);
-            add(clause);
-        }
+            for (auto e : E)
+            {
+                vector<Lit> clause({!Lit(c, e.first, t), !Lit(c, e.second, t + 1)});
+                for (auto a : A)
+                    clause.emplace_back(a, e.first, e.second, t);
+                add(clause);
+            }
     }
 
     // |E|(|C| + |A|) with 2|E| auxiliary variables
     void inline transport_mv(int t)
     {
         int aux = Var::aux;
-        for (auto e : E) {
+        for (auto e : E)
+        {
             int moving = aux++, moved = aux++;
             for (auto c : C)
                 add({!Lit(c, e.first, t), !Lit(c, e.second, t + 1), Lit(moving)});
@@ -518,13 +554,15 @@ class Solver : public Problem
 
     void extend(int t)
     {
-        while (t > T) {
+        while (t > T)
+        {
             ++T;
             if (config.prep)
                 preprocessed(T);
             uniqueness(T);
             vertex_reservation(T);
-            if (T) {
+            if (T)
+            {
                 if (config.edge_vars)
                     edge_vars(T - 1);
                 whereabouts(T - 1);
@@ -539,8 +577,8 @@ class Solver : public Problem
     void preprocessed(int t)
     {
         for (auto e : C_u_A)
-        for (auto v : V)
-            if (dist[e][v] > t)
-                add_clause({!Lit(e, v, t)});
+            for (auto v : V)
+                if (dist[e][v] > t)
+                    add_clause({!Lit(e, v, t)});
     }
 };

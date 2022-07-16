@@ -7,17 +7,18 @@
 
 #include <ostream>
 
-using std::vector;
-using std::string;
 using std::optional;
 using std::pair;
+using std::string;
+using std::vector;
 
 #define _ [[maybe_unused]] const auto &&_
 
 constexpr int num_digits(int n, unsigned b = 10)
 {
     int d = 0;
-    do {
+    do
+    {
         n /= b;
         ++d;
     } while (n);
@@ -28,14 +29,17 @@ struct int_iterator
 {
     int_iterator(int i) : i(i) {}
 
-    int operator *() const { return i; }
+    int operator*() const { return i; }
 
-    int_iterator& operator ++() { ++i; return *this; }
+    int_iterator &operator++()
+    {
+        ++i;
+        return *this;
+    }
 
-    bool operator !=(const int_iterator &other) const { return i != other.i; }
+    bool operator!=(const int_iterator &other) const { return i != other.i; }
 
-    private:
-
+private:
     int i;
 };
 
@@ -56,8 +60,7 @@ struct range
 
     bool contains(int i) const { return from <= i && i < to; }
 
-    private:
-
+private:
     int from, to;
 };
 
@@ -68,7 +71,7 @@ std::pair<T2, T1> swap(const std::pair<T1, T2> &p)
 }
 
 template <typename T>
-std::optional<T>& operator +=(std::optional<T> &o, const T &v)
+std::optional<T> &operator+=(std::optional<T> &o, const T &v)
 {
     if (o)
         o.emplace(o.value() + v);
@@ -76,7 +79,7 @@ std::optional<T>& operator +=(std::optional<T> &o, const T &v)
 }
 
 template <typename T>
-std::optional<T>& operator +=(std::optional<T> &o, const std::optional<T> &v)
+std::optional<T> &operator+=(std::optional<T> &o, const std::optional<T> &v)
 {
     if (o && v)
         o.emplace(o.value() + v.value());
@@ -84,53 +87,55 @@ std::optional<T>& operator +=(std::optional<T> &o, const std::optional<T> &v)
 }
 
 template <typename T>
-std::optional<T> operator +(const std::optional<T> &lhs, const std::optional<T> &rhs)
+std::optional<T> operator+(const std::optional<T> &lhs, const std::optional<T> &rhs)
 {
     if (lhs && rhs)
         return lhs.value() + rhs.value();
     return lhs;
 }
 
-struct ColorCode { enum E {
-    FG_DEFAULT       = 39,
-    FG_BLACK         = 30,
-    FG_RED           = 31,
-    FG_GREEN         = 32,
-    FG_YELLOW        = 33,
-    FG_BLUE          = 34,
-    FG_MAGENTA       = 35,
-    FG_CYAN          = 36,
-    FG_LIGHT_GRAY    = 37,
-    FG_DARK_GRAY     = 90,
-    FG_LIGHT_RED     = 91,
-    FG_LIGHT_GREEN   = 92,
-    FG_LIGHT_YELLOW  = 93,
-    FG_LIGHT_BLUE    = 94,
-    FG_LIGHT_MAGENTA = 95,
-    FG_LIGHT_CYAN    = 96,
-    FG_WHITE         = 97,
+struct ColorCode
+{
+    enum E
+    {
+        FG_DEFAULT = 39,
+        FG_BLACK = 30,
+        FG_RED = 31,
+        FG_GREEN = 32,
+        FG_YELLOW = 33,
+        FG_BLUE = 34,
+        FG_MAGENTA = 35,
+        FG_CYAN = 36,
+        FG_LIGHT_GRAY = 37,
+        FG_DARK_GRAY = 90,
+        FG_LIGHT_RED = 91,
+        FG_LIGHT_GREEN = 92,
+        FG_LIGHT_YELLOW = 93,
+        FG_LIGHT_BLUE = 94,
+        FG_LIGHT_MAGENTA = 95,
+        FG_LIGHT_CYAN = 96,
+        FG_WHITE = 97,
 
-    BG_DEFAULT       = 49,
-    BG_BLACK         = 40,
-    BG_RED           = 41,
-    BG_GREEN         = 42,
-    BG_YELLOW        = 43,
-    BG_BLUE          = 44,
-    BG_MAGENTA       = 45,
-    BG_CYAN          = 46,
-    BG_LIGHT_GRAY    = 47,
-    BG_DARK_GRAY     = 100,
-    BG_LIGHT_RED     = 101,
-    BG_LIGHT_GREEN   = 102,
-    BG_LIGHT_YELLOW  = 103,
-    BG_LIGHT_BLUE    = 104,
-    BG_LIGHT_MAGENTA = 105,
-    BG_LIGHT_CYAN    = 106,
-    BG_WHITE         = 107,
-} e;
+        BG_DEFAULT = 49,
+        BG_BLACK = 40,
+        BG_RED = 41,
+        BG_GREEN = 42,
+        BG_YELLOW = 43,
+        BG_BLUE = 44,
+        BG_MAGENTA = 45,
+        BG_CYAN = 46,
+        BG_LIGHT_GRAY = 47,
+        BG_DARK_GRAY = 100,
+        BG_LIGHT_RED = 101,
+        BG_LIGHT_GREEN = 102,
+        BG_LIGHT_YELLOW = 103,
+        BG_LIGHT_BLUE = 104,
+        BG_LIGHT_MAGENTA = 105,
+        BG_LIGHT_CYAN = 106,
+        BG_WHITE = 107,
+    } e;
 
-ColorCode(E e) : e(e) {}
-
+    ColorCode(E e) : e(e) {}
 };
 
 constexpr int NUM_COLORS = 14;
@@ -171,7 +176,7 @@ const std::vector<ColorCode> BG = {
     ColorCode::BG_DARK_GRAY,
 };
 
-std::ostream& operator<<(std::ostream& os, ColorCode code)
+std::ostream &operator<<(std::ostream &os, ColorCode code)
 {
     return os << "\033[" << code.e << "m";
 }
@@ -223,10 +228,9 @@ struct Csv
             out << sep << fields[*i];
         out << std::endl;
     }
-
 };
 
-template<typename container>
+template <typename container>
 unsigned hashCode(container c) // From a Java implementation
 {
     if (!c.size())
@@ -239,7 +243,7 @@ unsigned hashCode(container c) // From a Java implementation
     return res;
 }
 
-template<typename rait, typename rng>
+template <typename rait, typename rng>
 void shuffle_(rait first, rait last, rng &&g)
 {
     auto size = last - first;

@@ -30,10 +30,12 @@ struct Problem
     void init_adj(int n_vertices, EdgeContainer &edges, bool make_symmetric)
     {
         adj.resize(n_vertices);
-        for (auto e : edges) {
+        for (auto e : edges)
+        {
             E.push_back(e);
             adj[e.first].push_back(e.second);
-            if (make_symmetric) {
+            if (make_symmetric)
+            {
                 E.push_back(swap(e));
                 adj[e.second].push_back(e.first);
             }
@@ -43,8 +45,10 @@ struct Problem
     void make_grid(std::set<int> &&blockades)
     {
         EdgeContainer edges;
-        for (int r : range(grid)) {
-            for (int c : range(grid)) {
+        for (int r : range(grid))
+        {
+            for (int c : range(grid))
+            {
                 if (c < grid - 1)
                     edges.push_back({grid * r + c, grid * r + c + 1});
                 if (r < grid - 1)
@@ -60,8 +64,7 @@ struct Problem
 
     // Quadratic grid with custom start, goal, blockades
     Problem(int grid, vector<int> start, vector<int> goal, vector<int> blockades = {})
-        : grid(grid), V(grid * grid), C(goal.size()), A(goal.size(), start.size())
-        , C_u_A(start.size()), s(start), g(goal)
+        : grid(grid), V(grid * grid), C(goal.size()), A(goal.size(), start.size()), C_u_A(start.size()), s(start), g(goal)
     {
         make_grid(std::set<int>(blockades.begin(), blockades.end()));
     }
@@ -96,22 +99,27 @@ struct Problem
         dist.resize(C_u_A.size(), vector<optional<int>>(V.size()));
         vector<optional<int>> to_agent(C.size());
         vector<optional<int>> to_goal(C.size());
-        for (auto e : C_u_A) {
+        for (auto e : C_u_A)
+        {
             std::deque<pair<int, int>> q;
             dist[e][s[e]] = 0;
             q.push_back({s[e], 0});
-            while (!q.empty()) {
+            while (!q.empty())
+            {
                 int u, d;
                 std::tie(u, d) = q.front();
                 q.pop_front();
-                if (C.contains(e)) {
+                if (C.contains(e))
+                {
                     if (!to_goal[e] && u == g[e])
                         to_goal[e] = d;
                     if (!to_agent[e])
-                        for (auto a : A) if (s[a] == u)
-                            to_agent[e] = d;
+                        for (auto a : A)
+                            if (s[a] == u)
+                                to_agent[e] = d;
                 }
-                for (auto v : adj[u]) {
+                for (auto v : adj[u])
+                {
                     if (dist[e][v])
                         continue;
                     dist[e][v] = d + 1;
@@ -122,14 +130,16 @@ struct Problem
         if (!pickup)
             std::fill(to_agent.begin(), to_agent.end(), 0);
         optional<int> lower_bound = 0;
-        for (auto c : C) {
+        for (auto c : C)
+        {
             if (s[c] == g[c])
                 continue;
             if (!to_goal[c] || (pickup && !to_agent[c]))
                 return std::nullopt;
             lower_bound = std::max(lower_bound, to_agent[c] + to_goal[c]);
-            for (auto v : V) if (v != s[c])
-                dist[c][v] += to_agent[c];
+            for (auto v : V)
+                if (v != s[c])
+                    dist[c][v] += to_agent[c];
         }
         return lower_bound;
     }
@@ -142,7 +152,8 @@ struct Problem
 
     void print_adj() const
     {
-        for (auto v : V) {
+        for (auto v : V)
+        {
             std::cout << v << ": ";
             for (auto w : adj[v])
                 std::cout << w << " ";
@@ -159,7 +170,8 @@ struct Problem
 
     string format_vertex(int v, bool fixed = false) const
     {
-        if (grid) {
+        if (grid)
+        {
             int x = v % grid;
             int y = (v - x) / grid;
             int max = V.size() / grid;
@@ -191,14 +203,16 @@ struct Problem
 
     void print_grid(const vector<int> *position = nullptr) const
     {
-        if (!grid) {
+        if (!grid)
+        {
             std::cerr << "Cannot print non-grid graph" << std::endl;
             return;
         }
         if (!position)
             position = &s;
         vector<Occupation> occ(V.size());
-        for (auto c : C) {
+        for (auto c : C)
+        {
             occ[position->at(c)].container = c;
             occ[g[c]].goal = c;
         }
@@ -207,7 +221,8 @@ struct Problem
         for (_ : range(2 * grid + 1))
             std::cout << "-";
         std::cout << std::endl;
-        for (auto v : V) {
+        for (auto v : V)
+        {
             std::cout << "|";
 
             Occupation &o = occ[v];
@@ -239,17 +254,21 @@ struct Problem
 
     void print_distances(int e) const
     {
-        if (!grid) {
+        if (!grid)
+        {
             std::cerr << "Cannot print non-grid graph" << std::endl;
             return;
         }
         for (_ : range(2 * grid + 1))
             std::cout << "-";
         std::cout << std::endl;
-        for (auto v : V) {
+        for (auto v : V)
+        {
             std::cout << "|";
-            if (v == s[e]) {
-                if (C.contains(e)) {
+            if (v == s[e])
+            {
+                if (C.contains(e))
+                {
                     std::cout << FG[e % NUM_COLORS + 1];
                     std::cout << "☐";
                 }
@@ -278,7 +297,8 @@ struct Stats
     int n_clauses = 0, n_variables = 0, n_literals = 0;
     int initial_bound = 0, lower_bound = 0, upper_bound = -1;
 
-    static inline const std::function<int(long long)> f = [](long long t) {
+    static inline const std::function<int(long long)> f = [](long long t)
+    {
         return t / static_cast<long long>(1e6);
     };
 
@@ -290,17 +310,11 @@ struct Stats
     }
 
     static inline const vector<string> fields =
-        {"t_bound", "t_extend", "t_solver", "t_total"
-       , "n_clauses",  "n_variables",  "n_literals"
-       , "initial_bound", "lower_bound", "upper_bound"};
+        {"t_bound", "t_extend", "t_solver", "t_total", "n_clauses", "n_variables", "n_literals", "initial_bound", "lower_bound", "upper_bound"};
 
     vector<pair<string, int>> get_all()
     {
-        return {{"t_bound", f(t_bound)}, {"t_extend", f(t_extend)}
-             , {"t_solver", f(t_solver)}, {"t_total", f(t_total)}
-             , {"n_clauses", n_clauses}, {"n_variables", n_variables}
-             , {"n_literals", n_literals}
-             , {"initial_bound", initial_bound}, {"lower_bound", lower_bound}, {"upper_bound", upper_bound}};
+        return {{"t_bound", f(t_bound)}, {"t_extend", f(t_extend)}, {"t_solver", f(t_solver)}, {"t_total", f(t_total)}, {"n_clauses", n_clauses}, {"n_variables", n_variables}, {"n_literals", n_literals}, {"initial_bound", initial_bound}, {"lower_bound", lower_bound}, {"upper_bound", upper_bound}};
     }
 };
 
@@ -316,7 +330,8 @@ struct Solution : public Problem
 
     void print()
     {
-        for (auto t : range(makespan + 1)) {
+        for (auto t : range(makespan + 1))
+        {
             for (auto c : C)
                 std::cout << format_vertex(paths[c][t], true) << " ";
             std::cout << "| ";
@@ -337,14 +352,16 @@ struct Solution : public Problem
 
     void visualize()
     {
-        if (!grid) {
+        if (!grid)
+        {
             std::cerr << "Cannot visualize non-grid graph" << std::endl;
             return;
         }
         char c;
         int t = 0;
         std::cout << "\0337"; // VT100
-        do {
+        do
+        {
             std::cout << "\0338\033[K";
             print_at(t);
             std::cout << "\033[K";
