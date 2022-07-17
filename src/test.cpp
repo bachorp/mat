@@ -209,6 +209,7 @@ int main(int argc, char **argv)
     };
 
     bool transport = true;
+    bool mapd = false;
 
 command:
     if (argc > i + 1)
@@ -216,6 +217,9 @@ command:
         {
         case 'r' /*egular MAPF*/:
             transport = false;
+            goto command;
+        case /*map*/ 'd' :
+            mapd = true;
             goto command;
         case '0':
             break;
@@ -266,6 +270,10 @@ option:
         }
 
     conf.transport = transport;
+    if (mapd) {
+        conf.fixed_agent = true;
+        conf.blocking_containers = false;   
+    }
     auto csv_p = get_csv();
 
     for (int b : {10, 20})
