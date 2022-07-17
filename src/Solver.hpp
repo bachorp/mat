@@ -12,8 +12,6 @@
 
 #include "Problem.hpp"
 
-#define VER 2
-
 struct unsolvable_e
 {
 } unsolvable;
@@ -94,10 +92,10 @@ struct Config
     bool edge_vars = false; // Use designated agent transition variables
     bool move_vars = false; // Use designated move events
 
-#if VER >= 2
     bool fixed_agent = false;     // A container is transported by at most one agent
     bool fixed_container = false; // An agent transports at most one container
-#endif
+
+    bool blocking_containers = true;
 
     unsigned n_threads = 4;
     int timeout_s = 600;
@@ -111,7 +109,7 @@ struct Config
 
     constexpr Config(bool prep, double f) : prep(prep), f(f) {}
 
-    constexpr Config(int encoding)
+    explicit constexpr Config(int encoding)
     {
         switch (encoding)
         {
@@ -160,27 +158,17 @@ private:
             VERTEX,
             EDGE,
             AUXILIARY,
-#if VER >= 2
             ASSIGNMENT,
-#endif
         } type;
 
-#if VER >= 2
         int e, v, w, t, c, a;
-#else
-        int e, v, w, t, a;
-#endif
 
         static inline int aux = 0;
 
         Var(int e, int v, int t) : type(VERTEX), e(e), v(v), t(t) {}
         Var(int e, int v, int w, int t) : type(EDGE), e(e), v(v), w(w), t(t) {}
         explicit Var(int a) : type(AUXILIARY), a(a) { aux = std::max(aux, a + 1); }
-#if VER >= 2
-        Var(int c, int a) : type(ASSIGNMENT), c(c), a(a)
-        {
-        }
-#endif
+        Var(int c, int a) : type(ASSIGNMENT), c(c), a(a) {}
 
         string to_string() const
         {
@@ -188,10 +176,8 @@ private:
             static const auto sep = ",";
             if (type == AUXILIARY)
                 ss << a;
-#if VER >= 2
             else if (type == ASSIGNMENT)
                 ss << c << sep << a;
-#endif
             else
             {
                 ss << e << sep << v << sep << t;
@@ -317,10 +303,8 @@ private:
 public:
     Solution solve()
     {
-#if VER >= 2
         if ((config.fixed_agent || config.fixed_container) && (config.edge_vars || config.move_vars))
             throw "Unsupported configuration";
-#endif
         logger.log = config.log;
 
         max_time = logger.start_sequence() + std::chrono::seconds(config.timeout_s);
@@ -342,12 +326,10 @@ public:
 
         logger.start_sequence();
         origin();
-#if VER >= 2
         if (config.fixed_agent)
             fixed_agent();
         if (config.fixed_container)
             fixed_container();
-#endif
         extend(l);
         stats.t_extend += logger.end_sequence();
 
@@ -439,7 +421,6 @@ private:
             add({Lit(e, s[e], 0)});
     }
 
-#if VER >= 2
     void fixed_agent()
     {
         for (auto c : C)
@@ -461,7 +442,6 @@ private:
             amo(vars);
         }
     }
-#endif
 
     // (|A| + |C|) amo(|V|)
     void uniqueness(int t)
@@ -496,10 +476,14 @@ private:
             vector<Lit> vars;
             for (auto a : A)
                 vars.emplace_back(a, v, t);
-            amo(vars), vars.clear();
-            for (auto c : C)
-                vars.emplace_back(c, v, t);
             amo(vars);
+            if (config.blocking_containers)
+            {
+                vars.clear();
+                for (auto c : C)
+                    vars.emplace_back(c, v, t);
+                amo(vars);
+            }
         }
     }
 
@@ -559,13 +543,14 @@ private:
                 for (auto a : A)
                 {
                     transported.push_back(Lit(a, e.first, t));
+
                     vector<Lit> transporting = base;
                     transporting.push_back(!Lit(a, e.first, t));
-#if VER >= 2
+
                     vector<Lit> assigned = transporting;
-                    assigned.push_back(!Lit(c, a));
+                    assigned.emplace_back(c, a);
                     add(assigned);
-#endif
+
                     transporting.push_back(Lit(a, e.second, t + 1));
                     add(transporting);
                 }
