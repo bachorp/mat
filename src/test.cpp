@@ -209,7 +209,10 @@ int main(int argc, char **argv)
     };
 
     bool transport = true;
+
     bool mapd = false;
+    bool nonblocking = false;
+    bool fixed_agent = false;
 
 command:
     if (argc > i + 1)
@@ -218,9 +221,15 @@ command:
         case 'r' /*egular MAPF*/:
             transport = false;
             goto command;
-        case /*map*/ 'd' :
+        case /*map*/ 'd':
             mapd = true;
-            goto command;
+            break;
+        case 'n' /*non-blocking*/:
+            nonblocking = true;
+            break;
+        case 'f' /*fixed agent*/:
+            fixed_agent = true;
+            break;
         case '0':
             break;
         case /*Figure */ '1':
@@ -270,9 +279,18 @@ option:
         }
 
     conf.transport = transport;
-    if (mapd) {
+    if (mapd)
+    {
         conf.fixed_agent = true;
-        conf.blocking_containers = false;   
+        conf.blocking_containers = false;
+    }
+    if (nonblocking)
+    {
+        conf.blocking_containers = false;
+    }
+    if (fixed_agent)
+    {
+        conf.fixed_agent = true;
     }
     auto csv_p = get_csv();
 
