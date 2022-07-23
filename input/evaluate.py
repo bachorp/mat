@@ -1,10 +1,12 @@
 import math
 import glob
 import pickle
+from typing import Dict, List, Optional, Tuple, Union
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from mpl_toolkits.axes_grid1.axes_divider import AxesDivider
 
 params = ["g", "b", "a", "c"]
 instance = params + ["seed"]
@@ -17,17 +19,20 @@ pickle_jar = "data.p"
 N = 10
 
 
-def process(data: dict, filename: str, ylabel: str, simple=False, lloc="upper right"):
-
-    peqx = []
-    peqy = []
-
-    axMain = plt.gca()
-    divider = make_axes_locatable(axMain)
-    if not simple:
-        axLin = divider.append_axes("top", size=1.2, pad=0, sharex=axMain)
-        axLin: plt.Axes
-    axMain: plt.Axes
+def process(
+    data: Dict[
+        str, Dict[Union[int, str], Tuple[float, float]]
+    ],  # FIXME: Key type should'nt be a union
+    filename: str,
+    ylabel: str,
+    simple: bool = False,
+    lloc: str = "upper right",
+):
+    axMain: plt.Axes = plt.gca()
+    divider: AxesDivider = make_axes_locatable(axMain)
+    axLin: Optional[plt.Axes] = (
+        None if simple else divider.append_axes("top", size=1.2, pad=0, sharex=axMain)
+    )
 
     colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
     c = 0
@@ -40,7 +45,7 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc="upper ri
         axMain.plot(
             full, color=colors[c], marker="D", markersize=3, label=i if simple else None
         )
-        if not simple:
+        if axLin:
             axLin.plot(
                 [math.nan] + list(map(lambda x: x[1] if x[1] > 0 else 0, d)),
                 color=colors[c],
@@ -57,7 +62,7 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc="upper ri
     )
     axMain.plot(full, color="black", ls="dashdot", lw=2.5)
 
-    if not simple:
+    if axLin:
         axMain.set_yscale("log")
         axMain.spines["top"].set_visible(False)
         axLin.spines["bottom"].set_visible(False)
@@ -69,11 +74,11 @@ def process(data: dict, filename: str, ylabel: str, simple=False, lloc="upper ri
     axMain.set_ylabel(ylabel)
     axMain.set_xlabel("a - Number of agents")
     axMain.xaxis.set_major_locator(ticker.MultipleLocator(1))
-    if not simple:
+    if axLin:
         axLin.yaxis.set_minor_locator(ticker.MultipleLocator(0.1))
         axLin.yaxis.set_major_formatter(ticker.PercentFormatter(1, symbol=None))
     axMain.yaxis.grid(True)
-    if not simple:
+    if axLin:
         axLin.yaxis.grid(True)
         axLin.legend(
             title="c", prop={"size": 7}, framealpha=1, borderaxespad=1, loc=lloc
@@ -90,8 +95,8 @@ def load(base_path: str) -> pd.DataFrame:
     df = pd.concat(map(pd.read_csv, glob.glob(base_path + "*.csv")))[needed]
 
     ps = dict(tuple(df.groupby(params)))
-    dfs = []
-    for i, s in ps.items():
+    dfs: List[pd.DataFrame] = []
+    for s in ps.values():
         s = s[s["result"].isna() | (s["result"] == "Timeout")]
         s = s.sort_values("seed")
         assert len(s) >= N
@@ -108,10 +113,12 @@ def load(base_path: str) -> pd.DataFrame:
     return pd.concat(dfs)
 
 
-def get(data: pd.DataFrame, field="t_total") -> dict:
+def get(
+    data: pd.DataFrame, field: str = "t_total"
+) -> Dict[str, Dict[int, Tuple[float, float]]]:
 
-    result = dict()
-    ps = dict(tuple(data.groupby(["a", "c"])))
+    result: Dict[str, Dict[int, Tuple[float, float]]] = dict()
+    ps: Dict[Tuple[int, int], pd.DataFrame] = dict(tuple(data.groupby(["a", "c"])))
     for i, s in ps.items():
         result.setdefault(i[3 - 2], dict())
         result[i[3 - 2]][i[2 - 2]] = (s[field].mean(), s["result"].count() / len(s))
@@ -120,7 +127,7 @@ def get(data: pd.DataFrame, field="t_total") -> dict:
 
 
 def do(field: str, kwargs):
-    d = get(mat, field=field)
+    d: Dict[str, Dict[Union[int, str], Tuple[float, float]]] = get(mat, field=field)
     e = get(mapf, field=field)
     d["r"] = dict()
     for k in e.keys():
@@ -128,10 +135,12 @@ def do(field: str, kwargs):
     process(d, **kwargs)
 
 
-def grid(data: pd.DataFrame, field="t_total") -> float:
+def grid(
+    data: pd.DataFrame, field: str = "t_total"
+) -> List[Tuple[int, float, float, int]]:
 
-    result = []
-    ps = dict(tuple(data.groupby("g")))
+    result: List[Tuple[int, float, float, int]] = []
+    ps: Dict[int, pd.DataFrame] = dict(tuple(data.groupby("g")))
     for i, s in ps.items():
         result.append((i, s[field].mean(), s[field].std(), s[field].count()))
 
