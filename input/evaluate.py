@@ -14,8 +14,6 @@ static = instance + ["makespan", "n_literals"]
 
 needed = static + ["config", "result", "t_total"]
 
-pickle_jar = "data.p"
-
 N = 10
 
 
@@ -91,12 +89,14 @@ def process(
 
 
 def load(base_path: str) -> pd.DataFrame:
-
     df = pd.concat(map(pd.read_csv, glob.glob(base_path + "*.csv")))[needed]
 
     ps = dict(tuple(df.groupby(params)))
     dfs: List[pd.DataFrame] = []
-    for s in ps.values():
+    for i, s in ps.items():
+        if int(i[0]) < 4:
+            continue
+
         s = s[s["result"].isna() | (s["result"] == "Timeout")]
         s = s.sort_values("seed")
         assert len(s) >= N
@@ -148,30 +148,48 @@ def grid(
 
 
 if __name__ == "__main__":
-    try:
-        with open(pickle_jar, "rb") as fp:
-            print("Loading from jar")
-            mat, mapf = pickle.load(fp)
-    except FileNotFoundError:
-        print("Loading from CSVs")
-        mat, mapf = load("*/"), load("regular_mapf/*/")
-        print("Saving to jar")
-        with open(pickle_jar, "wb") as fp:
-            pickle.dump([mat, mapf], fp)
+    for prefix in [None, "fixed", "mapd", "non_blocking"]:
+        pickle_jar = f"data{'_' + prefix if prefix else ''}.p"
+        try:
+            with open(pickle_jar, "rb") as fp:
+                print("Loading from jar")
+                mat, mapf = pickle.load(fp)
 
-    print(" g | avg (s)|   σ    |    n")
-    for g in grid(mat):
-        out = "{:2} | {:6.2f} | {:6.2f} | {:4}"
-        print(out.format(*g))
+        except FileNotFoundError:
+            print("Loading from CSVs")
+            mat, mapf = load(f"{prefix + '/' if prefix else ''}*/"), load(
+                "regular_mapf/*/"
+            )
+            print("Saving to jar")
+            with open(pickle_jar, "wb") as fp:
+                pickle.dump([mat, mapf], fp)
 
-    do("t_total", {"ylabel": "Runtime (s)", "filename": "runtime"})
-    do("makespan", {"simple": True, "ylabel": "Makespan", "filename": "makespan"})
-    do(
-        "n_literals",
-        {
-            "simple": True,
-            "ylabel": "Number of literals (millions)",
-            "filename": "literals",
-            "lloc": "upper left",
-        },
-    )
+        print(" g | avg (s)|   σ    |    n")
+        for g in grid(mat):
+            out = "{:2} | {:6.2f} | {:6.2f} | {:4}"
+            print(out.format(*g))
+
+        do(
+            "t_total",
+            {
+                "ylabel": "Runtime (s)",
+                "filename": f"runtime{'_' + prefix if prefix else ''}",
+            },
+        )
+        do(
+            "makespan",
+            {
+                "simple": True,
+                "ylabel": "Makespan",
+                "filename": f"makespan{'_' + prefix if prefix else ''}",
+            },
+        )
+        do(
+            "n_literals",
+            {
+                "simple": True,
+                "ylabel": "Number of literals (millions)",
+                "filename": f"literals{'_' + prefix if prefix else ''}",
+                "lloc": "upper left",
+            },
+        )
