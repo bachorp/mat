@@ -201,7 +201,7 @@ if __name__ == "__main__":
     i, s1, s2 = do(enc, 1, 0)
     print(out.format("Sequential AMO (1)", "binomial AMO (0)", i, s1, s2, s1 - s2))
     next(cyc)
-    plot("Sequential AMO", "Binomial AMO", "amo", False)
+    plot("Sequential AMO", "Binomial AMO", "amo")
 
     i, s1, s2 = do(enc, 2, 1)
     print(
@@ -210,7 +210,7 @@ if __name__ == "__main__":
         )
     )
     next(cyc)
-    plot("With edge variables", "Without edge variables", "ev", False)
+    plot("With edge variables", "Without edge variables", "ev")
 
     i, s1, s2 = do(enc, 3, 2)
     print(
@@ -224,7 +224,7 @@ if __name__ == "__main__":
         )
     )
     next(cyc)
-    plot("With movement variables", "Without movement variables", "mv", False)
+    plot("With movement variables", "Without movement variables", "mv")
 
     for i, j in encodings:
         d = pd.concat(map(pd.read_csv, glob.glob(str(i) + "/*.csv")))
