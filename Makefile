@@ -1,10 +1,15 @@
 .PHONY: all
-all: clean build install
+all: clean build cbs install
 
 .PHONY: build
 build:
 	mkdir -p build
 	g++ -std=c++17 -Wall -Wextra -pedantic -O -o build/mat src/test.cpp -lcryptominisat5
+
+.PHONY: cbs
+cbs:
+	mkdir -p build
+	g++ -std=c++17 -Wall -Wextra -pedantic -pthread -O -o build/cbs_ta src/cbs_ta/cbs_ta.cpp -lboost_program_options
 
 .PHONY: install
 install:
