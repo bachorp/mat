@@ -764,7 +764,7 @@ void solve(Csv *csv,
 
     Timer timer;
     try {
-        success = cbs.search(startStates, solution, 10);
+        success = cbs.search(startStates, solution, 600);
     } catch (const std::runtime_error& e) {
         result = "Unknown Error";
         if (std::string(e.what()) =="Timeout") {
