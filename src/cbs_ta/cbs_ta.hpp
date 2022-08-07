@@ -87,6 +87,7 @@ class CBSTA {
 
   bool search(const std::vector<State>& initialStates,
               std::vector<PlanResult<State, Action, Cost> >& solution,
+              std::map<size_t, Task>& taskAssignment,
               double timeout = 0) {
     Timer timer;
     HighLevelNode start;
@@ -140,6 +141,7 @@ class CBSTA {
       if (!m_env.getFirstConflict(P.solution, conflict)) {
         std::cout << "done; cost: " << P.cost << std::endl;
         solution = P.solution;
+        taskAssignment = P.tasks;
         return true;
       }
 
@@ -298,7 +300,7 @@ class CBSTA {
     LowLevelEnvironment llenv(m_env, agent, n.constraints.at(agent),
                               n.task(agent), false);
     LowLevelSearch_t lowLevel(llenv);
-    bool success = lowLevel.search(start, n.solution[agent], timeout - timer.elapsedSeconds());
+    bool success = lowLevel.search(start, n.solution[agent], 0, timeout - timer.elapsedSeconds());
     if (success) {
       LowLevelEnvironment llenv(m_env, agent, n.constraints.at(agent),
                                 n.task(agent), true);

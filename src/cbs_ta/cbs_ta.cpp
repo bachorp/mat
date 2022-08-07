@@ -758,13 +758,14 @@ void solve(Csv *csv,
     CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
             cbs(mapf);
     std::vector<PlanResult<State, Action, int> > solution;
+    std::map<size_t, Container> taskAssignment;
 
     bool success = false;
     std::string result = "Unsolvable";
 
     Timer timer;
     try {
-        success = cbs.search(startStates, solution, 600);
+        success = cbs.search(startStates, solution, taskAssignment, t);
     } catch (const std::runtime_error& e) {
         result = "Unknown Error";
         if (std::string(e.what()) =="Timeout") {
@@ -774,6 +775,16 @@ void solve(Csv *csv,
         result = "Memout";
     }
     timer.stop();
+
+    std::stringstream tStrStream;
+    tStrStream << std::fixed << std::setprecision(6) << float(timer.elapsedSeconds());
+
+    if (csv) {
+      csv->set("runtime", tStrStream.str());
+      csv->set("h_expanded", mapf.highLevelExpanded());
+      csv->set("l_expanded", mapf.lowLevelExpanded());
+      csv->set("n_assignments", mapf.numTaskAssignments());
+    }
 
     if (success) {
         std::cout << "Planning successful! " << std::endl;
@@ -786,14 +797,15 @@ void solve(Csv *csv,
 
         if (csv) {
             csv->set("makespan", makespan);
-            csv->set("h_expanded", mapf.highLevelExpanded());
-            csv->set("l_expanded", mapf.lowLevelExpanded());
-            csv->set("n_assignments", mapf.numTaskAssignments());
             csv->write();
         }
 
 
         if (p) {
+            std::cout << "assignment:" << std::endl;
+            for (const auto& s : taskAssignment) {
+               std::cout << s.first << "->" << s.second << std::endl;
+            }
             std::cout << "schedule:" << std::endl;
             for (size_t a = 0; a < solution.size(); ++a) {
                 // std::cout << "Solution for: " << a << std::endl;
@@ -830,7 +842,8 @@ constexpr int from_percentage(int g, float b)
 
 const vector<string> all_columns = []
 {
-    vector<string> columns = {"g", "b", "a", "c", "seed", "timeout", "result", "makespan", "h_expanded", "l_expanded", "n_assignments"};
+    vector<string> columns = {"g", "b", "a", "c", "seed", "timeout", "result", "makespan", "runtime", "h_expanded",
+                              "l_expanded", "n_assignments"};
     return columns;
 }();
 
@@ -852,9 +865,9 @@ int main(int argc, char **argv)
     };
 
     int g = 7;
-    int t = 600; // timeout
     string s;
-    bool p = false;
+    int t = 600; // timeout
+    bool p = false; // print plan to std out
 
     option:
     if (argc > i + 2)
@@ -865,6 +878,9 @@ int main(int argc, char **argv)
                 goto option;
             case 's' /*eed*/:
                 s = argv[++i];
+                goto option;
+            case 't' /*timeout*/:
+                t = atoi(argv[++i]);
                 goto option;
             case 'p' /*rint plan*/:
                 p = true;
