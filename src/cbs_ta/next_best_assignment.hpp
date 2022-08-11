@@ -78,6 +78,10 @@ private:
     // Hopcroft-Karp
     bool solveBounded(std::unordered_set<Agent> agents,
                       std::map<Agent, Task>& solution, long maxMakespan) {
+
+        if (m_tasks.size() > m_agents.size()) {
+          return false;
+        }
         // std::cout << "Checking max makespan " << maxMakespan << ": " << std::endl;
         std::unordered_map<Agent, std::vector<Task>> agentMatches;
         for (const auto& aAsgn : m_costs) {
