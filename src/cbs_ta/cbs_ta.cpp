@@ -695,6 +695,11 @@ Location vToLoc(int v, int g) {
     return Location(v/g, v%g);
 }
 
+constexpr int from_percentage(int g, float b)
+{
+    return b / 100 * g * g + .5; // rounding
+}
+
 template <typename T = std::string>
 void buildProblem(int g, int b, int a, int c, T seed,
                   std::unordered_set<Location>& obstacles,
@@ -752,7 +757,7 @@ void solve(Csv *csv,
     std::vector<std::unordered_set<Container> > tasks;
     std::vector<State> startStates;
 
-    buildProblem(g, b, a, c, seed, obstacles, startStates, tasks);
+    buildProblem(g, from_percentage(g, b), a, c, seed, obstacles, startStates, tasks);
 
     Environment mapf(g, g, obstacles, startStates, tasks, 1e9);
     CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
@@ -833,11 +838,6 @@ void solve(Csv *csv,
         std::cout << "Planning NOT successful!" << std::endl;
     }
 
-}
-
-constexpr int from_percentage(int g, float b)
-{
-    return b / 100 * g * g + .5; // rounding
 }
 
 const vector<string> all_columns = []
