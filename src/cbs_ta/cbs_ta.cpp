@@ -511,7 +511,7 @@ class Environment {
           atGoal = s.x == goal.x && s.y == goal.y;
         }
         neighbors.emplace_back(
-            Neighbor<State, Action, int>(n, Action::Wait, atGoal ? 0 : 1));
+            Neighbor<State, Action, int>(n, Action::Wait, (atGoal && m_delivering) ? 0 : 1));
       }
     }
     {
@@ -888,7 +888,6 @@ int main(int argc, char **argv)
         }
 
     auto csv_p = get_csv();
-
     for (int b : {10, 20})
         for (int a : range(1, 10 + 1))
             for (int c : range(1, a + 1))
