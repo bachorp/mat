@@ -1,0 +1,55 @@
+# The graph with two 4-cycles
+alpha = (1,2,4,3)
+beta = (3,4,6,5)
+
+# possible extension that are not covered
+# by the basic graphs
+gamma = (3,5,8,7)
+delta = (5,6,8,7)
+zeta  = (1,3,5,7)
+eta   = (3,4,8,7)
+
+G0 = SymmetricGroup(8)
+
+alpha     = G0(alpha)
+alpha_inv = a0.inverse()
+beta      = G0(beta)
+beta_inv  = beta.inverse()
+gamma     = G0(gamma)
+gamma_inv = gamma.inverse()gamma
+delta     = G0(delta)
+delta_inv = delta.inverse()
+zeta      = G0(zeta)
+zeta_inv  = zeta.inverse()
+eta       = G0(eta)
+eta_inv   = eta.inverse()
+
+id = G0([])
+
+gen1 = [alpha, alpha_inv, beta, beta_inv, gamma, gamma_inv]
+gen2 = [alpha, alpha_inv, beta, beta_inv, delta, delta_inv]
+gen3 = [alpha, alpha_inv, beta, beta_inv, zeta, zeta_inv]
+gen4 = [alpha, alpha_inv, beta, beta_inv, eta, eta_inv]
+
+
+def threecycle(p):
+    if len(p.cycle_tuples()) == 1 and len(p.cycle_tuples()[0]) == 3:
+       return True
+    return False
+
+def tryout(pl, gen):
+    newpl = []
+    for x in gen:
+        for p in pl:
+            if threecycle(p[0]*x):
+                return p[0]*x, p[1] + list(x)
+            else:
+                newpl += [(p[0]*x, p[1] + list(x))]
+    return tryout(newpl, gen)
+        
+    
+
+print(tryout([(id,[])], gen1))
+print(tryout([(id,[])], gen2))
+print(tryout([(id,[])], gen3))
+print(tryout([(id,[])], gen4))
