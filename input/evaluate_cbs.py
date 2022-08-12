@@ -45,21 +45,33 @@ def plot_solved_containers(configs, solved_dict, num_list):
     plt.savefig("solved_containers_cbs__{}.png".format(COMPARE_NAME))
     plt.cla()
 
-
-def scatter_makespan(configs, makespan_dict):
+def scatter_dict(configs, data_dict, stat_name, data_type=int, fail_val=0, log_scale=False, val_range=[]):
     cbs_vals = []
     comp_vals = []
     for c in configs:
-        if c in makespan_dict[0] and c in makespan_dict[1]:
-            cbs_vals.append(int(makespan_dict[0][c]))
-            comp_vals.append(int(makespan_dict[1][c]))
+        if fail_val:
+            cbs_vals.append(data_type(fail_val if c not in data_dict[0] else data_dict[0][c]))
+            comp_vals.append(data_type(fail_val if c not in data_dict[1] else data_dict[1][c]))
+        else:
+            if c in data_dict[0] and c in data_dict[1]:
+                cbs_vals.append(data_type(data_dict[0][c]))
+                comp_vals.append(data_type(data_dict[1][c]))
 
     plt.xlabel("CBS")
     plt.ylabel(COMPARE_NAME)
 
-    plt.scatter(cbs_vals, comp_vals)
+    if log_scale:
+        plt.xscale('log')
+        plt.yscale('log')
 
-    plt.savefig("scatter_makespan_cbs__{}.png".format(COMPARE_NAME))
+    if val_range:
+        assert(len(val_range) == 2)
+        plt.xlim(val_range[0], val_range[1])
+        plt.ylim(val_range[0], val_range[1])
+
+    plt.scatter(cbs_vals, comp_vals, alpha=0.3)
+
+    plt.savefig("scatter_{}_cbs__{}.png".format(stat_name, COMPARE_NAME))
     plt.cla()
 
 
@@ -67,6 +79,7 @@ def main():
     configs = []
     solved_dict = ({}, {})
     makespan_dict = ({}, {})
+    runtime_dict = ({}, {})
     agent_nums = set()
     container_nums = set()
     for g in G_RANGE:
@@ -81,6 +94,7 @@ def main():
                     solved_dict[0][config] = not row["result"]
                     if not row["result"]:
                         makespan_dict[0][config] = row["makespan"]
+                        runtime_dict[0][config] = float(row["runtime"]) * 1000
             with open(os.path.join(COMPARE_PATH, str(g), str(s) + ".csv")) as file:
                 reader = csv.DictReader(file)
                 for row in reader:
@@ -90,11 +104,13 @@ def main():
                     solved_dict[1][config] = not row["result"]
                     if not row["result"]:
                         makespan_dict[1][config] = row["makespan"]
+                        runtime_dict[1][config] = float(row["t_solver"])
             assert (all(c in solved_dict[1] for c in configs))
 
     plot_solved_agents(configs, solved_dict, sorted(list(agent_nums)))
     plot_solved_containers(configs, solved_dict, sorted(list(container_nums)))
-    scatter_makespan(configs, makespan_dict)
+    scatter_dict(configs, makespan_dict, "makespan")
+    scatter_dict(configs, runtime_dict, "t_solver", data_type=float, fail_val='600', log_scale=True, val_range=[1e-2, 1e6])
 
 
 if __name__ == '__main__':
