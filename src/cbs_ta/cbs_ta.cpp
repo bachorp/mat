@@ -438,6 +438,7 @@ class Environment {
     m_numAgents = startStates.size();
     for (size_t i = 0; i < startStates.size(); ++i) {
       for (const auto& task : tasks[i]) {
+        assert(!(task.start == task.goal)); // trivial tasks should have been filtered
         auto cost =
             m_heuristic.getValue(Location(startStates[i].x, startStates[i].y),
                                  task.start) +
@@ -701,7 +702,7 @@ constexpr int from_percentage(int g, float b)
 }
 
 template <typename T = std::string>
-void buildProblem(int g, int b, int a, int c, T seed,
+bool buildProblem(int g, int b, int a, int c, T seed,
                   std::unordered_set<Location>& obstacles,
                   std::vector<State>& agentStarts,
                   std::vector<std::unordered_set<Container>>& tasks) {
@@ -724,13 +725,21 @@ void buildProblem(int g, int b, int a, int c, T seed,
     }
     shuffle_(nodes.begin(), nodes.end() - b, r);
     for (auto i : range(c)) {
-        containers.emplace(vToLoc(cStarts.at(i), g), vToLoc(nodes.at(i), g));
+        auto start = vToLoc(cStarts.at(i), g);
+        auto goal = vToLoc(nodes.at(i), g);
+        if (!(start == goal)) {
+          containers.emplace(start, goal);
+        }
+    }
+    if (containers.empty()) {
+      return false; // return false for trivial problems
     }
     tasks.resize(a);
     std::fill(tasks.begin(), tasks.end(), containers);
     for (auto it = nodes.end() - b; it < nodes.end(); ++it) {
         obstacles.insert(vToLoc(*it, g));
     }
+    return true;
 }
 
 template <typename T = std::string>
@@ -741,6 +750,8 @@ void solve(Csv *csv,
     std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
     std::cout << seed;
     std::cout << std::endl;
+    Timer tTimer;
+
 
     if (csv)
     {
@@ -757,38 +768,54 @@ void solve(Csv *csv,
     std::vector<std::unordered_set<Container> > tasks;
     std::vector<State> startStates;
 
-    buildProblem(g, from_percentage(g, b), a, c, seed, obstacles, startStates, tasks);
-
-    Environment mapf(g, g, obstacles, startStates, tasks, 1e9);
-    CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
-            cbs(mapf);
+    bool success = false;
     std::vector<PlanResult<State, Action, int> > solution;
     std::map<size_t, Container> taskAssignment;
 
-    bool success = false;
-    std::string result = "Unsolvable";
+    int hExpandend = 0;
+    int lExpanded = 0;
+    int nAssignments = 0;
+    std::string result = "Unknown";
+    std::stringstream sTime;
+    if (buildProblem(g, from_percentage(g, b), a, c, seed, obstacles, startStates, tasks)) {
+      Environment mapf(g, g, obstacles, startStates, tasks, 1e9);
+      CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
+              cbs(mapf);
 
-    Timer timer;
-    try {
-        success = cbs.search(startStates, solution, taskAssignment, t);
-    } catch (const std::runtime_error& e) {
-        result = "Unknown Error";
-        if (std::string(e.what()) =="Timeout") {
-            result = "Timeout";
-        }
-    } catch (const std::bad_alloc&) {
-        result = "Memout";
+      result = "Unsolvable";
+
+      Timer sTimer;
+      try {
+          success = cbs.search(startStates, solution, taskAssignment, t);
+      } catch (const std::runtime_error& e) {
+          result = "Unknown Error";
+          if (std::string(e.what()) =="Timeout") {
+              result = "Timeout";
+          }
+      } catch (const std::bad_alloc&) {
+          result = "Memout";
+      }
+      sTimer.stop();
+      sTime << std::fixed << std::setprecision(3) << float(sTimer.elapsedSeconds());
+
+      hExpandend = mapf.highLevelExpanded();
+      lExpanded = mapf.lowLevelExpanded();
+      nAssignments = mapf.numTaskAssignments();
+    } else {
+      success = true;
+      sTime << std::fixed << std::setprecision(3) << 0.0;
     }
-    timer.stop();
 
-    std::stringstream tStrStream;
-    tStrStream << std::fixed << std::setprecision(6) << float(timer.elapsedSeconds());
+
+    std::stringstream tTime;
+    tTime << std::fixed << std::setprecision(3) << float(tTimer.elapsedSeconds());
 
     if (csv) {
-      csv->set("runtime", tStrStream.str());
-      csv->set("h_expanded", mapf.highLevelExpanded());
-      csv->set("l_expanded", mapf.lowLevelExpanded());
-      csv->set("n_assignments", mapf.numTaskAssignments());
+      csv->set("t_total", tTime.str());
+      csv->set("t_solver", sTime.str());
+      csv->set("h_expanded", hExpandend);
+      csv->set("l_expanded", lExpanded);
+      csv->set("n_assignments", nAssignments);
     }
 
     if (success) {
@@ -842,7 +869,7 @@ void solve(Csv *csv,
 
 const vector<string> all_columns = []
 {
-    vector<string> columns = {"g", "b", "a", "c", "seed", "timeout", "result", "makespan", "runtime", "h_expanded",
+    vector<string> columns = {"g", "b", "a", "c", "seed", "timeout", "result", "makespan", "t_total", "t_solver", "h_expanded",
                               "l_expanded", "n_assignments"};
     return columns;
 }();
