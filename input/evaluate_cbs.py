@@ -45,6 +45,7 @@ def plot_solved_containers(configs, solved_dict, num_list):
     plt.savefig("solved_containers_cbs__{}.png".format(COMPARE_NAME))
     plt.cla()
 
+
 def scatter_dict(configs, data_dict, stat_name, data_type=int, fail_val=0, log_scale=False, val_range=[]):
     cbs_vals = []
     comp_vals = []
@@ -94,23 +95,30 @@ def main():
                     solved_dict[0][config] = not row["result"]
                     if not row["result"]:
                         makespan_dict[0][config] = row["makespan"]
-                        runtime_dict[0][config] = float(row["runtime"]) * 1000
+                        runtime_dict[0][config] = float(row["t_total"]) * 1000
             with open(os.path.join(COMPARE_PATH, str(g), str(s) + ".csv")) as file:
                 reader = csv.DictReader(file)
                 for row in reader:
-                    config = (g, s, row["a"], row["c"], row["b"])
-                    if config not in configs:
+                    a = row["a"]
+                    c = row["c"]
+                    config = (g, s, a, c, row["b"])
+                    if int(c) > int(a):
                         continue
+                    agent_nums.add(int(a))
+                    container_nums.add(int(c))
+                    if config not in configs:
+                        configs.append(config)
+                        solved_dict[0][config] = False
                     solved_dict[1][config] = not row["result"]
                     if not row["result"]:
                         makespan_dict[1][config] = row["makespan"]
-                        runtime_dict[1][config] = float(row["t_solver"])
+                        runtime_dict[1][config] = float(row["t_total"])
             assert (all(c in solved_dict[1] for c in configs))
 
     plot_solved_agents(configs, solved_dict, sorted(list(agent_nums)))
     plot_solved_containers(configs, solved_dict, sorted(list(container_nums)))
     scatter_dict(configs, makespan_dict, "makespan")
-    scatter_dict(configs, runtime_dict, "t_solver", data_type=float, fail_val='600', log_scale=True, val_range=[1e-2, 1e6])
+    scatter_dict(configs, runtime_dict, "t_total", data_type=float, fail_val='600000', log_scale=True, val_range=[1, 1e6])
 
 
 if __name__ == '__main__':
