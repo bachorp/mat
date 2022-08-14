@@ -428,7 +428,7 @@ class Environment {
         m_agentIdx(0),
         m_task(nullptr),
         m_constraints(nullptr),
-        m_lastGoalConstraint(-1),
+        m_lastGoalConstraint(),
         m_maxTaskAssignments(maxTaskAssignments),
         m_numTaskAssignments(0),
         m_highLevelExpanded(0),
@@ -459,18 +459,23 @@ class Environment {
     m_task = task;
     m_delivering = delivering;
     m_constraints = constraints;
-    m_lastGoalConstraint = -1;
     if (m_task != nullptr) {
       auto goal = (m_delivering ? m_task->goal : m_task->start);
       assert(m_obstacles.find(goal) == m_obstacles.end());
       for (const auto& vc : constraints->vertexConstraints) {
         if (vc.x == goal.x && vc.y == goal.y) {
-          m_lastGoalConstraint = std::max(m_lastGoalConstraint, vc.time);
+          auto insert = m_lastGoalConstraint.insert(std::make_pair(goal, vc.time));
+          if (!insert.second) {
+             m_lastGoalConstraint[goal] = std::max(m_lastGoalConstraint.at(goal), vc.time);
+          }
         }
       }
     } else {
       for (const auto& vc : constraints->vertexConstraints) {
-        m_lastGoalConstraint = std::max(m_lastGoalConstraint, vc.time);
+        auto insert = m_lastGoalConstraint.insert(std::make_pair(Location(vc.x, vc.y), vc.time));
+        if (!insert.second) {
+          m_lastGoalConstraint[Location(vc.x, vc.y)] = std::max(m_lastGoalConstraint.at(Location(vc.x, vc.y)), vc.time);
+        }
       }
     }
     // std::cout << "setLLCtx: " << agentIdx << " " << m_lastGoalConstraint <<
@@ -492,7 +497,11 @@ class Environment {
       auto goal = (m_delivering ? m_task->goal : m_task->start);
       atGoal = s.x == goal.x && s.y == goal.y;
     }
-    return atGoal && s.time > m_lastGoalConstraint;
+    auto search = m_lastGoalConstraint.find(Location(s.x, s.y));
+    if (search != m_lastGoalConstraint.end()) {
+      atGoal = (s.time > search->second);
+    }
+    return atGoal;
   }
 
   void getNeighbors(const State& s,
@@ -680,7 +689,7 @@ class Environment {
   size_t m_agentIdx;
   const Container* m_task;
   const Constraints* m_constraints;
-  int m_lastGoalConstraint;
+  std::unordered_map<Location, int> m_lastGoalConstraint;
   NextBestAssignment<size_t, Container> m_assignment;
   size_t m_maxTaskAssignments;
   size_t m_numTaskAssignments;

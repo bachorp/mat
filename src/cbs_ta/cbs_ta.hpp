@@ -303,11 +303,11 @@ class CBSTA {
     double subTimeout = (timeout == 0 ? 0 : timeout - timer.elapsedSeconds());
     bool success = lowLevel.search(start, n.solution[agent], 0, subTimeout);
     if (success) {
-      LowLevelEnvironment llenv(m_env, agent, n.constraints.at(agent),
+      LowLevelEnvironment dllenv(m_env, agent, n.constraints.at(agent),
                                 n.task(agent), true);
-      LowLevelSearch_t lowLevel(llenv);
+      LowLevelSearch_t dlowLevel(dllenv);
       PlanResult<State, Action, Cost> deliveryPlan;
-      success = lowLevel.search(n.solution[agent].states.back().first,
+      success = dlowLevel.search(n.solution[agent].states.back().first,
                                 deliveryPlan, n.solution[agent].cost, subTimeout);
       if (success) {
         success = n.solution[agent].append(deliveryPlan);

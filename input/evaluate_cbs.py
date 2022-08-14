@@ -6,22 +6,24 @@ import matplotlib.pyplot as plt
 CBS_PATH = "./cbs"
 COMPARE_PATH = "./mapd"
 COMPARE_NAME = "mapd"
-G_RANGE = range(4, 12)
-S_RANGE = range(0, 19)
+G_RANGE = range(4, 13)
+S_RANGE = range(0, 20)
 
 
 def plot_solved_agents(configs, solved_dict, num_list):
     cbs_vals = [0] * len(num_list)
     comp_vals = [0] * len(num_list)
+    total = [0] * len(num_list)
     for c in configs:
         cbs_vals[num_list.index(int(c[2]))] += int(solved_dict[0][c])
         comp_vals[num_list.index(int(c[2]))] += int(solved_dict[1][c])
+        total[num_list.index(int(c[2]))] += 1
 
     plt.xlabel("# agents")
     plt.ylabel("% solved")
 
-    plt.plot(num_list, [float(v) / float(len(solved_dict[0])) * 100 for v in cbs_vals], label="cbs")
-    plt.plot(num_list, [float(v) / float(len(solved_dict[1])) * 100 for v in comp_vals], label=COMPARE_NAME)
+    plt.plot(num_list, [float(v) / float(n) * 100 for v, n in zip(cbs_vals, total)], label="cbs")
+    plt.plot(num_list, [float(v) / float(n) * 100 for v, n in zip(comp_vals, total)], label=COMPARE_NAME)
 
     plt.legend()
     plt.savefig("solved_agents_cbs__{}.png".format(COMPARE_NAME))
@@ -31,15 +33,17 @@ def plot_solved_agents(configs, solved_dict, num_list):
 def plot_solved_containers(configs, solved_dict, num_list):
     cbs_vals = [0] * len(num_list)
     comp_vals = [0] * len(num_list)
+    total = [0] * len(num_list)
     for c in configs:
         cbs_vals[num_list.index(int(c[3]))] += int(solved_dict[0][c])
         comp_vals[num_list.index(int(c[3]))] += int(solved_dict[1][c])
+        total[num_list.index(int(c[3]))] += 1
 
     plt.xlabel("# containers")
     plt.ylabel("% solved")
 
-    plt.plot(num_list, [float(v) / float(len(solved_dict[0])) * 100 for v in cbs_vals], label="cbs")
-    plt.plot(num_list, [float(v) / float(len(solved_dict[1])) * 100 for v in comp_vals], label=COMPARE_NAME)
+    plt.plot(num_list, [float(v) / float(n) * 100 for v, n in zip(cbs_vals, total)], label="cbs")
+    plt.plot(num_list, [float(v) / float(n) * 100 for v, n in zip(comp_vals, total)], label=COMPARE_NAME)
 
     plt.legend()
     plt.savefig("solved_containers_cbs__{}.png".format(COMPARE_NAME))
@@ -69,8 +73,9 @@ def scatter_dict(configs, data_dict, stat_name, data_type=int, fail_val=0, log_s
         assert(len(val_range) == 2)
         plt.xlim(val_range[0], val_range[1])
         plt.ylim(val_range[0], val_range[1])
+        plt.plot([val_range[0], val_range[1]], [val_range[0], val_range[1]])
 
-    plt.scatter(cbs_vals, comp_vals, alpha=0.3)
+    plt.scatter(cbs_vals, comp_vals, alpha=0.1)
 
     plt.savefig("scatter_{}_cbs__{}.png".format(stat_name, COMPARE_NAME))
     plt.cla()
@@ -119,6 +124,9 @@ def main():
     plot_solved_containers(configs, solved_dict, sorted(list(container_nums)))
     scatter_dict(configs, makespan_dict, "makespan")
     scatter_dict(configs, runtime_dict, "t_total", data_type=float, fail_val='600000', log_scale=True, val_range=[1, 1e6])
+    print("total solved:")
+    print("CBS: {} / {}".format(len([v for v in solved_dict[0].values() if v]), len(configs)))
+    print("{}: {} / {}".format(COMPARE_NAME, len([v for v in solved_dict[1].values() if v]), len(configs)))
 
 
 if __name__ == '__main__':
