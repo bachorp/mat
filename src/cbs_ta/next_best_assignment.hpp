@@ -82,6 +82,12 @@ private:
         if (m_tasks.size() > m_agents.size()) {
           return false;
         }
+        // std::cout << "Considered agents:";
+        // for (auto a : agents) {
+        //   std::cout << " " << a;
+        // }
+        // std::cout << std::endl;
+
         // std::cout << "Checking max makespan " << maxMakespan << ": " << std::endl;
         std::unordered_map<Agent, std::vector<Task>> agentMatches;
         for (const auto& aAsgn : m_costs) {
@@ -168,8 +174,8 @@ private:
         // for (const auto& pair : agentAssignment) {
         //   std::cout << "    " << pair.first << " -> " << pair.second << std::endl;
         // }
-        if (numMatched >= std::min(m_agents.size(), m_tasks.size())) {
-            assert(numMatched == std::min(m_agents.size(), m_tasks.size()));
+        if (numMatched >= std::min(agents.size(), m_tasks.size())) {
+            assert(numMatched == std::min(agents.size(), m_tasks.size()));
             for (const auto& pair : agentAssignment) {
                 solution.insert(pair);
             }
@@ -318,6 +324,16 @@ class NextBestAssignment {
     m_assignment.clear();
 
     std::unordered_set<Agent> processedAgents;
+
+    //std::cout << "Forbidden Assignments:" << std::endl;
+    //for (const auto& c : O) {
+    //  std::cout << c.first << " -> " << c.second << std::endl;
+    //}
+    //
+    //std::cout << "Enforced Assignments:" << std::endl;
+    //for (const auto& c : I) {
+    //  std::cout << c.first << " -> " << c.second << std::endl;
+    //}
 
     for (const auto& c : I) {
       if (Oagents.find(c.first) == Oagents.end()) {

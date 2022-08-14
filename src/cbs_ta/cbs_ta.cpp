@@ -459,6 +459,7 @@ class Environment {
     m_task = task;
     m_delivering = delivering;
     m_constraints = constraints;
+    m_lastGoalConstraint = {};
     if (m_task != nullptr) {
       auto goal = (m_delivering ? m_task->goal : m_task->start);
       assert(m_obstacles.find(goal) == m_obstacles.end());
@@ -631,7 +632,8 @@ class Environment {
       return;
     }
 
-    int64_t cost = m_assignment.nextSolution(tasks);
+    m_assignment.nextSolution(tasks);
+    //int64_t cost = m_assignment.nextSolution(tasks);
     if (!tasks.empty()) {
       // std::cout << "nextTaskAssignment: cost: " << cost << std::endl;
       // for (const auto& s : tasks) {
@@ -752,7 +754,7 @@ bool buildProblem(int g, int b, int a, int c, T seed,
 }
 
 template <typename T = std::string>
-void solve(int g, int b, int a, int c, int t, std::string o, T seed = "")
+void solve(int g, int b, int a, int c, int t, std::string o, T seed = "", bool p = false)
 {
     std::cout << "────────────────────────────────────────────────────────────" << std::endl;
     std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
@@ -826,32 +828,34 @@ void solve(int g, int b, int a, int c, int t, std::string o, T seed = "")
             out << "  highLevelExpanded: " << hExpandend << std::endl;
             out << "  lowLevelExpanded: " << lExpanded << std::endl;
             out << "  numTaskAssignments: " << nAssignments << std::endl;
-            out << "assignment:" << std::endl;
-            for (const auto& s : taskAssignment) {
-              out << "  agent" <<  s.first << ":" << std::endl
-                  << "    - start:" << std::endl
-                  << "      - x: " << s.second.start.x << std::endl
-                  << "        y: " << s.second.start.y << std::endl
-                  << "    - goal:" << std::endl
-                  << "      - x: " << s.second.goal.x << std::endl
-                  << "        y: " << s.second.goal.y << std::endl;
-            }
-            out << "schedule:" << std::endl;
-            for (size_t a = 0; a < solution.size(); ++a) {
-              // std::cout << "Solution for: " << a << std::endl;
-              // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
-              //   std::cout << solution[a].states[i].second << ": " <<
-              //   solution[a].states[i].first << "->" << solution[a].actions[i].first
-              //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
-              // }
-              // std::cout << solution[a].states.back().second << ": " <<
-              // solution[a].states.back().first << std::endl;
+            if (p) {
+              out << "assignment:" << std::endl;
+              for (const auto& s : taskAssignment) {
+                out << "  agent" <<  s.first << ":" << std::endl
+                    << "    - start:" << std::endl
+                    << "      - x: " << s.second.start.x << std::endl
+                    << "        y: " << s.second.start.y << std::endl
+                    << "    - goal:" << std::endl
+                    << "      - x: " << s.second.goal.x << std::endl
+                    << "        y: " << s.second.goal.y << std::endl;
+              }
+              out << "schedule:" << std::endl;
+              for (size_t a = 0; a < solution.size(); ++a) {
+                // std::cout << "Solution for: " << a << std::endl;
+                // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
+                //   std::cout << solution[a].states[i].second << ": " <<
+                //   solution[a].states[i].first << "->" << solution[a].actions[i].first
+                //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
+                // }
+                // std::cout << solution[a].states.back().second << ": " <<
+                // solution[a].states.back().first << std::endl;
 
-              out << "  agent" << a << ":" << std::endl;
-              for (const auto& state : solution[a].states) {
-                out << "    - x: " << state.first.x << std::endl
-                    << "      y: " << state.first.y << std::endl
-                    << "      t: " << state.second << std::endl;
+                out << "  agent" << a << ":" << std::endl;
+                for (const auto& state : solution[a].states) {
+                  out << "    - x: " << state.first.x << std::endl
+                      << "      y: " << state.first.y << std::endl
+                      << "      t: " << state.second << std::endl;
+                }
               }
             }
         }
@@ -872,6 +876,7 @@ int main(int argc, char **argv)
     int c = 3;
     int t = 0; // timeout
     std::string o = ""; // output file
+    bool p = false; // print plan and assignment to file
 
     option:
     if (argc > i + 1)
@@ -898,9 +903,12 @@ int main(int argc, char **argv)
             case 'o' /*rint plan*/:
                 o = argv[++i];
                 goto option;
+            case 'p' /*rint plan*/:
+                p = true;
+                goto option;
         }
 
-    solve(g, b, a, c, t, o, s);
+    solve(g, b, a, c, t, o, s, p);
 }
 
 /*
