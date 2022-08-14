@@ -743,26 +743,13 @@ bool buildProblem(int g, int b, int a, int c, T seed,
 }
 
 template <typename T = std::string>
-void solve(Csv *csv,
-               int g, int b, int a, int c, int t, bool p, T seed = "")
+void solve(int g, int b, int a, int c, int t, std::string o, T seed = "")
 {
     std::cout << "────────────────────────────────────────────────────────────" << std::endl;
     std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
     std::cout << seed;
     std::cout << std::endl;
     Timer tTimer;
-
-
-    if (csv)
-    {
-        csv->clear();
-        csv->set("g", g);
-        csv->set("b", b);
-        csv->set("a", a);
-        csv->set("c", c);
-        csv->set("timeout", t);
-        csv->set("seed", seed);
-    }
 
     std::unordered_set<Location> obstacles;
     std::vector<std::unordered_set<Container> > tasks;
@@ -807,16 +794,9 @@ void solve(Csv *csv,
     }
 
 
+    tTimer.stop();
     std::stringstream tTime;
     tTime << std::fixed << std::setprecision(3) << float(tTimer.elapsedSeconds());
-
-    if (csv) {
-      csv->set("t_total", tTime.str());
-      csv->set("t_solver", sTime.str());
-      csv->set("h_expanded", hExpandend);
-      csv->set("l_expanded", lExpanded);
-      csv->set("n_assignments", nAssignments);
-    }
 
     if (success) {
         std::cout << "Planning successful! " << std::endl;
@@ -827,77 +807,65 @@ void solve(Csv *csv,
             makespan = std::max<int64_t>(makespan, s.cost);
         }
 
-        if (csv) {
-            csv->set("makespan", makespan);
-            csv->write();
-        }
-
-
-        if (p) {
-            std::cout << "assignment:" << std::endl;
+        if (!o.empty()) {
+            std::ofstream out(o);
+            out << "statistics:" << std::endl;
+            out << "  sum-of-costs: " << cost << std::endl;
+            out << "  makespan: " << makespan << std::endl;
+            out << "  t_total: " << tTime.str() << std::endl;
+            out << "  t_solver: " << sTime.str() << std::endl;
+            out << "  highLevelExpanded: " << hExpandend << std::endl;
+            out << "  lowLevelExpanded: " << lExpanded << std::endl;
+            out << "  numTaskAssignments: " << nAssignments << std::endl;
+            out << "assignment:" << std::endl;
             for (const auto& s : taskAssignment) {
-               std::cout << s.first << "->" << s.second << std::endl;
+              out << "  agent" <<  s.first << ":" << std::endl
+                  << "    - start:" << std::endl
+                  << "      - x: " << s.second.start.x << std::endl
+                  << "        y: " << s.second.start.y << std::endl
+                  << "    - goal:" << std::endl
+                  << "      - x: " << s.second.goal.x << std::endl
+                  << "        y: " << s.second.goal.y << std::endl;
             }
-            std::cout << "schedule:" << std::endl;
+            out << "schedule:" << std::endl;
             for (size_t a = 0; a < solution.size(); ++a) {
-                // std::cout << "Solution for: " << a << std::endl;
-                // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
-                //   std::cout << solution[a].states[i].second << ": " <<
-                //   solution[a].states[i].first << "->" << solution[a].actions[i].first
-                //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
-                // }
-                // std::cout << solution[a].states.back().second << ": " <<
-                // solution[a].states.back().first << std::endl;
+              // std::cout << "Solution for: " << a << std::endl;
+              // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
+              //   std::cout << solution[a].states[i].second << ": " <<
+              //   solution[a].states[i].first << "->" << solution[a].actions[i].first
+              //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
+              // }
+              // std::cout << solution[a].states.back().second << ": " <<
+              // solution[a].states.back().first << std::endl;
 
-                std::cout << "  agent" << a << ":" << std::endl;
-                for (const auto& state : solution[a].states) {
-                    std::cout << "    - x: " << state.first.x << std::endl
-                              << "      y: " << state.first.y << std::endl
-                              << "      t: " << state.second << std::endl;
-                }
+              out << "  agent" << a << ":" << std::endl;
+              for (const auto& state : solution[a].states) {
+                out << "    - x: " << state.first.x << std::endl
+                    << "      y: " << state.first.y << std::endl
+                    << "      t: " << state.second << std::endl;
+              }
             }
         }
     } else {
-        if (csv) {
-            csv->set("result", result);
-            csv->write();
-        }
         std::cout << "Planning NOT successful!" << std::endl;
     }
 
 }
 
-const vector<string> all_columns = []
-{
-    vector<string> columns = {"g", "b", "a", "c", "seed", "timeout", "result", "makespan", "t_total", "t_solver", "h_expanded",
-                              "l_expanded", "n_assignments"};
-    return columns;
-}();
-
 int main(int argc, char **argv)
 {
-    std::ofstream out;
-    Csv csv(all_columns, out);
     int i = 0;
-
-    auto get_csv = [&]() -> Csv *
-    {
-        if (argc > i + 1)
-        {
-            out.open(argv[++i]);
-            csv.write_header();
-            return &csv;
-        }
-        return nullptr;
-    };
 
     int g = 7;
     string s;
-    int t = 600; // timeout
-    bool p = false; // print plan to std out
+    int b = 10;
+    int a = 3;
+    int c = 3;
+    int t = 0; // timeout
+    std::string o = ""; // output file
 
     option:
-    if (argc > i + 2)
+    if (argc > i + 1)
         switch (tolower(argv[++i][0]))
         {
             case 'g' /*rid size*/:
@@ -906,20 +874,24 @@ int main(int argc, char **argv)
             case 's' /*eed*/:
                 s = argv[++i];
                 goto option;
+            case 'b' /*rid size*/:
+                b = atoi(argv[++i]);
+                goto option;
+            case 'a' /*rid size*/:
+                a = atoi(argv[++i]);
+                goto option;
+            case 'c' /*eed*/:
+                c = atoi(argv[++i]);
+                goto option;
             case 't' /*timeout*/:
                 t = atoi(argv[++i]);
                 goto option;
-            case 'p' /*rint plan*/:
-                p = true;
+            case 'o' /*rint plan*/:
+                o = argv[++i];
                 goto option;
         }
 
-    auto csv_p = get_csv();
-    for (int b : {10, 20})
-        for (int a : range(1, 10 + 1))
-            for (int c : range(1, a + 1))
-                if (g * g - from_percentage(g, b) >= std::max(a, c))
-                    solve(csv_p, g, b, a, c, t, p, s);
+    solve(g, b, a, c, t, o, s);
 }
 
 /*
