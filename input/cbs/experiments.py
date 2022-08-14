@@ -13,7 +13,7 @@ from lab.environments import SlurmEnvironment, LocalEnvironment
 from lab.experiment import Experiment
 from lab.reports import Attribute
 
-REMOTE = False
+REMOTE = True
 
 
 class FreiburgSlurmEnvironment(SlurmEnvironment):
@@ -42,7 +42,7 @@ class BaseReport(AbsoluteReport):
     ]
 
 
-REPO = "/home/david/repos/mat"
+REPO = "/home/bergdolr/mat"
 SEEDS = range(0, 20)
 GRIDS = range(4, 13)
 AGENTS = range(1, 11)
