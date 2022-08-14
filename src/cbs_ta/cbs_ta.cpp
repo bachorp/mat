@@ -493,16 +493,17 @@ class Environment {
   }
 
   bool isSolution(const State& s) {
-    bool atGoal = true;
     if (m_task != nullptr) {
       auto goal = (m_delivering ? m_task->goal : m_task->start);
-      atGoal = s.x == goal.x && s.y == goal.y;
+      return s.x == goal.x && s.y == goal.y;
     }
-    auto search = m_lastGoalConstraint.find(Location(s.x, s.y));
-    if (search != m_lastGoalConstraint.end()) {
-      atGoal = (s.time > search->second);
+    else {
+      auto search = m_lastGoalConstraint.find(Location(s.x, s.y));
+      if (search != m_lastGoalConstraint.end()) {
+        return s.time > search->second;
+      }
+      return true;
     }
-    return atGoal;
   }
 
   void getNeighbors(const State& s,
@@ -516,13 +517,8 @@ class Environment {
     {
       State n(s.time + 1, s.x, s.y);
       if (stateValid(n) && transitionValid(s, n)) {
-        bool atGoal = true;
-        if (m_task != nullptr) {
-          auto goal = (m_delivering ? m_task->goal : m_task->start);
-          atGoal = s.x == goal.x && s.y == goal.y;
-        }
         neighbors.emplace_back(
-            Neighbor<State, Action, int>(n, Action::Wait, (atGoal && m_delivering) ? 0 : 1));
+            Neighbor<State, Action, int>(n, Action::Wait, 1));
       }
     }
     {

@@ -312,6 +312,17 @@ class CBSTA {
       if (success) {
         success = n.solution[agent].append(deliveryPlan);
         assert(success);
+        LowLevelEnvironment allenv(m_env, agent, n.constraints.at(agent),
+                                   nullptr, true);
+        LowLevelSearch_t alowLevel(allenv);
+        PlanResult<State, Action, Cost> afterPlan;
+        success = dlowLevel.search(n.solution[agent].states.back().first,
+                                   afterPlan, n.solution[agent].cost, subTimeout);
+        if (success) {
+          success = n.solution[agent].append(afterPlan);
+          assert(success);
+        }
+
       }
     }
     return success;
