@@ -7,78 +7,8 @@
 
 namespace libMultiRobotPlanning {
 
-/*!
-  \example cbs_ta.cpp Example that solves the Multi-Agent Path-Finding (MAPF)
-  problem in a 2D grid world with up/down/left/right
-  actions
-*/
+/// Implentation of CBS-MAPD based on CBS-TA from libMultiRobotPlanning https://github.com/whoenig/libMultiRobotPlanning
 
-/*! \brief Conflict-Based-Search with Optimal Task Assignment (CBS-TA) algorithm
-to find tasks and collision-free paths jointly, minimizing sum-of-cost.
-
-This class implements the Conflict-Based-Search with Optimal Task Assignment
-(CBS-TA) algorithm.
-This algorithm assigns tasks and finds collision-free path for multiple agents
-with start and
-goal locations given for each agent.
-CBS-TA is an extension of the CBS algorithms, operating in a search forest
-rather
-than a search tree (where each root node refers to a possible assignment).
-CBS-TA is optimal with respect to the sum-of-individual costs.
-
-Details of the algorithm can be found in the following paper:\n
-W. Hönig, S. Kiesel, A. Tinka, J. W. Durham, and N. Ayanian.\n
-"Conflict-Based Search with Optimal Task Assignment",\n
-In Proc. of the 17th International Conference on Autonomous Agents and
-Multiagent Systems (AAMAS)\n
-Stockholm, Sweden, July 2018.
-
-The underlying A* can either use a fibonacci heap, or a d-ary heap.
-The latter is the default. Define "USE_FIBONACCI_HEAP" to use the fibonacci heap
-instead.
-
-\tparam State Custom state for the search. Needs to be copy'able
-\tparam Action Custom action for the search. Needs to be copy'able
-\tparam Cost Custom Cost type (integer or floating point types)
-\tparam Conflict Custom conflict description. A conflict needs to be able to be
-transformed into a constraint.
-\tparam Constraints Custom constraint description. The Environment needs to be
-able to search on the low-level while taking the constraints into account.
-\param Task Custom task type to be used for assignment.
-\tparam Environment This class needs to provide the custom logic. In particular,
-it needs to support the following functions:
-  - `void setLowLevelContext(size_t agentIdx, const Constraints* constraints)`\n
-    Set the current context to a particular agent with the given set of
-constraints
-
-  - `Cost admissibleHeuristic(const State& s)`\n
-    Admissible heuristic. Needs to take current context into account.
-
-  - `bool isSolution(const State& s)`\n
-    Return true if the given state is a goal state for the current agent.
-
-  - `void getNeighbors(const State& s, std::vector<Neighbor<State, Action, int>
->& neighbors)`\n
-    Fill the list of neighboring state for the given state s and the current
-agent.
-
-  - `bool getFirstConflict(const std::vector<PlanResult<State, Action, int> >&
-solution, Conflict& result)`\n
-    Finds the first conflict for the given solution for each agent. Return true
-if a conflict was found and false otherwise.
-
-  - `void createConstraintsFromConflict(const Conflict& conflict,
-std::map<size_t, Constraints>& constraints)`\n
-    Create a list of constraints for the given conflict.
-
-  - `void onExpandHighLevelNode(Cost cost)`\n
-    This function is called on every high-level expansion and can be used for
-statistical purposes.
-
-  - `void onExpandLowLevelNode(const State& s, Cost fScore, Cost gScore)`\n
-    This function is called on every low-level expansion and can be used for
-statistical purposes.
-*/
 template <typename State, typename Action, typename Cost, typename Conflict,
           typename Constraints, typename Task, typename Environment>
 class CBSTA {

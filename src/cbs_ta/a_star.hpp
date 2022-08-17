@@ -13,84 +13,50 @@
 
 namespace libMultiRobotPlanning {
 
-/*! \brief A* Algorithm to find the shortest path
-
-This class implements the A* algorithm. A* is an informed search algorithm
-that finds the shortest path for a given map. It can use a heuristic that
-needsto be admissible.
-
-This class can either use a fibonacci heap, or a d-ary heap. The latter is the
-default. Define "USE_FIBONACCI_HEAP" to use the fibonacci heap instead.
-
-\tparam State Custom state for the search. Needs to be copy'able
-\tparam Action Custom action for the search. Needs to be copy'able
-\tparam Cost Custom Cost type (integer or floating point types)
-\tparam Environment This class needs to provide the custom A* logic. In
-    particular, it needs to support the following functions:
-  - `Cost admissibleHeuristic(const State& s)`\n
-    This function can return 0 if no suitable heuristic is available.
-
-  - `bool isSolution(const State& s)`\n
-    Return true if the given state is a goal state.
-
-  - `void getNeighbors(const State& s, std::vector<Neighbor<State, Action,
-   int> >& neighbors)`\n
-    Fill the list of neighboring state for the given state s.
-
-  - `void onExpandNode(const State& s, int fScore, int gScore)`\n
-    This function is called on every expansion and can be used for statistical
-purposes.
-
-  - `void onDiscover(const State& s, int fScore, int gScore)`\n
-    This function is called on every node discovery and can be used for
-   statistical purposes.
-
-    \tparam StateHasher A class to convert a state to a hash value. Default:
-   std::hash<State>
-*/
+/// Slightly modified A* from libMultiRobotPlanning https://github.com/whoenig/libMultiRobotPlanning
 
 template <typename State, typename Action, typename Cost>
 struct PlanResult {
-    //! states and their gScore
-    std::vector<std::pair<State, Cost> > states;
-    //! actions and their cost
-    std::vector<std::pair<Action, Cost> > actions;
-    //! actual cost of the result
-    Cost cost;
-    //! lower bound of the cost (for suboptimal solvers)
-    Cost fmin;
+  //! states and their gScore
+  std::vector<std::pair<State, Cost> > states;
+  //! actions and their cost
+  std::vector<std::pair<Action, Cost> > actions;
+  //! actual cost of the result
+  Cost cost;
+  //! lower bound of the cost (for suboptimal solvers)
+  Cost fmin;
 
-    bool append(PlanResult<State, Action, Cost>& other) {
-        if (states.empty() || other.states.empty()
-            || states.back() != other.states.front()) {
-            return false;
-        }
-        states.insert(states.end(),
-                      std::make_move_iterator(other.states.begin() + 1),
-                      std::make_move_iterator(other.states.end()));
-        other.states.clear();
-        actions.insert(actions.end(),
-                       std::make_move_iterator(other.actions.begin()),
-                       std::make_move_iterator(other.actions.end()));
-        other.actions.clear();
-        cost = other.cost;
-        fmin = other.fmin;
-        return true;
+  bool append(PlanResult<State, Action, Cost>& other) {
+    if (states.empty() || other.states.empty()
+        || states.back() != other.states.front()) {
+        return false;
     }
+    states.insert(states.end(),
+                  std::make_move_iterator(other.states.begin() + 1),
+                  std::make_move_iterator(other.states.end()));
+    other.states.clear();
+    actions.insert(actions.end(),
+                   std::make_move_iterator(other.actions.begin()),
+                   std::make_move_iterator(other.actions.end()));
+    other.actions.clear();
+    cost = other.cost;
+    fmin = other.fmin;
+    return true;
+  }
 };
 
 
 template <typename State, typename Action, typename Cost>
 struct Neighbor {
-    Neighbor(const State& state, const Action& action, Cost cost)
-            : state(state), action(action), cost(cost) {}
+  Neighbor(const State& state, const Action& action, Cost cost)
+          : state(state), action(action), cost(cost) {}
 
-    //! neighboring state
-    State state;
-    //! action to get to the neighboring state
-    Action action;
-    //! cost to get to the neighboring state
-    Cost cost;
+  //! neighboring state
+  State state;
+  //! action to get to the neighboring state
+  Action action;
+  //! cost to get to the neighboring state
+  Cost cost;
 };
 
 

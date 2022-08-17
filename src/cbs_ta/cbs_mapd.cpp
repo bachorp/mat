@@ -2,19 +2,17 @@
 #include <iostream>
 
 #include <boost/functional/hash.hpp>
-#include <boost/program_options.hpp>
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/exterior_property.hpp>
 #include <boost/graph/floyd_warshall_shortest.hpp>
 #include <boost/graph/graphviz.hpp>
 
-#include "cbs_ta.hpp"
+#include "cbs_mapd.hpp"
 #include "next_best_assignment.hpp"
 #include "timer.hpp"
 
 #include "../Problem.hpp"
-#include "../util.hpp"
 
 using libMultiRobotPlanning::CBSTA;
 using libMultiRobotPlanning::Neighbor;
@@ -286,132 +284,130 @@ struct hash<Container> {
 }  // namespace std
 
 class ShortestPathHeuristic {
-public:
-    ShortestPathHeuristic(size_t dimx, size_t dimy,
-                          const std::unordered_set<Location>& obstacles)
-            : m_shortestDistance(nullptr), m_dimx(dimx), m_dimy(dimy) {
-        searchGraph_t searchGraph;
+ public:
+  ShortestPathHeuristic(size_t dimx, size_t dimy,
+                        const std::unordered_set<Location>& obstacles)
+          : m_shortestDistance(nullptr), m_dimx(dimx), m_dimy(dimy) {
+    searchGraph_t searchGraph;
 
-        // add vertices
-        for (size_t x = 0; x < dimx; ++x) {
-            for (size_t y = 0; y < dimy; ++y) {
-                boost::add_vertex(searchGraph);
-            }
-        }
-
-        // add edges
-        for (size_t x = 0; x < dimx; ++x) {
-            for (size_t y = 0; y < dimy; ++y) {
-                Location l(x, y);
-                if (obstacles.find(l) == obstacles.end()) {
-                    Location right(x + 1, y);
-                    if (x < dimx - 1 && obstacles.find(right) == obstacles.end()) {
-                        auto e =
-                                boost::add_edge(locToVert(l), locToVert(right), searchGraph);
-                        searchGraph[e.first].weight = 1;
-                    }
-                    Location below(x, y + 1);
-                    if (y < dimy - 1 && obstacles.find(below) == obstacles.end()) {
-                        auto e =
-                                boost::add_edge(locToVert(l), locToVert(below), searchGraph);
-                        searchGraph[e.first].weight = 1;
-                    }
-                }
-            }
-        }
-
-        writeDotFile(searchGraph, "searchGraph.dot");
-
-        m_shortestDistance = new distanceMatrix_t(boost::num_vertices(searchGraph));
-        distanceMatrixMap_t distanceMap(*m_shortestDistance, searchGraph);
-        // The following generates a clang-tidy error, see
-        // https://svn.boost.org/trac10/ticket/10830
-        boost::floyd_warshall_all_pairs_shortest_paths(
-                searchGraph, distanceMap,
-                boost::weight_map(boost::get(&Edge::weight, searchGraph)));
+    // add vertices
+    for (size_t x = 0; x < dimx; ++x) {
+      for (size_t y = 0; y < dimy; ++y) {
+        boost::add_vertex(searchGraph);
+      }
     }
 
-    ~ShortestPathHeuristic() { delete m_shortestDistance; }
-
-    int getValue(const Location& a, const Location& b) {
-        vertex_t idx1 = locToVert(a);
-        vertex_t idx2 = locToVert(b);
-        return (*m_shortestDistance)[idx1][idx2];
-    }
-
-private:
-    size_t locToVert(const Location& l) const { return l.x + m_dimx * l.y; }
-
-    Location idxToLoc(size_t idx) {
-        int x = idx % m_dimx;
-        int y = idx / m_dimx;
-        return Location(x, y);
-    }
-
-private:
-    typedef boost::adjacency_list_traits<boost::vecS, boost::vecS,
-            boost::undirectedS>
-            searchGraphTraits_t;
-    typedef searchGraphTraits_t::vertex_descriptor vertex_t;
-    typedef searchGraphTraits_t::edge_descriptor edge_t;
-
-    struct Vertex {};
-
-    struct Edge {
-        int weight;
-    };
-
-    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,
-            Vertex, Edge>
-            searchGraph_t;
-    typedef boost::exterior_vertex_property<searchGraph_t, int>
-            distanceProperty_t;
-    typedef distanceProperty_t::matrix_type distanceMatrix_t;
-    typedef distanceProperty_t::matrix_map_type distanceMatrixMap_t;
-
-    class VertexDotWriter {
-    public:
-        explicit VertexDotWriter(const searchGraph_t& graph, size_t dimx)
-                : m_graph(graph), m_dimx(dimx) {}
-
-        void operator()(std::ostream& out, const vertex_t& v) const {
-            static const float DX = 100;
-            static const float DY = 100;
-            out << "[label=\"";
-            int x = v % m_dimx;
-            int y = v / m_dimx;
-            out << "\" pos=\"" << x * DX << "," << y * DY << "!\"]";
+    // add edges
+    for (size_t x = 0; x < dimx; ++x) {
+      for (size_t y = 0; y < dimy; ++y) {
+        Location l(x, y);
+        if (obstacles.find(l) == obstacles.end()) {
+          Location right(x + 1, y);
+          if (x < dimx - 1 && obstacles.find(right) == obstacles.end()) {
+            auto e =
+                    boost::add_edge(locToVert(l), locToVert(right), searchGraph);
+            searchGraph[e.first].weight = 1;
+          }
+          Location below(x, y + 1);
+          if (y < dimy - 1 && obstacles.find(below) == obstacles.end()) {
+            auto e =
+                    boost::add_edge(locToVert(l), locToVert(below), searchGraph);
+            searchGraph[e.first].weight = 1;
+          }
         }
-
-    private:
-        const searchGraph_t& m_graph;
-        size_t m_dimx;
-    };
-
-    class EdgeDotWriter {
-    public:
-        explicit EdgeDotWriter(const searchGraph_t& graph) : m_graph(graph) {}
-
-        void operator()(std::ostream& out, const edge_t& e) const {
-            out << "[label=\"" << m_graph[e].weight << "\"]";
-        }
-
-    private:
-        const searchGraph_t& m_graph;
-    };
-
-private:
-    void writeDotFile(const searchGraph_t& graph, const std::string& fileName) {
-        VertexDotWriter vw(graph, m_dimx);
-        EdgeDotWriter ew(graph);
-        std::ofstream dotFile(fileName);
-        boost::write_graphviz(dotFile, graph, vw, ew);
+      }
     }
 
+    writeDotFile(searchGraph, "searchGraph.dot");
+
+    m_shortestDistance = new distanceMatrix_t(boost::num_vertices(searchGraph));
+    distanceMatrixMap_t distanceMap(*m_shortestDistance, searchGraph);
+    // The following generates a clang-tidy error, see
+    // https://svn.boost.org/trac10/ticket/10830
+    boost::floyd_warshall_all_pairs_shortest_paths(
+            searchGraph, distanceMap, boost::weight_map(boost::get(&Edge::weight, searchGraph)));
+  }
+
+  ~ShortestPathHeuristic() { delete m_shortestDistance; }
+
+  int getValue(const Location& a, const Location& b) {
+    vertex_t idx1 = locToVert(a);
+    vertex_t idx2 = locToVert(b);
+    return (*m_shortestDistance)[idx1][idx2];
+  }
+
+ private:
+  size_t locToVert(const Location& l) const { return l.x + m_dimx * l.y; }
+
+  Location idxToLoc(size_t idx) {
+    int x = idx % m_dimx;
+    int y = idx / m_dimx;
+    return Location(x, y);
+  }
+
+ private:
+  typedef boost::adjacency_list_traits<boost::vecS, boost::vecS,
+          boost::undirectedS>
+          searchGraphTraits_t;
+  typedef searchGraphTraits_t::vertex_descriptor vertex_t;
+  typedef searchGraphTraits_t::edge_descriptor edge_t;
+
+  struct Vertex {};
+
+  struct Edge {
+      int weight;
+  };
+
+  typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,
+          Vertex, Edge>
+          searchGraph_t;
+  typedef boost::exterior_vertex_property<searchGraph_t, int>
+          distanceProperty_t;
+  typedef distanceProperty_t::matrix_type distanceMatrix_t;
+  typedef distanceProperty_t::matrix_map_type distanceMatrixMap_t;
+
+  class VertexDotWriter {
+  public:
+    explicit VertexDotWriter(const searchGraph_t& graph, size_t dimx) : m_graph(graph), m_dimx(dimx) {}
+
+    void operator()(std::ostream& out, const vertex_t& v) const {
+      static const float DX = 100;
+      static const float DY = 100;
+      out << "[label=\"";
+      int x = v % m_dimx;
+      int y = v / m_dimx;
+      out << "\" pos=\"" << x * DX << "," << y * DY << "!\"]";
+    }
+
+  private:
+      const searchGraph_t& m_graph;
+      size_t m_dimx;
+  };
+
+  class EdgeDotWriter {
+  public:
+    explicit EdgeDotWriter(const searchGraph_t& graph) : m_graph(graph) {}
+
+    void operator()(std::ostream& out, const edge_t& e) const {
+      out << "[label=\"" << m_graph[e].weight << "\"]";
+    }
+
+  private:
+      const searchGraph_t& m_graph;
+  };
+
 private:
-    distanceMatrix_t* m_shortestDistance;
-    size_t m_dimx;
-    size_t m_dimy;
+  void writeDotFile(const searchGraph_t& graph, const std::string& fileName) {
+    VertexDotWriter vw(graph, m_dimx);
+    EdgeDotWriter ew(graph);
+    std::ofstream dotFile(fileName);
+    boost::write_graphviz(dotFile, graph, vw, ew);
+  }
+
+private:
+  distanceMatrix_t* m_shortestDistance;
+  size_t m_dimx;
+  size_t m_dimy;
 };
 
 ///
@@ -628,8 +624,7 @@ class Environment {
       return;
     }
 
-    m_assignment.nextSolution(tasks);
-    //int64_t cost = m_assignment.nextSolution(tasks);
+    /* int64_t cost = */ m_assignment.nextSolution(tasks);
     if (!tasks.empty()) {
       // std::cout << "nextTaskAssignment: cost: " << cost << std::endl;
       // for (const auto& s : tasks) {
@@ -700,12 +695,11 @@ class Environment {
 };
 
 Location vToLoc(int v, int g) {
-    return Location(v/g, v%g);
+    return {v/g, v%g};
 }
 
-constexpr int from_percentage(int g, float b)
-{
-    return b / 100 * g * g + .5; // rounding
+constexpr int from_percentage(int g, float b) {
+  return b / 100 * g * g + .5; // rounding
 }
 
 template <typename T = std::string>
@@ -713,280 +707,91 @@ bool buildProblem(int g, int b, int a, int c, T seed,
                   std::unordered_set<Location>& obstacles,
                   std::vector<State>& agentStarts,
                   std::vector<std::unordered_set<Container>>& tasks) {
-    vector<int> nodes;
-    vector<int> cStarts;
-    std::unordered_set<Container> containers;
-    for (auto v : range(g*g))
-        nodes.push_back(v);
-    std::stringstream ss;
-    static const auto sep = ",";
-    ss << g << sep << b << sep << a << sep << c << sep << seed;
-    std::mt19937 r(hashCode(ss.str()));
-    shuffle_(nodes.begin(), nodes.end(), r);
-    cStarts.resize(c + a);
-    std::copy(nodes.begin(), nodes.begin() + c, cStarts.begin());
-    shuffle_(nodes.begin(), nodes.end() - b, r);
-    for (auto it = nodes.begin(); it < nodes.begin() + a; ++it) {
-        auto l = vToLoc(*it, g);
-        agentStarts.emplace_back(0,l.x, l.y);
+  vector<int> nodes;
+  vector<int> cStarts;
+  std::unordered_set<Container> containers;
+  for (auto v : range(g*g))
+    nodes.push_back(v);
+  std::stringstream ss;
+  static const auto sep = ",";
+  ss << g << sep << b << sep << a << sep << c << sep << seed;
+  std::mt19937 r(hashCode(ss.str()));
+  shuffle_(nodes.begin(), nodes.end(), r);
+  cStarts.resize(c + a);
+  std::copy(nodes.begin(), nodes.begin() + c, cStarts.begin());
+  shuffle_(nodes.begin(), nodes.end() - b, r);
+  for (auto it = nodes.begin(); it < nodes.begin() + a; ++it) {
+    auto l = vToLoc(*it, g);
+    agentStarts.emplace_back(0,l.x, l.y);
+  }
+  shuffle_(nodes.begin(), nodes.end() - b, r);
+  for (auto i : range(c)) {
+    auto start = vToLoc(cStarts.at(i), g);
+    auto goal = vToLoc(nodes.at(i), g);
+    if (!(start == goal)) {
+      containers.emplace(start, goal);
     }
-    shuffle_(nodes.begin(), nodes.end() - b, r);
-    for (auto i : range(c)) {
-        auto start = vToLoc(cStarts.at(i), g);
-        auto goal = vToLoc(nodes.at(i), g);
-        if (!(start == goal)) {
-          containers.emplace(start, goal);
-        }
-    }
-    if (containers.empty()) {
-      return false; // return false for trivial problems
-    }
-    tasks.resize(a);
-    std::fill(tasks.begin(), tasks.end(), containers);
-    for (auto it = nodes.end() - b; it < nodes.end(); ++it) {
-        obstacles.insert(vToLoc(*it, g));
-    }
-    return true;
+  }
+  if (containers.empty()) {
+    return false; // return false for trivial problems
+  }
+  tasks.resize(a);
+  std::fill(tasks.begin(), tasks.end(), containers);
+  for (auto it = nodes.end() - b; it < nodes.end(); ++it) {
+    obstacles.insert(vToLoc(*it, g));
+  }
+  return true;
 }
 
 template <typename T = std::string>
 void solve(int g, int b, int a, int c, int t, std::string o, T seed = "", bool p = false)
 {
-    std::cout << "────────────────────────────────────────────────────────────" << std::endl;
-    std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
-    std::cout << seed;
-    std::cout << std::endl;
-    Timer tTimer;
-
-    std::unordered_set<Location> obstacles;
-    std::vector<std::unordered_set<Container> > tasks;
-    std::vector<State> startStates;
-
-    bool success = false;
-    std::vector<PlanResult<State, Action, int> > solution;
-    std::map<size_t, Container> taskAssignment;
-
-    int hExpandend = 0;
-    int lExpanded = 0;
-    int nAssignments = 0;
-    std::string result = "Unknown";
-    std::stringstream sTime;
-    if (buildProblem(g, from_percentage(g, b), a, c, seed, obstacles, startStates, tasks)) {
-      Environment mapf(g, g, obstacles, startStates, tasks, 1e9);
-      CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
-              cbs(mapf);
-
-      result = "Unsolvable";
-
-      Timer sTimer;
-      try {
-          success = cbs.search(startStates, solution, taskAssignment, t);
-      } catch (const std::runtime_error& e) {
-          result = "Unknown Error";
-          if (std::string(e.what()) =="Timeout") {
-              result = "Timeout";
-          }
-      } catch (const std::bad_alloc&) {
-          result = "Memout";
-      }
-      sTimer.stop();
-      sTime << std::fixed << std::setprecision(3) << float(sTimer.elapsedSeconds());
-
-      hExpandend = mapf.highLevelExpanded();
-      lExpanded = mapf.lowLevelExpanded();
-      nAssignments = mapf.numTaskAssignments();
-    } else {
-      success = true;
-      sTime << std::fixed << std::setprecision(3) << 0.0;
-    }
-
-
-    tTimer.stop();
-    std::stringstream tTime;
-    tTime << std::fixed << std::setprecision(3) << float(tTimer.elapsedSeconds());
-
-    if (success) {
-        std::cout << "Planning successful! " << std::endl;
-        int64_t cost = 0;
-        int64_t makespan = 0;
-        for (const auto& s : solution) {
-            cost += s.cost;
-            makespan = std::max<int64_t>(makespan, s.cost);
-        }
-
-        if (!o.empty()) {
-            std::ofstream out(o);
-            out << "statistics:" << std::endl;
-            out << "  sum-of-costs: " << cost << std::endl;
-            out << "  makespan: " << makespan << std::endl;
-            out << "  t_total: " << tTime.str() << std::endl;
-            out << "  t_solver: " << sTime.str() << std::endl;
-            out << "  highLevelExpanded: " << hExpandend << std::endl;
-            out << "  lowLevelExpanded: " << lExpanded << std::endl;
-            out << "  numTaskAssignments: " << nAssignments << std::endl;
-            if (p) {
-              out << "assignment:" << std::endl;
-              for (const auto& s : taskAssignment) {
-                out << "  agent" <<  s.first << ":" << std::endl
-                    << "    - start:" << std::endl
-                    << "      - x: " << s.second.start.x << std::endl
-                    << "        y: " << s.second.start.y << std::endl
-                    << "    - goal:" << std::endl
-                    << "      - x: " << s.second.goal.x << std::endl
-                    << "        y: " << s.second.goal.y << std::endl;
-              }
-              out << "schedule:" << std::endl;
-              for (size_t a = 0; a < solution.size(); ++a) {
-                // std::cout << "Solution for: " << a << std::endl;
-                // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
-                //   std::cout << solution[a].states[i].second << ": " <<
-                //   solution[a].states[i].first << "->" << solution[a].actions[i].first
-                //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
-                // }
-                // std::cout << solution[a].states.back().second << ": " <<
-                // solution[a].states.back().first << std::endl;
-
-                out << "  agent" << a << ":" << std::endl;
-                for (const auto& state : solution[a].states) {
-                  out << "    - x: " << state.first.x << std::endl
-                      << "      y: " << state.first.y << std::endl
-                      << "      t: " << state.second << std::endl;
-                }
-              }
-            }
-        }
-    } else {
-        std::cout << "Planning NOT successful!" << std::endl;
-    }
-
-}
-
-int main(int argc, char **argv)
-{
-    int i = 0;
-
-    int g = 7;
-    string s;
-    int b = 10;
-    int a = 3;
-    int c = 3;
-    int t = 0; // timeout
-    std::string o = ""; // output file
-    bool p = false; // print plan and assignment to file
-
-    option:
-    if (argc > i + 1)
-        switch (tolower(argv[++i][0]))
-        {
-            case 'g' /*rid size*/:
-                g = atoi(argv[++i]);
-                goto option;
-            case 's' /*eed*/:
-                s = argv[++i];
-                goto option;
-            case 'b' /*rid size*/:
-                b = atoi(argv[++i]);
-                goto option;
-            case 'a' /*rid size*/:
-                a = atoi(argv[++i]);
-                goto option;
-            case 'c' /*eed*/:
-                c = atoi(argv[++i]);
-                goto option;
-            case 't' /*timeout*/:
-                t = atoi(argv[++i]);
-                goto option;
-            case 'o' /*rint plan*/:
-                o = argv[++i];
-                goto option;
-            case 'p' /*rint plan*/:
-                p = true;
-                goto option;
-        }
-
-    solve(g, b, a, c, t, o, s, p);
-}
-
-/*
-
-int main(int argc, char* argv[]) {
-  namespace po = boost::program_options;
-  // Declare the supported options.
-  po::options_description desc("Allowed options");
-  std::string inputFile;
-  std::string outputFile;
-  size_t maxTaskAssignments;
-  desc.add_options()("help", "produce help message")(
-      "input,i", po::value<std::string>(&inputFile)->required(),
-      "input file (YAML)")("output,o",
-                           po::value<std::string>(&outputFile)->required(),
-                           "output file (YAML)")(
-      "maxTaskAssignments",
-      po::value<size_t>(&maxTaskAssignments)->default_value(1e9),
-      "maximum number of task assignments to try");
-
-  try {
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-
-    if (vm.count("help") != 0u) {
-      std::cout << desc << "\n";
-      return 0;
-    }
-  } catch (po::error& e) {
-    std::cerr << e.what() << std::endl << std::endl;
-    std::cerr << desc << std::endl;
-    return 1;
-  }
+  std::cout << "────────────────────────────────────────────────────────────" << std::endl;
+  std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
+  std::cout << seed;
+  std::cout << std::endl;
+  Timer tTimer;
 
   std::unordered_set<Location> obstacles;
   std::vector<std::unordered_set<Container> > tasks;
   std::vector<State> startStates;
 
-  int dimx = 0;
-  int dimy = 0;
-
-  YAML::Node config = YAML::LoadFile(inputFile);
-
-  const auto& dim = config["map"]["dimensions"];
-  int dimx = dim[0].as<int>();
-  int dimy = dim[1].as<int>();
-
-  for (const auto& node : config["map"]["obstacles"]) {
-    obstacles.insert(Location(node[0].as<int>(), node[1].as<int>()));
-  }
-
-  for (const auto& node : config["agents"]) {
-    const auto& start = node["start"];
-    startStates.emplace_back(State(0, start[0].as<int>(), start[1].as<int>()));
-    tasks.resize(tasks.size() + 1);
-    for (const auto& task : node["potentialTasks"]) {
-      tasks.back().emplace(Container(
-          Location(task[0][0].as<int>(), task[0][1].as<int>()),
-          Location(task[1][0].as<int>(), task[1][1].as<int>())));
-    }
-  }
-
-  // sanity check: no identical start states
-  std::unordered_set<State> startStatesSet;
-  for (const auto& s : startStates) {
-    if (startStatesSet.find(s) != startStatesSet.end()) {
-      std::cout << "Identical start states detected -> no solution!" << std::endl;
-      return 0;
-    }
-    startStatesSet.insert(s);
-  }
-
-  Environment mapf(dimx, dimy, obstacles, startStates, tasks,
-                   maxTaskAssignments);
-  CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
-      cbs(mapf);
+  bool success = false;
   std::vector<PlanResult<State, Action, int> > solution;
+  std::map<size_t, Container> taskAssignment;
 
-  Timer timer;
-  bool success = cbs.search(startStates, solution);
-  timer.stop();
+  int hExpandend = 0;
+  int lExpanded = 0;
+  int nAssignments = 0;
+  std::stringstream sTime;
+  if (buildProblem(g, from_percentage(g, b), a, c, seed, obstacles, startStates, tasks)) {
+    Environment mapf(g, g, obstacles, startStates, tasks, 1e9);
+    CBSTA<State, Action, int, Conflict, Constraints, Container, Environment>
+            cbs(mapf);
+
+    Timer sTimer;
+    try {
+      success = cbs.search(startStates, solution, taskAssignment, t);
+    } catch (const std::runtime_error& e) {
+      if (std::string(e.what()) == "Timeout") {
+      }
+    }
+
+    sTimer.stop();
+    sTime << std::fixed << std::setprecision(3) << float(sTimer.elapsedSeconds());
+
+    hExpandend = mapf.highLevelExpanded();
+    lExpanded = mapf.lowLevelExpanded();
+    nAssignments = mapf.numTaskAssignments();
+  } else {
+    success = true;
+    sTime << std::fixed << std::setprecision(3) << 0.0;
+  }
+
+
+  tTimer.stop();
+  std::stringstream tTime;
+  tTime << std::fixed << std::setprecision(3) << float(tTimer.elapsedSeconds());
 
   if (success) {
     std::cout << "Planning successful! " << std::endl;
@@ -997,36 +802,91 @@ int main(int argc, char* argv[]) {
       makespan = std::max<int64_t>(makespan, s.cost);
     }
 
-    std::ofstream out(outputFile);
-    out << "statistics:" << std::endl;
-    out << "  cost: " << cost << std::endl;
-    out << "  makespan: " << makespan << std::endl;
-    out << "  runtime: " << timer.elapsedSeconds() << std::endl;
-    out << "  highLevelExpanded: " << mapf.highLevelExpanded() << std::endl;
-    out << "  lowLevelExpanded: " << mapf.lowLevelExpanded() << std::endl;
-    out << "  numTaskAssignments: " << mapf.numTaskAssignments() << std::endl;
-    out << "schedule:" << std::endl;
-    for (size_t a = 0; a < solution.size(); ++a) {
-      // std::cout << "Solution for: " << a << std::endl;
-      // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
-      //   std::cout << solution[a].states[i].second << ": " <<
-      //   solution[a].states[i].first << "->" << solution[a].actions[i].first
-      //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
-      // }
-      // std::cout << solution[a].states.back().second << ": " <<
-      // solution[a].states.back().first << std::endl;
+    if (!o.empty()) {
+      std::ofstream out(o);
+      out << "statistics:" << std::endl;
+      out << "  sum-of-costs: " << cost << std::endl;
+      out << "  makespan: " << makespan << std::endl;
+      out << "  t_total: " << tTime.str() << std::endl;
+      out << "  t_solver: " << sTime.str() << std::endl;
+      out << "  highLevelExpanded: " << hExpandend << std::endl;
+      out << "  lowLevelExpanded: " << lExpanded << std::endl;
+      out << "  numTaskAssignments: " << nAssignments << std::endl;
+      if (p) {
+        out << "assignment:" << std::endl;
+        for (const auto& s : taskAssignment) {
+          out << "  agent" <<  s.first << ":" << std::endl
+              << "    - start:" << std::endl
+              << "      - x: " << s.second.start.x << std::endl
+              << "        y: " << s.second.start.y << std::endl
+              << "    - goal:" << std::endl
+              << "      - x: " << s.second.goal.x << std::endl
+              << "        y: " << s.second.goal.y << std::endl;
+        }
+        out << "schedule:" << std::endl;
+        for (size_t a = 0; a < solution.size(); ++a) {
+          // std::cout << "Solution for: " << a << std::endl;
+          // for (size_t i = 0; i < solution[a].actions.size(); ++i) {
+          //   std::cout << solution[a].states[i].second << ": " <<
+          //   solution[a].states[i].first << "->" << solution[a].actions[i].first
+          //   << "(cost: " << solution[a].actions[i].second << ")" << std::endl;
+          // }
+          // std::cout << solution[a].states.back().second << ": " <<
+          // solution[a].states.back().first << std::endl;
 
-      out << "  agent" << a << ":" << std::endl;
-      for (const auto& state : solution[a].states) {
-        out << "    - x: " << state.first.x << std::endl
-            << "      y: " << state.first.y << std::endl
-            << "      t: " << state.second << std::endl;
+          out << "  agent" << a << ":" << std::endl;
+          for (const auto& state : solution[a].states) {
+            out << "    - x: " << state.first.x << std::endl
+                << "      y: " << state.first.y << std::endl
+                << "      t: " << state.second << std::endl;
+          }
+        }
       }
     }
   } else {
-    std::cout << "Planning NOT successful!" << std::endl;
+      std::cout << "Planning NOT successful!" << std::endl;
   }
 
-  return 0;
 }
-*/
+
+int main(int argc, char **argv)
+{
+  int i = 0;
+
+  int g = 7;
+  string s;
+  int b = 10;
+  int a = 3;
+  int c = 3;
+  int t = 0; // timeout TODO: not sure if we want to keep that option, it's implemented in a very hacky way
+  std::string o; // output file (yaml)
+
+  option:
+  if (argc > i + 1)
+    switch (tolower(argv[++i][0]))
+    {
+      case 'g' /*rid size*/:
+        g = atoi(argv[++i]);
+        goto option;
+      case 's' /*eed*/:
+        s = argv[++i];
+        goto option;
+      case 'b' /*locked*/:
+        b = atoi(argv[++i]);
+        goto option;
+      case 'a' /*gent number*/:
+        a = atoi(argv[++i]);
+        goto option;
+      case 'c' /*ontainer number*/:
+        c = atoi(argv[++i]);
+        goto option;
+      case 't' /*imeout*/:
+        t = atoi(argv[++i]);
+        goto option;
+      case 'o' /*utput file*/:
+        o = argv[++i];
+        goto option;
+    }
+
+  solve(g, b, a, c, t, o, s, true);
+}

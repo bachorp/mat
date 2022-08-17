@@ -1,5 +1,5 @@
 .PHONY: all
-all: clean build cbs install
+all: clean build install
 
 .PHONY: build
 build:
@@ -10,7 +10,7 @@ build:
 .PHONY: cbs
 cbs:
 	mkdir -p build
-	g++ -std=c++17 -Wall -Wextra -pedantic -O -o build/cbs_ta src/cbs_ta/cbs_ta.cpp -lboost_program_options
+	g++ -std=c++17 -Wall -Wextra -pedantic -O -o build/cbs_mapd src/cbs_ta/cbs_mapd.cpp
 
 .PHONY: install
 install:
