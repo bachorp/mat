@@ -12,11 +12,11 @@ eta   = (3,4,8,7)
 G0 = SymmetricGroup(8)
 
 alpha     = G0(alpha)
-alpha_inv = a0.inverse()
+alpha_inv = alpha.inverse()
 beta      = G0(beta)
 beta_inv  = beta.inverse()
 gamma     = G0(gamma)
-gamma_inv = gamma.inverse()gamma
+gamma_inv = gamma.inverse()
 delta     = G0(delta)
 delta_inv = delta.inverse()
 zeta      = G0(zeta)
