@@ -555,6 +555,12 @@ private:
                     add(transporting);
                 }
                 add(transported);
+                for (auto d : C) {
+                    auto limit = base;
+                    limit.push_back(!Lit(d, e.first, t));
+                    limit.push_back(!Lit(d, e.second, t + 1));
+                    add(limit);
+                }
             }
     }
 
