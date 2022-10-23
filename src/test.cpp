@@ -281,7 +281,7 @@ option:
     conf.transport = transport;
     if (mapd)
     {
-        conf.fixed_agent = true;
+        conf.fixed_container = true;
         conf.blocking_containers = false;
     }
     if (nonblocking)
