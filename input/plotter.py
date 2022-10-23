@@ -116,6 +116,7 @@ def main():
     agent_nums = set()
     container_nums = set()
     num_dif_makespans = 0
+    both_solved = 0
     for g in G_RANGE:
         for s in S_RANGE:
             with open(os.path.join(args.data1, str(g), str(s) + ".csv")) as file:
@@ -140,10 +141,11 @@ def main():
                     solved_dict[args.name2][config] = not row["result"]
                     if not row["result"]:
                         makespan_dict[args.name2][config] = int(row["makespan"])
-                        if solved_dict[args.name1][config] \
-                                and int(row["makespan"]) != makespan_dict[args.name1][config]:
+                        if solved_dict[args.name1][config]:
+                            if int(row["makespan"]) != makespan_dict[args.name1][config]:
                             # print(config)
-                            num_dif_makespans += 1
+                                num_dif_makespans += 1
+                            both_solved += 1
                         runtime_dict[args.name2][config] = float(row["t_total"]) / 1000
             assert (all(c in solved_dict[args.name2] for c in configs))
 
@@ -157,6 +159,7 @@ def main():
     print("{}: {} / {}".format(args.name1, len([v for v in solved_dict[args.name1].values() if v]), len(configs)))
     print("{}: {} / {}".format(args.name2, len([v for v in solved_dict[args.name2].values() if v]), len(configs)))
     print("instances with diverging makespans: {}".format(num_dif_makespans))
+    print(f"instances solved by both: {both_solved}")
 
 
 if __name__ == '__main__':
