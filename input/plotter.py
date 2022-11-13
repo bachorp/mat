@@ -119,7 +119,11 @@ def main():
     both_solved = 0
     for g in G_RANGE:
         for s in S_RANGE:
-            with open(os.path.join(args.data1, str(g), str(s) + ".csv")) as file:
+            csv_path1 = os.path.join(args.data1, str(g), str(s) + ".csv")
+            csv_path2 = os.path.join(args.data2, str(g), str(s) + ".csv")
+            if not os.path.isfile(csv_path1) or not os.path.isfile(csv_path2):
+                continue;
+            with open(csv_path1) as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     agent_nums.add(int(row["a"]))
@@ -130,7 +134,7 @@ def main():
                     if not row["result"]:
                         makespan_dict[args.name1][config] = int(row["makespan"])
                         runtime_dict[args.name1][config] = float(row["t_total"]) / 1000
-            with open(os.path.join(args.data2, str(g), str(s) + ".csv")) as file:
+            with open(csv_path2) as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     a = row["a"]
