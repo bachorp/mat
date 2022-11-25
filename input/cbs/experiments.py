@@ -51,7 +51,7 @@ AGENTS = range(1, 11)
 CONTAINERS = range(1, 11)
 
 TIME_LIMIT = 600  # sec
-MEMORY_LIMIT = 16384  # MB
+MEMORY_LIMIT = 4096  # MB
 
 if REMOTE:
     ENV = FreiburgSlurmEnvironment()
@@ -111,7 +111,7 @@ for s in SEEDS:
                     task_name = "a{}-c{}-s{}".format(a, c, s)
                     run.set_property("domain", domain)
                     run.set_property("problem", task_name)
-                    run.set_property("algorithm", "cbs_ta")
+                    run.set_property("algorithm", "cbs_mapd")
                     # BaseReport needs the following properties:
                     # 'time_limit', 'memory_limit', 'seed'.
                     run.set_property("time_limit", TIME_LIMIT)
