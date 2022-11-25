@@ -19,23 +19,49 @@ using libMultiRobotPlanning::Neighbor;
 using libMultiRobotPlanning::PlanResult;
 using libMultiRobotPlanning::NextBestAssignment;
 
+///
+
+enum class TransportStatus {
+    Approach,
+    Delivery,
+    Done,
+};
+
+std::ostream& operator<<(std::ostream& os, const TransportStatus& s) {
+  switch (s) {
+    case TransportStatus::Approach:
+      os << "Approach";
+      break;
+    case TransportStatus::Delivery:
+      os << "Delivery";
+      break;
+    case TransportStatus::Done:
+      os << "Done";
+      break;
+  }
+  return os;
+}
+
+///
+
 struct State {
-  State(int time, int x, int y) : time(time), x(x), y(y) {}
+  State(int time, int x, int y, TransportStatus ts) : time(time), x(x), y(y), ts(ts) {}
 
   bool operator==(const State& s) const {
-    return time == s.time && x == s.x && y == s.y;
+    return time == s.time && x == s.x && y == s.y && ts == s.ts;
   }
 
-  bool equalExceptTime(const State& s) const { return x == s.x && y == s.y; }
+  bool conflicts(const State& s) const { return x == s.x && y == s.y; }
 
   friend std::ostream& operator<<(std::ostream& os, const State& s) {
-    return os << s.time << ": (" << s.x << "," << s.y << ")";
+    return os << s.time << ": (" << s.x << "," << s.y << ") [" << s.ts << "]";
     // return os << "(" << s.x << "," << s.y << ")";
   }
 
   int time;
   int x;
   int y;
+  TransportStatus ts;
 };
 
 namespace std {
@@ -46,6 +72,7 @@ struct hash<State> {
     boost::hash_combine(seed, s.time);
     boost::hash_combine(seed, s.x);
     boost::hash_combine(seed, s.y);
+    boost::hash_combine(seed, s.ts);
     return seed;
   }
 };
@@ -429,8 +456,7 @@ class Environment {
         m_numTaskAssignments(0),
         m_highLevelExpanded(0),
         m_lowLevelExpanded(0),
-        m_heuristic(dimx, dimy, obstacles),
-        m_delivering(false) {
+        m_heuristic(dimx, dimy, obstacles) {
     m_numAgents = startStates.size();
     for (size_t i = 0; i < startStates.size(); ++i) {
       for (const auto& task : tasks[i]) {
@@ -449,21 +475,19 @@ class Environment {
   }
 
   void setLowLevelContext(size_t agentIdx, const Constraints* constraints,
-                          const Container* task, bool delivering) {
+                          const Container* task) {
     assert(constraints);
     m_agentIdx = agentIdx;
     m_task = task;
-    m_delivering = delivering;
     m_constraints = constraints;
     m_lastGoalConstraint = {};
     if (m_task != nullptr) {
-      auto goal = (m_delivering ? m_task->goal : m_task->start);
-      assert(m_obstacles.find(goal) == m_obstacles.end());
+      assert(m_obstacles.find(m_task->goal) == m_obstacles.end());
       for (const auto& vc : constraints->vertexConstraints) {
-        if (vc.x == goal.x && vc.y == goal.y) {
-          auto insert = m_lastGoalConstraint.insert(std::make_pair(goal, vc.time));
+        if (vc.x == m_task->goal.x && vc.y == m_task->goal.y) {
+          auto insert = m_lastGoalConstraint.insert(std::make_pair(m_task->goal, vc.time));
           if (!insert.second) {
-             m_lastGoalConstraint[goal] = std::max(m_lastGoalConstraint.at(goal), vc.time);
+             m_lastGoalConstraint[m_task->goal] = std::max(m_lastGoalConstraint.at(m_task->goal), vc.time);
           }
         }
       }
@@ -480,26 +504,27 @@ class Environment {
   }
 
   int admissibleHeuristic(const State& s) {
-    if (m_task != nullptr) {
-      auto goal = (m_delivering ? m_task->goal : m_task->start);
-      return m_heuristic.getValue(Location(s.x, s.y), goal);
-    } else {
+    if (m_task == nullptr || s.ts == TransportStatus::Done) {
       return 0;
     }
-  }
-
-  bool isSolution(const State& s) {
-    if (m_task != nullptr) {
-      auto goal = (m_delivering ? m_task->goal : m_task->start);
-      return s.x == goal.x && s.y == goal.y;
+    if (s.ts == TransportStatus::Delivery) {
+      return m_heuristic.getValue(Location(s.x, s.y), m_task->goal);
     }
-    else {
+    assert(s.ts == TransportStatus::Approach);
+    return m_heuristic.getValue(Location(s.x, s.y), m_task->start) +
+           m_heuristic.getValue(m_task->start, m_task->goal);
+  }
+  
+  bool isSolution(const State& s) {
+    if (m_task == nullptr || getNextStatus(s) == TransportStatus::Done) {
+      // if the agent has no task, just find a place where it can stay
       auto search = m_lastGoalConstraint.find(Location(s.x, s.y));
       if (search != m_lastGoalConstraint.end()) {
         return s.time > search->second;
       }
       return true;
     }
+    return false;
   }
 
   void getNeighbors(const State& s,
@@ -509,36 +534,40 @@ class Environment {
     //   std::cout << "  " << vc.time << "," << vc.x << "," << vc.y <<
     //   std::endl;
     // }
+    // TODO: Currently agents are forced to pick up their assigned container once they reach it.
+    //       As far as I can tell, that does not make a difference in our setting, but in the long run it might be
+    //       preferable to introduce a 'PickUp' action (but would need major refactoring)
     neighbors.clear();
+    auto nextStatus = getNextStatus(s);
     {
-      State n(s.time + 1, s.x, s.y);
+      State n(s.time + 1, s.x, s.y, nextStatus);
       if (stateValid(n) && transitionValid(s, n)) {
         neighbors.emplace_back(
             Neighbor<State, Action, int>(n, Action::Wait, 1));
       }
     }
     {
-      State n(s.time + 1, s.x - 1, s.y);
+      State n(s.time + 1, s.x - 1, s.y, nextStatus);
       if (stateValid(n) && transitionValid(s, n)) {
         neighbors.emplace_back(
             Neighbor<State, Action, int>(n, Action::Left, 1));
       }
     }
     {
-      State n(s.time + 1, s.x + 1, s.y);
+      State n(s.time + 1, s.x + 1, s.y, nextStatus);
       if (stateValid(n) && transitionValid(s, n)) {
         neighbors.emplace_back(
             Neighbor<State, Action, int>(n, Action::Right, 1));
       }
     }
     {
-      State n(s.time + 1, s.x, s.y + 1);
+      State n(s.time + 1, s.x, s.y + 1, nextStatus);
       if (stateValid(n) && transitionValid(s, n)) {
         neighbors.emplace_back(Neighbor<State, Action, int>(n, Action::Up, 1));
       }
     }
     {
-      State n(s.time + 1, s.x, s.y - 1);
+      State n(s.time + 1, s.x, s.y - 1, nextStatus);
       if (stateValid(n) && transitionValid(s, n)) {
         neighbors.emplace_back(
             Neighbor<State, Action, int>(n, Action::Down, 1));
@@ -560,7 +589,7 @@ class Environment {
         State state1 = getState(i, solution, t);
         for (size_t j = i + 1; j < solution.size(); ++j) {
           State state2 = getState(j, solution, t);
-          if (state1.equalExceptTime(state2)) {
+          if (state1.conflicts(state2)) {
             result.time = t;
             result.agent1 = i;
             result.agent2 = j;
@@ -580,8 +609,8 @@ class Environment {
         for (size_t j = i + 1; j < solution.size(); ++j) {
           State state2a = getState(j, solution, t);
           State state2b = getState(j, solution, t + 1);
-          if (state1a.equalExceptTime(state2b) &&
-              state1b.equalExceptTime(state2a)) {
+          if (state1a.conflicts(state2b) &&
+              state1b.conflicts(state2a)) {
             result.time = t;
             result.agent1 = i;
             result.agent2 = j;
@@ -675,6 +704,20 @@ class Environment {
            con.end();
   }
 
+
+  TransportStatus getNextStatus(const State& s) {
+    if (m_task == nullptr) {
+      return TransportStatus::Done;
+    }
+    if (s.ts == TransportStatus::Approach && s.x == m_task->start.x && s.y == m_task->start.y) {
+      return TransportStatus::Delivery;
+    }
+    if (s.ts == TransportStatus::Delivery && s.x == m_task->goal.x && s.y == m_task->goal.y) {
+      return TransportStatus::Done;
+    }
+    return s.ts;
+  }
+
  private:
   int m_dimx;
   int m_dimy;
@@ -691,7 +734,6 @@ class Environment {
   ShortestPathHeuristic m_heuristic;
   size_t m_numAgents;
   std::unordered_set<Container> m_tasks;
-  bool m_delivering;
 };
 
 Location vToLoc(int v, int g) {
@@ -722,7 +764,7 @@ bool buildProblem(int g, int b, int a, int c, T seed,
   shuffle_(nodes.begin(), nodes.end() - b, r);
   for (auto it = nodes.begin(); it < nodes.begin() + a; ++it) {
     auto l = vToLoc(*it, g);
-    agentStarts.emplace_back(0,l.x, l.y);
+    agentStarts.emplace_back(0, l.x, l.y, TransportStatus::Approach);
   }
   shuffle_(nodes.begin(), nodes.end() - b, r);
   for (auto i : range(c)) {
@@ -744,7 +786,7 @@ bool buildProblem(int g, int b, int a, int c, T seed,
 }
 
 template <typename T = std::string>
-void solve(int g, int b, int a, int c, int t, std::string o, T seed = "", bool p = false)
+void solve(int g, int b, int a, int c, int t, std::string o, std::string m, T seed = "", bool p = false)
 {
   std::cout << "────────────────────────────────────────────────────────────" << std::endl;
   std::printf("g = %d, b = %d, a = %d, c = %d, seed = ", g, b, a, c);
@@ -843,6 +885,26 @@ void solve(int g, int b, int a, int c, int t, std::string o, T seed = "", bool p
         }
       }
     }
+    // print a yaml scenario file
+    if (!m.empty()) {
+      std::ofstream out(m);
+      out << "map:" << std::endl;
+      out << "  dimensions: [" << g << ", " << g << "]" << std::endl;
+      out << "  obstacles:" << std::endl;
+      for (const auto& obs : obstacles) {
+        out << "    - [" << obs.x << ", " << obs.y << "]" << std::endl;
+      }
+      out << "agents:" << std::endl;
+      for (size_t aIdx = 0; aIdx < startStates.size(); aIdx++) {
+        out << "  - name: agent" << aIdx << std::endl;
+        out << "    start: [" << startStates.at(aIdx).x << ", " << startStates.at(aIdx).y << "]" << std::endl;
+        out << "    potentialTasks:" << std::endl;
+        for (const auto& container : tasks.at(aIdx)) {
+          out << "      - [[" << container.start.x << ", " << container.start.y << "], ["
+                              << container.goal.x << ", " << container.goal.y << "]]" << std::endl;
+        }
+      }
+    }
   } else {
       std::cout << "Planning NOT successful!" << std::endl;
   }
@@ -860,6 +922,7 @@ int main(int argc, char **argv)
   int c = 3;
   int t = 0; // timeout TODO: not sure if we want to keep that option, it's implemented in a very hacky way
   std::string o; // output file (yaml)
+  std::string m; // output map file (yaml)
 
   option:
   if (argc > i + 1)
@@ -886,7 +949,10 @@ int main(int argc, char **argv)
       case 'o' /*utput file*/:
         o = argv[++i];
         goto option;
+      case 'm' /*ap print*/:
+        m = argv[++i];
+        goto option;
     }
 
-  solve(g, b, a, c, t, o, s, true);
+  solve(g, b, a, c, t, o, m, s, true);
 }

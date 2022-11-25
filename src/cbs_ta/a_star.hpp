@@ -26,23 +26,24 @@ struct PlanResult {
   //! lower bound of the cost (for suboptimal solvers)
   Cost fmin;
 
-  bool append(PlanResult<State, Action, Cost>& other) {
-    if (states.empty() || other.states.empty()
-        || states.back() != other.states.front()) {
-        return false;
-    }
-    states.insert(states.end(),
-                  std::make_move_iterator(other.states.begin() + 1),
-                  std::make_move_iterator(other.states.end()));
-    other.states.clear();
-    actions.insert(actions.end(),
-                   std::make_move_iterator(other.actions.begin()),
-                   std::make_move_iterator(other.actions.end()));
-    other.actions.clear();
-    cost = other.cost;
-    fmin = other.fmin;
-    return true;
-  }
+  // no longer required
+  //  bool append(PlanResult<State, Action, Cost>& other) {
+  //    if (states.empty() || other.states.empty()
+  //        || states.back() != other.states.front()) {
+  //        return false;
+  //    }
+  //    states.insert(states.end(),
+  //                  std::make_move_iterator(other.states.begin() + 1),
+  //                  std::make_move_iterator(other.states.end()));
+  //    other.states.clear();
+  //    actions.insert(actions.end(),
+  //                   std::make_move_iterator(other.actions.begin()),
+  //                   std::make_move_iterator(other.actions.end()));
+  //    other.actions.clear();
+  //    cost = other.cost;
+  //    fmin = other.fmin;
+  //    return true;
+  //  }
 };
 
 

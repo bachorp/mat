@@ -190,13 +190,12 @@ class CBSTA {
 
   struct LowLevelEnvironment {
     LowLevelEnvironment(Environment& env, size_t agentIdx,
-                        const Constraints& constraints, const Task* task,
-                        bool delivering)
+                        const Constraints& constraints, const Task* task)
         : m_env(env)
     // , m_agentIdx(agentIdx)
     // , m_constraints(constraints)
     {
-      m_env.setLowLevelContext(agentIdx, &constraints, task, delivering);
+      m_env.setLowLevelContext(agentIdx, &constraints, task);
     }
 
     Cost admissibleHeuristic(const State& s) {
@@ -228,34 +227,33 @@ class CBSTA {
 
   bool findDeliveryPlan(int agent, const State& start, HighLevelNode& n, const Timer& timer, double timeout) {
     LowLevelEnvironment llenv(m_env, agent, n.constraints.at(agent),
-                              n.task(agent), false);
+                              n.task(agent));
     LowLevelSearch_t lowLevel(llenv);
     double subTimeout = (timeout == 0 ? 0 : timeout - timer.elapsedSeconds());
-    bool success = lowLevel.search(start, n.solution[agent], 0, subTimeout);
-    if (success) {
-      LowLevelEnvironment dllenv(m_env, agent, n.constraints.at(agent),
-                                n.task(agent), true);
-      LowLevelSearch_t dlowLevel(dllenv);
-      PlanResult<State, Action, Cost> deliveryPlan;
-      success = dlowLevel.search(n.solution[agent].states.back().first,
-                                deliveryPlan, n.solution[agent].cost, subTimeout);
-      if (success) {
-        success = n.solution[agent].append(deliveryPlan);
-        assert(success);
-        LowLevelEnvironment allenv(m_env, agent, n.constraints.at(agent),
-                                   nullptr, true);
-        LowLevelSearch_t alowLevel(allenv);
-        PlanResult<State, Action, Cost> afterPlan;
-        success = dlowLevel.search(n.solution[agent].states.back().first,
-                                   afterPlan, n.solution[agent].cost, subTimeout);
-        if (success) {
-          success = n.solution[agent].append(afterPlan);
-          assert(success);
-        }
-
-      }
-    }
-    return success;
+    //    bool success = lowLevel.search(start, n.solution[agent], 0, subTimeout);
+    //    if (success) {
+    //      LowLevelEnvironment dllenv(m_env, agent, n.constraints.at(agent),
+    //                                n.task(agent), true);
+    //      LowLevelSearch_t dlowLevel(dllenv);
+    //      PlanResult<State, Action, Cost> deliveryPlan;
+    //      success = dlowLevel.search(n.solution[agent].states.back().first,
+    //                                deliveryPlan, n.solution[agent].cost, subTimeout);
+    //      if (success) {
+    //        success = n.solution[agent].append(deliveryPlan);
+    //        assert(success);
+    //        LowLevelEnvironment allenv(m_env, agent, n.constraints.at(agent),
+    //                                   nullptr, true);
+    //        LowLevelSearch_t alowLevel(allenv);
+    //        PlanResult<State, Action, Cost> afterPlan;
+    //        success = dlowLevel.search(n.solution[agent].states.back().first,
+    //                                   afterPlan, n.solution[agent].cost, subTimeout);
+    //        if (success) {
+    //          success = n.solution[agent].append(afterPlan);
+    //          assert(success);
+    //        }
+    //      }
+    //    }
+    return lowLevel.search(start, n.solution[agent], 0, subTimeout);
   }
 
  private:
