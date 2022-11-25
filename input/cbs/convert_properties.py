@@ -18,6 +18,9 @@ def sort_data(data):
         if s not in data_dict[g]:
             data_dict[g][s] = []
         line = [g, b, a, c, s, str(value["time_limit"]), str(value["memory_limit"])]
+        if "solved" not in value:
+            print("properties corrupt for " + key)
+            continue
         if value["solved"]:
             line += ["", str(value["makespan"]), str(value["t_total"]*1000), str(value["t_solver"]*1000),
                      str(value["high_level_expansion"]), str(value["low_level_expansion"])]

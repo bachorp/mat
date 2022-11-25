@@ -31,7 +31,7 @@ def plot_solved_agents(configs, solved_dict, num_list):
     plt.xlabel("a - Number of Agents", fontsize=18)
     plt.ylabel("Unsolved (%)", fontsize=18)
 
-    plt.ylim(0, 15)
+    plt.ylim(0, 35) # TODO: set dynamically
     plt.gca().yaxis.grid(True)
 
     plt.plot(num_list, [(1.0 - float(v) / float(n)) * 100 for v, n in zip(cbs_vals, total)], "D-", label=algo1)
@@ -117,6 +117,7 @@ def main():
     container_nums = set()
     num_dif_makespans = 0
     both_solved = 0
+    max_makespan = 0
     for g in G_RANGE:
         for s in S_RANGE:
             csv_path1 = os.path.join(args.data1, str(g), str(s) + ".csv")
@@ -132,7 +133,9 @@ def main():
                     configs.append(config)
                     solved_dict[args.name1][config] = not row["result"]
                     if not row["result"]:
-                        makespan_dict[args.name1][config] = int(row["makespan"])
+                        makespan = int(row["makespan"])
+                        max_makespan = max(max_makespan, makespan)
+                        makespan_dict[args.name1][config] = makespan
                         runtime_dict[args.name1][config] = float(row["t_total"]) / 1000
             with open(csv_path2) as file:
                 reader = csv.DictReader(file)
@@ -144,9 +147,11 @@ def main():
                         continue
                     solved_dict[args.name2][config] = not row["result"]
                     if not row["result"]:
-                        makespan_dict[args.name2][config] = int(row["makespan"])
+                        makespan = int(row["makespan"])
+                        max_makespan = max(max_makespan, makespan)
+                        makespan_dict[args.name2][config] = makespan
                         if solved_dict[args.name1][config]:
-                            if int(row["makespan"]) != makespan_dict[args.name1][config]:
+                            if makespan != makespan_dict[args.name1][config]:
                             # print(config)
                                 num_dif_makespans += 1
                             both_solved += 1
@@ -156,7 +161,7 @@ def main():
     plt.rcParams.update({'font.size': 16})
     plot_solved_agents(configs, solved_dict, sorted(list(agent_nums)))
     # plot_solved_containers(configs, solved_dict, sorted(list(container_nums)))
-    scatter_dict(configs, makespan_dict, "makespan", title="Makespan")
+    scatter_dict(configs, makespan_dict, "makespan", title="Makespan", val_range=[0, max_makespan])
     scatter_dict(configs, runtime_dict, "t_total",
                 fail_val=600.0, log_scale=True, val_range=[1e-3, 1e3], suffix=" (s)", title="Runtime")
     print("total solved:")
