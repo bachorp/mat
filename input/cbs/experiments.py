@@ -27,6 +27,8 @@ class FreiburgSlurmEnvironment(SlurmEnvironment):
     #DEFAULT_PARTITION =  "gki_gpu-ti"
     DEFAULT_QOS = "normal"
     DEFAULT_MEMORY_PER_CPU = "6000M"
+    DEFAULT_TIME_LIMIT_PER_TASK = "00:15:00"
+    MAX_TASKS = 40000
 
 # Create custom report class with suitable info and error attributes.
 
@@ -49,7 +51,7 @@ AGENTS = range(1, 11)
 CONTAINERS = range(1, 11)
 
 TIME_LIMIT = 600  # sec
-MEMORY_LIMIT = 4096  # MB
+MEMORY_LIMIT = 16384  # MB
 
 if REMOTE:
     ENV = FreiburgSlurmEnvironment()
@@ -83,7 +85,7 @@ ATTRIBUTES = [
 # Create a new experiment.
 exp = Experiment(environment=ENV)
 
-exp.add_resource("cbs_ta", os.path.join(REPO, "build", "cbs_ta"))
+exp.add_resource("cbs_mapd", os.path.join(REPO, "build", "cbs_mapd"))
 
 # Add custom parser.
 exp.add_parser("parser.py")
@@ -98,7 +100,7 @@ for s in SEEDS:
                     run = exp.add_run()
                     run.add_command(
                         "solver",
-                        ["{cbs_ta}", "s", s, "g", g, "b", b, "a", a, "c", c, "o", "plan.yaml"],
+                        ["{cbs_mapd}", "s", s, "g", g, "b", b, "a", a, "c", c, "o", "plan.yaml"],
                         time_limit=TIME_LIMIT,
                         memory_limit=MEMORY_LIMIT,
                     )
