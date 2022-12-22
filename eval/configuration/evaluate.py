@@ -1,10 +1,11 @@
 import glob
+import itertools
 import math
 import pickle
-import pandas as pd
-import itertools
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import pandas as pd
 
 
 def plot(xlabel: str, ylabel: str, filename: str):

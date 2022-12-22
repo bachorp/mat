@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import pickle
 from typing import Any, Dict, List, Literal
-import pandas as pd
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+import pandas as pd
 
 params = ["g", "b", "a", "c"]
 instance = params + ["seed"]
