@@ -27,6 +27,7 @@ def process(
     simple: bool = False,
     lloc: str = "upper right",
 ):
+    filename = "out/" + filename
     axMain: plt.Axes = plt.gca()
     divider: AxesDivider = make_axes_locatable(axMain)
     axLin: Optional[plt.Axes] = (
@@ -149,8 +150,9 @@ def grid(
 
 
 if __name__ == "__main__":
-    for prefix in [None, "fixed", "mapd", "non_blocking"]:
-        pickle_jar = f"data{'_' + prefix if prefix else ''}.p"
+    for prefix in ["mat", "fixed", "mapd", "non_blocking"]:
+        print(prefix)
+        pickle_jar = f"data_{prefix}.p"
         try:
             with open(pickle_jar, "rb") as fp:
                 print("Loading from jar")
@@ -158,8 +160,8 @@ if __name__ == "__main__":
 
         except FileNotFoundError:
             print("Loading from CSVs")
-            mat, mapf = load(f"{prefix + '/' if prefix else ''}*/"), load(
-                "regular_mapf/*/"
+            mat, mapf = load(f"data/{prefix}/*/"), load(
+                "data/regular_mapf/*/"
             )
             print("Saving to jar")
             with open(pickle_jar, "wb") as fp:
