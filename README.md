@@ -6,18 +6,19 @@
 
 For test data and evaluation please refer to the corresponding subfolders `input`, `configuration` and `mapf`.
 
-## Proof of Lemma 2
+## Sagemath Scripts
 
-The computational verification of Lemma 2 for basic graphs has been implemented using the algebra software `SageMath`.
-The code can be found in the files `pebbles.sage` and `tzero.sage` and can be ran online at <https://sagecell.sagemath.org/>.
+For our theoretical analysis we utilized the algebra software `SageMath`.
+Code can be found in folder `sage` and can be ran online at <https://sagecell.sagemath.org/>.
+
 ## MAT solver
 
 To install the MAT solver please get Cryptominisat 5 from <https://github.com/msoos/cryptominisat> and ensure that the header files and the dynamic library file are in appropriate paths.
 
-You can use Makefile to build and install from source.
+You can use Makefile to build from source.
 
 ```shell
-make [clean | build | install | uninstall]
+make mat
 ```
 
 ### Usage:
