@@ -1,12 +1,25 @@
-import json
 import csv
+import json
 import os
 
 PROP_PATH = "./data/experiments-eval/properties"
 OUT_PATH = "."
 
-CSV_HEADER = ["g", "b", "a", "c", "seed", "timeout", "memout", "result", "makespan", "t_total", "t_solver",
-              "h_expanded", "l_expanded"]
+CSV_HEADER = [
+    "g",
+    "b",
+    "a",
+    "c",
+    "seed",
+    "timeout",
+    "memout",
+    "result",
+    "makespan",
+    "t_total",
+    "t_solver",
+    "h_expanded",
+    "l_expanded",
+]
 
 
 def sort_data(data):
@@ -22,8 +35,14 @@ def sort_data(data):
             print("properties corrupt for " + key)
             continue
         if value["solved"]:
-            line += ["", str(value["makespan"]), str(value["t_total"]*1000), str(value["t_solver"]*1000),
-                     str(value["high_level_expansion"]), str(value["low_level_expansion"])]
+            line += [
+                "",
+                str(value["makespan"]),
+                str(value["t_total"] * 1000),
+                str(value["t_solver"] * 1000),
+                str(value["high_level_expansion"]),
+                str(value["low_level_expansion"]),
+            ]
         else:
             if value["unsolvable"]:
                 line += ["Unsolvable"]
@@ -52,5 +71,5 @@ def main():
                 writer.writerows(lines)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

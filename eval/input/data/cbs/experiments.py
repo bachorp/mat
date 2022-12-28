@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 """
 Example experiment using a simple vertex cover solver.
 """
@@ -9,7 +7,7 @@ import os
 import platform
 
 from downward.reports.absolute import AbsoluteReport
-from lab.environments import SlurmEnvironment, LocalEnvironment
+from lab.environments import LocalEnvironment, SlurmEnvironment
 from lab.experiment import Experiment
 from lab.reports import Attribute
 
@@ -24,11 +22,12 @@ class FreiburgSlurmEnvironment(SlurmEnvironment):
         # SlurmEnvironment.__init__(self, extra_options='#SBATCH --exclude=kisexe[06]', **kwargs)
 
     DEFAULT_PARTITION = "gki_cpu-cascadelake"
-    #DEFAULT_PARTITION =  "gki_gpu-ti"
+    # DEFAULT_PARTITION =  "gki_gpu-ti"
     DEFAULT_QOS = "normal"
     DEFAULT_MEMORY_PER_CPU = "6000M"
     DEFAULT_TIME_LIMIT_PER_TASK = "00:15:00"
     MAX_TASKS = 40000
+
 
 # Create custom report class with suitable info and error attributes.
 
@@ -100,7 +99,21 @@ for s in SEEDS:
                     run = exp.add_run()
                     run.add_command(
                         "solver",
-                        ["{cbs_mapd}", "s", s, "g", g, "b", b, "a", a, "c", c, "o", "plan.yaml"],
+                        [
+                            "{cbs_mapd}",
+                            "s",
+                            s,
+                            "g",
+                            g,
+                            "b",
+                            b,
+                            "a",
+                            a,
+                            "c",
+                            c,
+                            "o",
+                            "plan.yaml",
+                        ],
                         time_limit=TIME_LIMIT,
                         memory_limit=MEMORY_LIMIT,
                     )
