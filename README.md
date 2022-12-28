@@ -33,7 +33,7 @@ where `COMMAND` refers to either one of the following.
 * `1` - Show the first example (Figure 1) from the paper
 * `2` - Show the counter example (Figure 2) from the paper
 * `3` - Show the counter example (Figure 3) from the paper
-* `b[arták]` - Conduct the test set from Barták et al.. Takes only a seed option
+* `b[arták]` - Conduct the test set from `[1]`. Takes only a seed option
 * `i[nteractive]` - Start an interactive parameter prompt
 * `n[on_blocking]` - Variant with non-blocking containers
 * `f[ixed]` - Variant where a container can be transported by at most one agent
@@ -81,3 +81,7 @@ where `OPTION` is either one of the following.
 
 The instance generation is the same as for MAT, i.e. if the same respective parameters are given the same instance will be generated.
 Note that when given more containers than agents, CBS-MAPD will always fail.
+
+---
+
+`[1]` *Barták, R; Zhou, N; Stern, R; Boyarski, E; and Surynek, P. 2017. Modeling and Solving the Multi-agent Pathfinding Problem in Picat. In 29th IEEE International Conference on Tools with Artificial Intelligence, ICTAI 2017, 959-966. IEEE Computer Society.*
