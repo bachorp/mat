@@ -9,6 +9,7 @@ import pandas as pd
 
 
 def plot(xlabel: str, ylabel: str, filename: str):
+    filename = "out/" + filename
     xpoints = ypoints = plt.xlim()
     plt.plot(xpoints, ypoints, linestyle="-", zorder=1)
     axes = plt.gca()
@@ -73,14 +74,14 @@ def load(encoding=False) -> dict:
     if encoding:
         ds = []
         for i, j in encodings:
-            d = pd.concat(map(pd.read_csv, glob.glob(str(i) + "/*.csv")))
+            d = pd.concat(map(pd.read_csv, glob.glob("data/" + str(i) + "/*.csv")))
             d["config"] = j
             ds.append(d)
         df = pd.concat(ds)[needed]
     else:
-        df = pd.concat(map(pd.read_csv, glob.glob("[0-3]/*.csv")))[needed]
+        df = pd.concat(map(pd.read_csv, glob.glob("data/[0-3]/*.csv")))[needed]
 
-    cs = dict(tuple(df.groupby(["config"])))
+    cs = dict(tuple(df.groupby(("config"))))
 
     p = pd.DataFrame(columns=static)
     for c, d in cs.items():
@@ -228,7 +229,7 @@ if __name__ == "__main__":
     plot("With movement variables", "Without movement variables", "mv")
 
     for i, j in encodings:
-        d = pd.concat(map(pd.read_csv, glob.glob(str(i) + "/*.csv")))
+        d = pd.concat(map(pd.read_csv, glob.glob("data/" + str(i) + "/*.csv")))
         out = "Encoding {} needs {:9.1f} clauses, {:9.1f} literals and {:8.1f} variables on average"
         print(
             out.format(
