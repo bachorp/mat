@@ -52,7 +52,7 @@ def plot_solved_agents(configs, solved_dict, num_list):
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.gcf().subplots_adjust(left=0.15)
 
-    plt.savefig("solved_agents_{}__{}.png".format(algo1.lower(), algo2.lower()))
+    plt.savefig("out/solved_agents_{}__{}.png".format(algo1.lower(), algo2.lower()))
     plt.cla()
 
 
@@ -83,7 +83,7 @@ def plot_solved_containers(configs, solved_dict, num_list):
     )
 
     plt.legend()
-    plt.savefig("solved_containers_{}__{}.png".format(algo1.lower(), algo2.lower()))
+    plt.savefig("out/solved_containers_{}__{}.png".format(algo1.lower(), algo2.lower()))
     plt.cla()
 
 
@@ -136,7 +136,7 @@ def scatter_dict(
 
     plt.gcf().subplots_adjust(bottom=0.15)
 
-    fig.savefig("scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower()))
+    fig.savefig("out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower()))
     plt.cla()
 
 
@@ -154,8 +154,8 @@ def main():
     max_makespan = 0
     for g in G_RANGE:
         for s in S_RANGE:
-            csv_path1 = os.path.join(args.data1, str(g), str(s) + ".csv")
-            csv_path2 = os.path.join(args.data2, str(g), str(s) + ".csv")
+            csv_path1 = os.path.join("data", args.data1, str(g), str(s) + ".csv")
+            csv_path2 = os.path.join("data", args.data2, str(g), str(s) + ".csv")
             if not os.path.isfile(csv_path1) or not os.path.isfile(csv_path2):
                 continue
             with open(csv_path1) as file:

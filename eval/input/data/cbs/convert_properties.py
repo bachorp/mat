@@ -2,7 +2,7 @@ import csv
 import json
 import os
 
-PROP_PATH = "./data/experiments-eval/properties"
+PROP_PATH = "./raw/experiments-eval/properties"
 OUT_PATH = "."
 
 CSV_HEADER = [
