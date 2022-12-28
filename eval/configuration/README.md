@@ -5,3 +5,5 @@ Additionally, we evaluate the effect of different encodings of the SAT formula.
 ```shell
 python3 evaluate.py > out.txt
 ```
+
+To speed up consecutive evaluations, the data are serialized and stored into the file `data.p`. Remove this file if data change.
