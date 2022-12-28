@@ -1,4 +1,4 @@
-# The Multi Agent Transportation Problem - Supplement
+# The Multi Agent Transportation Problem
 
 ![](teaser.gif)
 
