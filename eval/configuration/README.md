@@ -3,7 +3,7 @@ We generated a single instance per parameter set (4 ≤ g ≤ 12, b ∈ {10, 20}
 Additionally, we evaluate the effect of different encodings of the SAT formula.
 
 ```shell
-python3 evaluate.py > out.txt
+python3 -m evaluate > out.txt
 ```
 
 To speed up consecutive evaluations, the data are serialized and stored into the file `data.p`. Remove this file if data change.
