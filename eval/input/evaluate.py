@@ -150,7 +150,7 @@ def grid(
 
 
 if __name__ == "__main__":
-    for prefix in ["mat", "fixed", "mapd", "non_blocking"]:
+    for prefix in ["mat", "fixed", "non_blocking"]:
         print(prefix)
         pickle_jar = f"data_{prefix}.p"
         try:
