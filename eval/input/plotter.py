@@ -4,8 +4,13 @@ import os
 
 import matplotlib.pyplot as plt
 
+NIGHT_MODE = False
+
 G_RANGE = range(4, 13)
 S_RANGE = range(0, 20)
+
+if NIGHT_MODE:
+    plt.style.use("dark_background")
 
 
 def setup_args():
@@ -94,7 +99,7 @@ def scatter_dict(
     fail_val="",
     log_scale=False,
     val_range=[],
-    data_col="royalblue",
+    data_col="blue" if NIGHT_MODE else "royalblue",
     diag_col="y",
     suffix="",
     title="",
@@ -136,7 +141,9 @@ def scatter_dict(
 
     plt.gcf().subplots_adjust(bottom=0.15)
 
-    fig.savefig("out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower()))
+    fig.savefig(
+        "out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower())
+    )
     plt.cla()
 
 

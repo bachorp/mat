@@ -9,6 +9,8 @@ import pandas as pd
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.axes_grid1.axes_divider import AxesDivider
 
+NIGHT_MODE = False
+
 params = ["g", "b", "a", "c"]
 instance = params + ["seed"]
 static = instance + ["makespan", "n_literals"]
@@ -16,6 +18,9 @@ static = instance + ["makespan", "n_literals"]
 needed = static + ["config", "result", "t_total"]
 
 N = 10
+
+if NIGHT_MODE:
+    plt.style.use("dark_background")
 
 
 def process(
@@ -60,7 +65,7 @@ def process(
     full = [math.nan] + list(
         map(lambda x: math.nan if x[1] > 0.5 else x[0], data["r"].values())
     )
-    axMain.plot(full, color="black", ls="dashdot", lw=2.5)
+    axMain.plot(full, color="white" if NIGHT_MODE else "black", ls="dashdot", lw=2.5)
 
     if axLin:
         axMain.set_yscale("log")
@@ -68,7 +73,7 @@ def process(
         axLin.spines["bottom"].set_visible(False)
         axLin.xaxis.set_ticks_position("top")
         plt.setp(axLin.get_xticklabels(), visible=False)
-        axLin.axhline(y=0, color="black")
+        axLin.axhline(y=0, color="white" if NIGHT_MODE else "black")
         axLin.set_ylabel("Unsolved (%)")
 
     axMain.set_ylabel(ylabel)
@@ -160,9 +165,7 @@ if __name__ == "__main__":
 
         except FileNotFoundError:
             print("Loading from CSVs")
-            mat, mapf = load(f"data/{prefix}/*/"), load(
-                "data/regular_mapf/*/"
-            )
+            mat, mapf = load(f"data/{prefix}/*/"), load("data/regular_mapf/*/")
             print("Saving to jar")
             with open(pickle_jar, "wb") as fp:
                 pickle.dump([mat, mapf], fp)
