@@ -51,7 +51,7 @@ def plot(xlabel: str, ylabel: str, filename: str):
 
     if axes.get_legend_handles_labels()[0]:
         plt.legend(framealpha=1)
-    plt.savefig(filename, dpi=300, bbox_inches="tight")
+    plt.savefig(filename, dpi=300, bbox_inches="tight", transparent=True)
     print("Plot saved to file {}.png".format(filename))
     plt.close()
 

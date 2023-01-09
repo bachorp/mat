@@ -90,7 +90,7 @@ def process(
         )
     else:
         axMain.legend(title="c", prop={"size": 7}, borderaxespad=1.5, loc=lloc)
-    plt.savefig(filename, dpi=300, bbox_inches="tight")
+    plt.savefig(filename, dpi=300, bbox_inches="tight", transparent=True)
     print("Plot saved to file {}.png".format(filename))
     plt.close()
 

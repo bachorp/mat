@@ -57,7 +57,10 @@ def plot_solved_agents(configs, solved_dict, num_list):
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.gcf().subplots_adjust(left=0.15)
 
-    plt.savefig("out/solved_agents_{}__{}.png".format(algo1.lower(), algo2.lower()))
+    plt.savefig(
+        "out/solved_agents_{}__{}.png".format(algo1.lower(), algo2.lower()),
+        transparent=True,
+    )
     plt.cla()
 
 
@@ -88,7 +91,10 @@ def plot_solved_containers(configs, solved_dict, num_list):
     )
 
     plt.legend()
-    plt.savefig("out/solved_containers_{}__{}.png".format(algo1.lower(), algo2.lower()))
+    plt.savefig(
+        "out/solved_containers_{}__{}.png".format(algo1.lower(), algo2.lower()),
+        transparent=True,
+    )
     plt.cla()
 
 
@@ -142,7 +148,8 @@ def scatter_dict(
     plt.gcf().subplots_adjust(bottom=0.15)
 
     fig.savefig(
-        "out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower())
+        "out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower()),
+        transparent=True,
     )
     plt.cla()
 

@@ -56,7 +56,10 @@ def plot(variant0: Variant, variant1: Variant, on: str):
     xpoints = ypoints = plt.xlim()
     plt.plot(xpoints, ypoints, linestyle="-", zorder=1)
     plt.savefig(
-        f"scatter_{on}_{variant0}__{variant1}.png", dpi=300, bbox_inches="tight"
+        f"scatter_{on}_{variant0}__{variant1}.png",
+        dpi=300,
+        bbox_inches="tight",
+        transparent=True,
     )
 
 
