@@ -8,7 +8,7 @@ clean:
 .PHONY: mat
 mat:
 	mkdir -p build
-	g++ -std=c++17 -Wall -Wextra -pedantic -O -o build/mat src/test.cpp -L./cryptominisat/build/lib/ -lcryptominisat5
+	g++ -std=c++17 -Wall -Wextra -pedantic -O -o build/mat src/test.cpp -lcryptominisat5
 
 .PHONY: cbs_mapd
 cbs:
