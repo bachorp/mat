@@ -16,4 +16,5 @@ To speed up consecutive evaluations, the data are serialized and stored in `*.p`
 python3 -m plotter mat MAT fixed MAT-fixed_agents
 python3 -m plotter mat MAT non_blocking MAT-non_blocking
 python3 -m plotter cbs CBS-MAPD mapd SAT-MAPD
+python3 -m plotter mat MAT mapd MAPD
 ```
