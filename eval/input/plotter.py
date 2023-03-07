@@ -60,6 +60,7 @@ def plot_solved_agents(configs, solved_dict, num_list):
     plt.savefig(
         "out/solved_agents_{}__{}.png".format(algo1.lower(), algo2.lower()),
         transparent=True,
+        bbox_inches="tight",
     )
     plt.cla()
 
@@ -94,6 +95,7 @@ def plot_solved_containers(configs, solved_dict, num_list):
     plt.savefig(
         "out/solved_containers_{}__{}.png".format(algo1.lower(), algo2.lower()),
         transparent=True,
+        bbox_inches="tight",
     )
     plt.cla()
 
@@ -150,6 +152,7 @@ def scatter_dict(
     fig.savefig(
         "out/scatter_{}_{}__{}.png".format(stat_name, algo1.lower(), algo2.lower()),
         transparent=True,
+        bbox_inches="tight",
     )
     plt.cla()
 
