@@ -1,5 +1,7 @@
 # The Multi Agent Transportation Problem
 
+Pascal Bachor, Rolf-David Bergdoll, and Bernhard Nebel (2023) — [Proceedings of the 37<sup>th</sup> AAAI Conference on Artificial Intelligence](https://doi.org/10.1609/aaai.v37i10.26362)
+
 ![](teaser.gif)
 
 ## Test results and evaluation
